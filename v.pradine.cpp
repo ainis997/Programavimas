@@ -40,6 +40,7 @@ void ivestis(vector<Studentas> &grupe)
         Studentas A;
         cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
+
         cout << "Kiek bus semestro iverciu? ";
         int iverciu_sk, iverciu_suma = 0;
         cin >> iverciu_sk;
@@ -48,14 +49,20 @@ void ivestis(vector<Studentas> &grupe)
         for (int j = 0; j < iverciu_sk; j++)
         {
             int pazymys;
-            cout << "Iveskite " << j + 1 << "-aji pazymi is " << iverciu_sk << ": ";
-            cin >> pazymys;
+            do
+            {
+                cout << "Iveskite " << j + 1 << "-aji pazymi is " << iverciu_sk << ": ";
+                cin >> pazymys;
+            } while (pazymys < 1 || pazymys > 10);
             A.paz.push_back(pazymys);
             iverciu_suma += pazymys;
         }
 
-        cout << "Iveskite egzamino vertinima: ";
-        cin >> A.egz;
+        do
+        {
+            cout << "Iveskite egzamino vertinima: ";
+            cin >> A.egz;
+        } while (A.egz < 1 || A.egz > 10);
 
         // vidurkio apsk.
         A.rez_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egz * 0.6);
@@ -103,7 +110,7 @@ void isvestis(vector<Studentas> &grupe)
         << endl;
 
     // skiriamosios linijos tarp lentelės viršutinės ir likusiųjų eilučių spausdinimas
-    const int LENTELES_PLOTIS = 45;
+    const int LENTELES_PLOTIS = 50;
     for (int i = 0; i < LENTELES_PLOTIS; i++)
         cout << "-";
     cout << endl;
