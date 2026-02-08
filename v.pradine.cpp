@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <iomanip>
 
 // su šitais nereiks visur std:: dadėt
@@ -18,7 +19,8 @@ struct Studentas
     string vardas, pavarde;
     vector<int> paz;
     int egz;
-    double rez;
+    double rez_vid;
+    double rez_med;
 };
 
 void ivestis(vector<Studentas> &grupe);
@@ -39,20 +41,30 @@ void ivestis(vector<Studentas> &grupe)
         cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
         cout << "Kiek bus semestro iverciu? ";
-        int iverciuSk, iverciuSuma = 0;
-        cin >> iverciuSk;
+        int iverciu_sk, iverciu_suma = 0;
+        cin >> iverciu_sk;
         cout << "Iveskite semestro ivercius: " << endl;
-        for (int j = 0; j < iverciuSk; j++)
+        for (int j = 0; j < iverciu_sk; j++)
         {
             int pazymys;
-            cout << "Iveskite " << j + 1 << "-aji pazymi is " << iverciuSk << ": ";
+            cout << "Iveskite " << j + 1 << "-aji pazymi is " << iverciu_sk << ": ";
             cin >> pazymys;
             A.paz.push_back(pazymys);
-            iverciuSuma += pazymys;
+            iverciu_suma += pazymys;
         }
         cout << "Iveskite egzamino vertinima: ";
         cin >> A.egz;
-        A.rez = (iverciuSuma * 1.0) / (iverciuSk * 1.0) * 0.4 + (A.egz * 0.6);
+        // vidurkio apsk.
+        A.rez_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egz * 0.6);
+        // medianos apsk.
+        vector<int> visi_paz = A.paz;
+        visi_paz.push_back(A.egz);
+        std::sort(visi_paz.begin(), visi_paz.end());
+        int visu_paz_sk = visi_paz.size();
+        if (visu_paz_sk % 2 != 0)
+            A.rez_med = visi_paz[visu_paz_sk / 2];
+        else
+            A.rez_med = (visi_paz[(visu_paz_sk / 2) - 1] + visi_paz[visu_paz_sk / 2]) / 2.0;
         grupe.push_back(A);
         A.paz.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
@@ -60,9 +72,32 @@ void ivestis(vector<Studentas> &grupe)
 
 void isvestis(vector<Studentas> &grupe)
 {
-    cout << left << setw(10) << "Vardas" << left << setw(20) << "Pavarde" << setw(10) << "Galutinis (Vid.)" << endl;
-    for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
+    char galutinio_pasirinkimas;
+    bool arIvestasTinkamasGalutinioTipas = false;
+    do
     {
-        cout << left << setw(10) << A.vardas << left << setw(20) << A.pavarde << setw(10) << A.rez << endl;
+        cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << endl
+             << "Jeigu vidurki, iveskite: v" << endl
+             << "Jeigu mediana, iveskite: m" << endl;
+        cin >> galutinio_pasirinkimas;
+        if (galutinio_pasirinkimas == 'v' || galutinio_pasirinkimas == 'm')
+            arIvestasTinkamasGalutinioTipas = true;
+    } while (arIvestasTinkamasGalutinioTipas == false);
+
+    if (galutinio_pasirinkimas == 'v')
+    {
+        cout << left << setw(10) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(10) << "Galutinis (Vid.)" << endl;
+        for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
+        {
+            cout << left << setw(10) << A.vardas << left << setw(20) << A.pavarde << setw(10) << A.rez_vid << endl;
+        }
+    }
+    else if (galutinio_pasirinkimas == 'm')
+    {
+        cout << left << setw(10) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(10) << "Galutinis (Med.)" << endl;
+        for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
+        {
+            cout << left << setw(10) << A.vardas << left << setw(20) << A.pavarde << setw(10) << A.rez_med << endl;
+        }
     }
 }
