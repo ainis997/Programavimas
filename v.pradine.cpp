@@ -43,7 +43,8 @@ void ivestis(vector<Studentas> &grupe)
         cout << "Kiek bus semestro iverciu? ";
         int iverciu_sk, iverciu_suma = 0;
         cin >> iverciu_sk;
-        cout << "Iveskite semestro ivercius: " << endl;
+
+        // cout << "Iveskite semestro ivercius: " << endl;
         for (int j = 0; j < iverciu_sk; j++)
         {
             int pazymys;
@@ -52,10 +53,13 @@ void ivestis(vector<Studentas> &grupe)
             A.paz.push_back(pazymys);
             iverciu_suma += pazymys;
         }
+
         cout << "Iveskite egzamino vertinima: ";
         cin >> A.egz;
+
         // vidurkio apsk.
         A.rez_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egz * 0.6);
+
         // medianos apsk.
         vector<int> visi_paz = A.paz;
         visi_paz.push_back(A.egz);
@@ -65,6 +69,7 @@ void ivestis(vector<Studentas> &grupe)
             A.rez_med = visi_paz[visu_paz_sk / 2];
         else
             A.rez_med = (visi_paz[(visu_paz_sk / 2) - 1] + visi_paz[visu_paz_sk / 2]) / 2.0;
+
         grupe.push_back(A);
         A.paz.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
@@ -73,7 +78,7 @@ void ivestis(vector<Studentas> &grupe)
 void isvestis(vector<Studentas> &grupe)
 {
     char galutinio_pasirinkimas;
-    bool arIvestasTinkamasGalutinioTipas = false;
+    bool ar_ivestas_tinkamas_galutinio_tipas = false;
     do
     {
         cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << endl
@@ -81,23 +86,48 @@ void isvestis(vector<Studentas> &grupe)
              << "Jeigu mediana, iveskite: m" << endl;
         cin >> galutinio_pasirinkimas;
         if (galutinio_pasirinkimas == 'v' || galutinio_pasirinkimas == 'm')
-            arIvestasTinkamasGalutinioTipas = true;
-    } while (arIvestasTinkamasGalutinioTipas == false);
+            ar_ivestas_tinkamas_galutinio_tipas = true;
+    } while (ar_ivestas_tinkamas_galutinio_tipas == false);
+
+    string pasirinktas_galutinis;
+    if (galutinio_pasirinkimas == 'v')
+        pasirinktas_galutinis = "Vid.";
+    else if (galutinio_pasirinkimas == 'm')
+        pasirinktas_galutinis = "Med.";
+
+    // lentelės viršutinės eilutės spausdinimas
+    cout
+        << left << setw(15) << "Vardas"
+        << left << setw(20) << "Pavarde"
+        << left << setw(10) << "Galutinis (" << pasirinktas_galutinis << ")"
+        << endl;
+
+    // skiriamosios linijos tarp lentelės viršutinės ir likusiųjų eilučių spausdinimas
+    const int LENTELES_PLOTIS = 45;
+    for (int i = 0; i < LENTELES_PLOTIS; i++)
+        cout << "-";
+    cout << endl;
 
     if (galutinio_pasirinkimas == 'v')
     {
-        cout << left << setw(10) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(10) << "Galutinis (Vid.)" << endl;
         for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
         {
-            cout << left << setw(10) << A.vardas << left << setw(20) << A.pavarde << setw(10) << A.rez_vid << endl;
+            cout
+                << left << setw(15) << A.vardas
+                << left << setw(20) << A.pavarde
+                << setw(10) << std::fixed << std::setprecision(2) << A.rez_vid
+                << endl;
         }
     }
     else if (galutinio_pasirinkimas == 'm')
     {
-        cout << left << setw(10) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(10) << "Galutinis (Med.)" << endl;
         for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
         {
-            cout << left << setw(10) << A.vardas << left << setw(20) << A.pavarde << setw(10) << A.rez_med << endl;
+            cout
+                << left << setw(15) << A.vardas
+                << left << setw(20) << A.pavarde
+                << setw(10) << std::fixed << std::setprecision(2) << A.rez_med
+                << endl;
         }
     }
 }
