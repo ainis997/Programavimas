@@ -45,35 +45,48 @@ int main()
 
 void ivestis(vector<Studentas> &grupe)
 {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0;; i++)
     {
+        if (i > 0)
+        {
+            string arDarVestiStudenta;
+            cout << "Ar norite suvesti dar vieno studento duomenis?" << endl;
+            while (arDarVestiStudenta != "n" && arDarVestiStudenta != "t")
+            {
+                cout << "Jeigu taip, iveskite 't'. Jeigu ne, iveskite 'n'." << endl;
+                cin >> arDarVestiStudenta;
+            }
+            if (arDarVestiStudenta == "n")
+                break;
+        }
+
         Studentas A;
         cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
 
-        int iverciu_sk, iverciu_suma = 0;
-        cout << "Kiek bus semestro iverciu? ";
-        while (!(cin >> iverciu_sk))
+        cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << endl;
+        int iverciu_sk = 0;
+        int iverciu_suma = 0;
+        for (;;)
         {
-            cout << "Netinkama ivestis. Iveskite tinkama skaiciu: ";
-            cin.clear();               // išvalo errorus, atsiradusius dėl netinkamos įvesties
-            cin.ignore(MAX_INT, '\n'); // iš atminties išsitrina anksčiau įrašytą įvestį (ištrina maksimaliai std::numeric_limits<int>::max() simbolių; trina iki kol aptinka simbolį '\n')
-        }
-
-        // cout << "Iveskite semestro ivercius: " << endl;
-        for (int j = 0; j < iverciu_sk; j++)
-        {
-            cout << "Iveskite " << j + 1 << "-aji pazymi is " << iverciu_sk << ": ";
             int pazymys;
-            while (!(cin >> pazymys) || pazymys < 1 || pazymys > 10)
+            string ivercio_ivestis;
+            cin >> ivercio_ivestis;
+            if (ivercio_ivestis == "x")
+                break;
+            try
             {
-                cout << "Netinkama ivestis. Iveskite pazymi tarp 1 ir 10: ";
-                cin.clear();
-                cin.ignore(MAX_INT, '\n');
+                pazymys = std::stoi(ivercio_ivestis);
+                if (pazymys < 1 || pazymys > 10)
+                    throw "Netinkama ivestis"; // tuscio "throw;" negalima palikt, nes td tsg užlauš programą
+                A.pazymiai.push_back(pazymys);
+                iverciu_sk++;
+                iverciu_suma += pazymys;
             }
-
-            A.pazymiai.push_back(pazymys);
-            iverciu_suma += pazymys;
+            catch (...)
+            { // "..." argumentas sako, kad priimk bet kokią klaidą
+                cout << "Netinkama ivestis. Iveskite pazymi nuo 1 iki 10: ";
+            }
         }
 
         cout << "Iveskite egzamino vertinima: ";
@@ -104,22 +117,21 @@ void ivestis(vector<Studentas> &grupe)
 
 void isvestis(vector<Studentas> &grupe)
 {
-    char galutinio_pasirinkimas;
+    string galutinio_pasirinkimas;
     bool ar_ivestas_tinkamas_galutinio_tipas = false;
     while (ar_ivestas_tinkamas_galutinio_tipas == false)
     {
         cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << endl
-             << "Jeigu vidurki, iveskite: v" << endl
-             << "Jeigu mediana, iveskite: m" << endl;
+             << "Jeigu vidurki, iveskite 'v'. Jeigu mediana, iveskite 'm'. " << endl;
         cin >> galutinio_pasirinkimas;
-        if (galutinio_pasirinkimas == 'v' || galutinio_pasirinkimas == 'm')
+        if (galutinio_pasirinkimas == "v" || galutinio_pasirinkimas == "m")
             ar_ivestas_tinkamas_galutinio_tipas = true;
     }
 
     string pasirinktas_galutinis;
-    if (galutinio_pasirinkimas == 'v')
+    if (galutinio_pasirinkimas == "v")
         pasirinktas_galutinis = "Vid.";
-    else if (galutinio_pasirinkimas == 'm')
+    else if (galutinio_pasirinkimas == "m")
         pasirinktas_galutinis = "Med.";
 
     // lentelės viršutinės eilutės spausdinimas
@@ -135,7 +147,7 @@ void isvestis(vector<Studentas> &grupe)
         cout << "-";
     cout << endl;
 
-    if (galutinio_pasirinkimas == 'v')
+    if (galutinio_pasirinkimas == "v")
     {
         for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
         {
@@ -146,7 +158,7 @@ void isvestis(vector<Studentas> &grupe)
                 << endl;
         }
     }
-    else if (galutinio_pasirinkimas == 'm')
+    else if (galutinio_pasirinkimas == "m")
     {
         for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
         {
