@@ -35,6 +35,12 @@ int main()
     vector<Studentas> grupe;
     ivestis(grupe);
     isvestis(grupe);
+
+    // pritaikymas terminalui: tinkama programos pabaiga (kad vartotojas spėtų pamatyti išvestį)
+    cin.ignore(); // išvalo įvesties buferį (atmintį); be jo — programos langas iš karto išsijungia
+    cout << endl
+         << "Programos pabaiga. Spauskite ENTER..." << endl;
+    cin.get(); // lauks kol vartotojas paspaus enter
 }
 
 void ivestis(vector<Studentas> &grupe)
@@ -42,14 +48,14 @@ void ivestis(vector<Studentas> &grupe)
     for (int i = 0; i < 2; i++)
     {
         Studentas A;
-        cout << "Įveskite vardą ir pavardę: ";
+        cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
 
         int iverciu_sk, iverciu_suma = 0;
-        cout << "Kiek bus semestro įverčių? ";
+        cout << "Kiek bus semestro iverciu? ";
         while (!(cin >> iverciu_sk))
         {
-            cout << "Netinkama įvestis. Įveskite tinkamą skaičių: ";
+            cout << "Netinkama ivestis. Iveskite tinkama skaiciu: ";
             cin.clear();               // išvalo errorus, atsiradusius dėl netinkamos įvesties
             cin.ignore(MAX_INT, '\n'); // iš atminties išsitrina anksčiau įrašytą įvestį (ištrina maksimaliai std::numeric_limits<int>::max() simbolių; trina iki kol aptinka simbolį '\n')
         }
@@ -57,11 +63,11 @@ void ivestis(vector<Studentas> &grupe)
         // cout << "Iveskite semestro ivercius: " << endl;
         for (int j = 0; j < iverciu_sk; j++)
         {
-            cout << "Įveskite " << j + 1 << "-ąjį pažymį iš " << iverciu_sk << ": ";
+            cout << "Iveskite " << j + 1 << "-aji pazymi is " << iverciu_sk << ": ";
             int pazymys;
             while (!(cin >> pazymys) || pazymys < 1 || pazymys > 10)
             {
-                cout << "Netinkama įvestis. Įveskite pažymį tarp 1 ir 10: ";
+                cout << "Netinkama ivestis. Iveskite pazymi tarp 1 ir 10: ";
                 cin.clear();
                 cin.ignore(MAX_INT, '\n');
             }
@@ -70,18 +76,13 @@ void ivestis(vector<Studentas> &grupe)
             iverciu_suma += pazymys;
         }
 
-        cout << "Įveskite egzamino vertinimą: ";
+        cout << "Iveskite egzamino vertinima: ";
         while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 1 || A.egzo_rezas > 10)
         {
-            cout << "Netinkama įvestis. Įveskite pažymį tarp 1 ir 10: ";
+            cout << "Netinkama ivestis. Iveskite pazymi tarp 1 ir 10: ";
             cin.clear();
             cin.ignore(MAX_INT, '\n');
         }
-        /*do
-        {
-            cout << "Iveskite egzamino vertinima: ";
-            cin >> A.egzo_rezas;
-        } while (A.egzo_rezas < 1 || A.egzo_rezas > 10);*/
 
         // vidurkio apsk.
         A.rezas_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egzo_rezas * 0.6);
@@ -107,9 +108,9 @@ void isvestis(vector<Studentas> &grupe)
     bool ar_ivestas_tinkamas_galutinio_tipas = false;
     while (ar_ivestas_tinkamas_galutinio_tipas == false)
     {
-        cout << "Ar norite rasti galutinį vidurkį ar galutinę medianą?" << endl
-             << "Jeigu vidurkį, įveskite: v" << endl
-             << "Jeigu medianą, įveskite: m" << endl;
+        cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << endl
+             << "Jeigu vidurki, iveskite: v" << endl
+             << "Jeigu mediana, iveskite: m" << endl;
         cin >> galutinio_pasirinkimas;
         if (galutinio_pasirinkimas == 'v' || galutinio_pasirinkimas == 'm')
             ar_ivestas_tinkamas_galutinio_tipas = true;
@@ -124,7 +125,7 @@ void isvestis(vector<Studentas> &grupe)
     // lentelės viršutinės eilutės spausdinimas
     cout
         << left << setw(15) << "Vardas"
-        << left << setw(20) << "Pavardė"
+        << left << setw(20) << "Pavarde"
         << left << setw(10) << "Galutinis (" << pasirinktas_galutinis << ")"
         << endl;
 
