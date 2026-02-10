@@ -15,13 +15,16 @@ using std::setw;
 using std::string;
 using std::vector;
 
+// kad būtų trumpiau
+const auto MAX_INT = std::numeric_limits<int>::max();
+
 struct Studentas
 {
     string vardas, pavarde;
-    vector<int> paz;
-    int egz;
-    double rez_vid;
-    double rez_med;
+    vector<int> pazymiai;
+    int egzo_rezas;
+    double rezas_vid;
+    double rezas_med;
 };
 
 void ivestis(vector<Studentas> &grupe);
@@ -47,8 +50,8 @@ void ivestis(vector<Studentas> &grupe)
         while (!(cin >> iverciu_sk))
         {
             cout << "Netinkama įvestis. Įveskite tinkamą skaičių: ";
-            cin.clear();                                       // išvalo errorus, atsiradusius dėl netinkamos įvesties
-            cin.ignore(std::numeric_limits<int>::max(), '\n'); // iš atminties išsitrina anksčiau įrašytą įvestį (ištrina maksimaliai std::numeric_limits<int>::max() simbolių; trina iki kol aptinka simbolį '\n')
+            cin.clear();               // išvalo errorus, atsiradusius dėl netinkamos įvesties
+            cin.ignore(MAX_INT, '\n'); // iš atminties išsitrina anksčiau įrašytą įvestį (ištrina maksimaliai std::numeric_limits<int>::max() simbolių; trina iki kol aptinka simbolį '\n')
         }
 
         // cout << "Iveskite semestro ivercius: " << endl;
@@ -60,41 +63,41 @@ void ivestis(vector<Studentas> &grupe)
             {
                 cout << "Netinkama įvestis. Įveskite pažymį tarp 1 ir 10: ";
                 cin.clear();
-                cin.ignore(std::numeric_limits<int>::max(), '\n');
+                cin.ignore(MAX_INT, '\n');
             }
 
-            A.paz.push_back(pazymys);
+            A.pazymiai.push_back(pazymys);
             iverciu_suma += pazymys;
         }
 
         cout << "Įveskite egzamino vertinimą: ";
-        while (!(cin >> A.egz) || A.egz < 1 || A.egz > 10)
+        while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 1 || A.egzo_rezas > 10)
         {
             cout << "Netinkama įvestis. Įveskite pažymį tarp 1 ir 10: ";
             cin.clear();
-            cin.ignore(std::numeric_limits<int>::max(), '\n');
+            cin.ignore(MAX_INT, '\n');
         }
         /*do
         {
             cout << "Iveskite egzamino vertinima: ";
-            cin >> A.egz;
-        } while (A.egz < 1 || A.egz > 10);*/
+            cin >> A.egzo_rezas;
+        } while (A.egzo_rezas < 1 || A.egzo_rezas > 10);*/
 
         // vidurkio apsk.
-        A.rez_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egz * 0.6);
+        A.rezas_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egzo_rezas * 0.6);
 
         // medianos apsk.
-        vector<int> visi_paz = A.paz;
-        visi_paz.push_back(A.egz);
-        std::sort(visi_paz.begin(), visi_paz.end()); // sort(..) surikiuoja visi_paz vektorių did. tvarka
-        int visu_paz_sk = visi_paz.size();
-        if (visu_paz_sk % 2 != 0)
-            A.rez_med = visi_paz[visu_paz_sk / 2];
+        vector<int> visi_pazymiai = A.pazymiai;
+        visi_pazymiai.push_back(A.egzo_rezas);
+        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
+        int visu_pazymiu_sk = visi_pazymiai.size();
+        if (visu_pazymiu_sk % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
         else
-            A.rez_med = (visi_paz[(visu_paz_sk / 2) - 1] + visi_paz[visu_paz_sk / 2]) / 2.0;
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
 
         grupe.push_back(A);
-        A.paz.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+        A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
 
@@ -121,7 +124,7 @@ void isvestis(vector<Studentas> &grupe)
     // lentelės viršutinės eilutės spausdinimas
     cout
         << left << setw(15) << "Vardas"
-        << left << setw(20) << "Pavarde"
+        << left << setw(20) << "Pavardė"
         << left << setw(10) << "Galutinis (" << pasirinktas_galutinis << ")"
         << endl;
 
@@ -138,7 +141,7 @@ void isvestis(vector<Studentas> &grupe)
             cout
                 << left << setw(15) << A.vardas
                 << left << setw(20) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rez_vid
+                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid
                 << endl;
         }
     }
@@ -149,7 +152,7 @@ void isvestis(vector<Studentas> &grupe)
             cout
                 << left << setw(15) << A.vardas
                 << left << setw(20) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rez_med
+                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med
                 << endl;
         }
     }
