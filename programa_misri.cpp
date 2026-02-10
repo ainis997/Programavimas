@@ -18,10 +18,13 @@ using std::vector;
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
 
+// int masyvo_dydis = 10;
+
 struct Studentas
 {
     string vardas, pavarde;
-    vector<int> pazymiai;
+    int masyvo_dydis = 10;
+    int *pazymiai = new int[masyvo_dydis];
     int egzo_rezas;
     double rezas_vid;
     double rezas_med;
@@ -80,9 +83,22 @@ void ivestis(vector<Studentas> &grupe)
                 pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia string į int.
                 if (pazymys < 1 || pazymys > 10)
                     throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
-                A.pazymiai.push_back(pazymys);
-                iverciu_sk++;
+                A.pazymiai[iverciu_sk] = pazymys;
                 iverciu_suma += pazymys;
+                iverciu_sk++;
+
+                // MASYVO PADIDINIMAS (jeigu pasiekiama esama masyvo dydžio riba)
+                if (iverciu_sk = A.masyvo_dydis)
+                {
+                    int *naujo_masyvo_rod = new int[A.masyvo_dydis * 2]; // paskiriam naują, 2kart didesnę dinam. atmintį masyvui
+                    for (int i = 0; i < A.masyvo_dydis; i++)
+                    {
+                        naujo_masyvo_rod[i] = A.pazymiai[i]; // perkeliam seno masyvo elementus naujon vieton
+                    }
+                    A.masyvo_dydis *= 2;           // padidinam masyvo_dydis nario vertę (kadangi padidės masyvas)
+                    delete[] A.pazymiai;           // nuo masyvo rodyklės atlaisvinam senąją (mažesnę) masyvo atmintį
+                    A.pazymiai = naujo_masyvo_rod; // masyvo rodyklei priskiriam naują (didesnės atminties) rodyklę
+                }
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
@@ -102,6 +118,19 @@ void ivestis(vector<Studentas> &grupe)
         A.rezas_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egzo_rezas * 0.6);
 
         // medianos apsk.
+        int visu_pazymiu_sk = iverciu_sk + 1;
+        int *visi_pazymiai = new int[visu_pazymiu_sk]; // + 1 — nes reiks dar pridėt egzamino pažymį
+        for (int i = 0; i < iverciu_sk; i++)
+        {
+            visi_pazymiai[i] = A.pazymiai[i];
+        }
+        visi_pazymiai[visu_pazymiu_sk - 1] = A.egzo_rezas;
+        std::sort(visi_pazymiai, visi_pazymiai + visu_pazymiu_sk - 1); // surikiuoja masyvą did. tvarka (nuo pirmo lig paskutinio elemento)
+        if ((iverciu_sk + 1) % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+        /*
         vector<int> visi_pazymiai = A.pazymiai;
         visi_pazymiai.push_back(A.egzo_rezas);
         std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
@@ -110,9 +139,9 @@ void ivestis(vector<Studentas> &grupe)
             A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
         else
             A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-
+        */
         grupe.push_back(A);
-        A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+        // A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
 
