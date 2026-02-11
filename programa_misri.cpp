@@ -23,7 +23,7 @@ const auto MAX_INT = std::numeric_limits<int>::max();
 struct Studentas
 {
     string vardas, pavarde;
-    int masyvo_dydis = 10;
+    int masyvo_dydis = 5;
     int *pazymiai = new int[masyvo_dydis];
     int egzo_rezas;
     double rezas_vid;
@@ -33,10 +33,21 @@ struct Studentas
 void ivestis(vector<Studentas> &grupe);
 void isvestis(vector<Studentas> &grupe);
 
+// DEĪKTAN DABBER NI LABBAN ĒNSTAN PŪNKCIJAN
+template <typename T>
+void padid_masyva(int &dab_dydis, T *masyvas)
+{
+    T *naujo_masyvo_rod = new int[dab_dydis * 2];
+    std::copy_n(masyvas, dab_dydis, naujo_masyvo_rod);
+    dab_dydis *= 2;
+    delete[] masyvas;
+    masyvas = naujo_masyvo_rod;
+}
+
 int main()
 {
     // realiai vos ne visas main turinys turės būti begaliniam loope (jis baigsis tik vartotojui paliepus)
-
+    /*
     string eiga;
     cout << "Pasirinkite, ka norite daryti:" << endl
          << "1 - ivesti duomenis ranka" << endl
@@ -64,7 +75,7 @@ int main()
     case 4:
         //
         break;
-    }
+    }*/
     vector<Studentas> grupe;
     ivestis(grupe);
     isvestis(grupe);
@@ -118,9 +129,10 @@ void ivestis(vector<Studentas> &grupe)
                 iverciu_sk++;
 
                 // MASYVO PADIDINIMAS (jeigu pasiekiama esama masyvo dydžio riba)
-                if (iverciu_sk == A.masyvo_dydis)
+                if (iverciu_sk >= A.masyvo_dydis)
                 {
-                    int *naujo_masyvo_rod = new int[A.masyvo_dydis * 2]; // paskiriam naują, 2kart didesnę dinam. atmintį masyvui
+                    padid_masyva(A.masyvo_dydis, A.pazymiai);
+                    /*int *naujo_masyvo_rod = new int[A.masyvo_dydis * 2]; // paskiriam naują, 2kart didesnę dinam. atmintį masyvui
                     for (int i = 0; i < A.masyvo_dydis; i++)
                     {
                         naujo_masyvo_rod[i] = A.pazymiai[i]; // perkeliam seno masyvo elementus naujon vieton
@@ -128,6 +140,7 @@ void ivestis(vector<Studentas> &grupe)
                     A.masyvo_dydis *= 2;           // padidinam masyvo_dydis nario vertę (kadangi padidės masyvas)
                     delete[] A.pazymiai;           // nuo masyvo rodyklės atlaisvinam senąją (mažesnę) masyvo atmintį
                     A.pazymiai = naujo_masyvo_rod; // masyvo rodyklei priskiriam naują (didesnės atminties) rodyklę
+                    */
                 }
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
