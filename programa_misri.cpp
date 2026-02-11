@@ -35,6 +35,36 @@ void isvestis(vector<Studentas> &grupe);
 
 int main()
 {
+    // realiai vos ne visas main turinys turės būti begaliniam loope (jis baigsis tik vartotojui paliepus)
+
+    string eiga;
+    cout << "Pasirinkite, ka norite daryti:" << endl
+         << "1 - ivesti duomenis ranka" << endl
+         << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
+         << "3 - sugeneruoti duomenis" << endl
+         << "4 - baigti darba" << endl;
+    bool ok_eiga = eiga == "1" || eiga == "2" || eiga == "3" || eiga == "4";
+    while (!ok_eiga)
+    {
+        cin >> eiga;
+        if (!ok_eiga)
+            cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
+    }
+    switch (std::stoi(eiga))
+    {
+    case 1:
+        //
+        break;
+    case 2:
+        //
+        break;
+    case 3:
+        //
+        break;
+    case 4:
+        //
+        break;
+    }
     vector<Studentas> grupe;
     ivestis(grupe);
     isvestis(grupe);
