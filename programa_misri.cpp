@@ -88,7 +88,7 @@ void ivestis(vector<Studentas> &grupe)
                 iverciu_sk++;
 
                 // MASYVO PADIDINIMAS (jeigu pasiekiama esama masyvo dydžio riba)
-                if (iverciu_sk = A.masyvo_dydis)
+                if (iverciu_sk == A.masyvo_dydis)
                 {
                     int *naujo_masyvo_rod = new int[A.masyvo_dydis * 2]; // paskiriam naują, 2kart didesnę dinam. atmintį masyvui
                     for (int i = 0; i < A.masyvo_dydis; i++)
@@ -115,7 +115,10 @@ void ivestis(vector<Studentas> &grupe)
         }
 
         // vidurkio apsk.
-        A.rezas_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egzo_rezas * 0.6);
+        if (iverciu_sk == 0)
+            A.rezas_vid = A.egzo_rezas * 0.6;
+        else
+            A.rezas_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egzo_rezas * 0.6);
 
         // medianos apsk.
         int visu_pazymiu_sk = iverciu_sk + 1;
