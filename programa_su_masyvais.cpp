@@ -3,7 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
-#include <limits> // maksimaliai int reikšmei gauti
+#include <limits>  // maksimaliai int reikšmei gauti
+#include <cstdlib> // atsitiktiniam skaičiam
 
 // su šitais nereiks visur std:: dadėt
 using std::cin;
@@ -30,6 +31,8 @@ struct Studentas
     double rezas_med;
 };
 
+void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
+void misri_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void isvestis(Studentas *&grupe);
 
@@ -48,51 +51,221 @@ int main()
 {
     // realiai vos ne visas main turinys turės būti begaliniam loope (jis baigsis tik vartotojui paliepus)
 
-    /*
-    string eiga;
-    cout << "Pasirinkite, ka norite daryti:" << endl
-         << "1 - ivesti duomenis ranka" << endl
-         << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
-         << "3 - sugeneruoti duomenis" << endl
-         << "4 - baigti darba" << endl;
-    bool ok_eiga = eiga == "1" || eiga == "2" || eiga == "3" || eiga == "4";
-    while (!ok_eiga)
+    for (;;)
     {
-        cin >> eiga;
-        if (!ok_eiga)
-            cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
-    }
-    switch (std::stoi(eiga))
-    {
-    case 1:
-        //
-        break;
-    case 2:
-        //
-        break;
-    case 3:
-        //
-        break;
-    case 4:
-        //
-        break;
-    }*/
-    int studentu_masyvo_dydis = 10;
-    Studentas *grupe = new Studentas[studentu_masyvo_dydis];
-    // vector<Studentas> grupe;
-    rank_ivestis(grupe, studentu_masyvo_dydis);
-    isvestis(grupe);
+        srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
 
-    delete[] grupe;
+        int eiga;
+        cout << "Pasirinkite, ka norite daryti:" << endl
+             << "1 - ivesti duomenis ranka" << endl
+             << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
+             << "3 - sugeneruoti duomenis" << endl
+             << "4 - baigti darba" << endl;
+        // bool ok_eiga = eiga == 1 || eiga == 2 || eiga == 3 || eiga == 4;
+        while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4))
+        {
+            cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
+            cin.clear();
+            cin.ignore(MAX_INT, '\n');
+        }
+
+        int studentu_masyvo_dydis = 10;
+        Studentas *grupe = new Studentas[studentu_masyvo_dydis];
+
+        switch (eiga)
+        {
+        case 1:
+            // vector<Studentas> grupe;
+            rank_ivestis(grupe, studentu_masyvo_dydis);
+            isvestis(grupe);
+            delete[] grupe;
+            break;
+        case 2:
+            misri_ivestis(grupe, studentu_masyvo_dydis);
+            isvestis(grupe);
+            delete[] grupe;
+            break;
+        case 3:
+            generuota_ivestis(grupe, studentu_masyvo_dydis);
+            isvestis(grupe);
+            delete[] grupe;
+            break;
+        case 4:
+            return 0;
+            break;
+        }
+    }
 
     // pritaikymas terminalui: tinkama programos pabaiga (kad vartotojas spėtų pamatyti išvestį)
-    cin.ignore(); // išvalo įvesties buferį (atmintį); be jo — programos langas iš karto išsijungia
+    /*cin.ignore(); // išvalo įvesties buferį (atmintį); be jo — programos langas iš karto išsijungia
     cout << endl
          << "Programos pabaiga. Spauskite ENTER..." << endl;
     cin.get(); // lauks kol vartotojas paspaus enter
+    */
 }
 
 int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir išvesties fjai)
+
+void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
+{
+    int min_iverciu_sk;
+    int reikiamas_studentu_sk;
+    cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+    cout << "Iveskite, kiek norite sugeneruoti studentu: ";
+    while (!(cin >> reikiamas_studentu_sk) || reikiamas_studentu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite studentu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+
+    for (int i = 0; i < reikiamas_studentu_sk; i++)
+    {
+        if (studentu_sk == studentu_masyvo_dydis)
+            padid_masyva(studentu_masyvo_dydis, grupe);
+
+        Studentas A;
+
+        string vardai[10] = {"Jonas", "Lina", "Marius", "Eglė", "Tomas", "Mindaugas", "Vytautas", "Miglė", "Aistė", "Ieva"};
+        string pavardes[10] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+        A.vardas = vardai[rand() % 10];
+        A.pavarde = pavardes[rand() % 10];
+
+        int iverciu_sk = 0;
+        int iverciu_suma = 0;
+
+        for (int i = 0; i < min_iverciu_sk; i++)
+        {
+            A.pazymiai[i] = rand() % 11; // sugeneruoti sk. nuo 0 iki 10
+            iverciu_suma += A.pazymiai[i];
+            iverciu_sk++;
+            // MASYVO PADIDINIMAS (jeigu pasiekiama esama masyvo dydžio riba)
+            if (iverciu_sk == A.masyvo_dydis)
+                padid_masyva(A.masyvo_dydis, A.pazymiai);
+        }
+        A.egzo_rezas = rand() % 11; // 0-10
+
+        // vidurkio apsk.
+        if (iverciu_sk == 0) // gal šita apsauga nereikalinga?
+            A.rezas_vid = A.egzo_rezas * 0.6;
+        else
+            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
+
+        // medianos apsk.
+        int *visi_pazymiai;
+        int visu_pazymiu_sk = iverciu_sk + 1;
+        visi_pazymiai = new int[visu_pazymiu_sk]; // + 1 — nes reiks dar pridėt egzamino pažymį
+        for (int i = 0; i < iverciu_sk; i++)
+            visi_pazymiai[i] = A.pazymiai[i];
+        visi_pazymiai[visu_pazymiu_sk - 1] = A.egzo_rezas;
+        std::sort(visi_pazymiai, visi_pazymiai + visu_pazymiu_sk - 1); // surikiuoja masyvą did. tvarka (nuo pirmo lig paskutinio elemento)
+        if ((visu_pazymiu_sk) % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+
+        /*
+        vector<int> visi_pazymiai = A.pazymiai;
+        visi_pazymiai.push_back(A.egzo_rezas);
+        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
+        int visu_pazymiu_sk = visi_pazymiai.size();
+        if (visu_pazymiu_sk % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+        */
+        grupe[studentu_sk] = A;
+        studentu_sk++;
+
+        delete[] visi_pazymiai;
+        // A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+    }
+}
+
+void misri_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
+{
+    int min_iverciu_sk;
+    cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+
+    cout << "Įveskite studentų duomenis." << endl
+         << "Kai įvesite visus studentus, įveskite 'x'." << endl;
+
+    for (int i = 0;; i++)
+    {
+        if (studentu_sk == studentu_masyvo_dydis)
+        {
+            padid_masyva(studentu_masyvo_dydis, grupe);
+        }
+
+        Studentas A;
+        cout << "Iveskite varda ir pavarde: ";
+        cin >> A.vardas >> A.pavarde;
+
+        if (A.vardas == "x")
+            break;
+
+        int iverciu_sk = 0;
+        int iverciu_suma = 0;
+
+        for (int i = 0; i < min_iverciu_sk; i++)
+        {
+            A.pazymiai[i] = rand() % 11; // sugeneruoti sk. nuo 0 iki 10
+            iverciu_suma += A.pazymiai[i];
+            iverciu_sk++;
+            // MASYVO PADIDINIMAS (jeigu pasiekiama esama masyvo dydžio riba)
+            if (iverciu_sk == A.masyvo_dydis)
+                padid_masyva(A.masyvo_dydis, A.pazymiai);
+        }
+        A.egzo_rezas = rand() % 11;
+
+        // vidurkio apsk.
+        if (iverciu_sk == 0) // gal šita apsauga nereikalinga?
+            A.rezas_vid = A.egzo_rezas * 0.6;
+        else
+            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
+
+        // medianos apsk.
+        int *visi_pazymiai;
+        int visu_pazymiu_sk = iverciu_sk + 1;
+        visi_pazymiai = new int[visu_pazymiu_sk]; // + 1 — nes reiks dar pridėt egzamino pažymį
+        for (int i = 0; i < iverciu_sk; i++)
+            visi_pazymiai[i] = A.pazymiai[i];
+        visi_pazymiai[visu_pazymiu_sk - 1] = A.egzo_rezas;
+        std::sort(visi_pazymiai, visi_pazymiai + visu_pazymiu_sk - 1); // surikiuoja masyvą did. tvarka (nuo pirmo lig paskutinio elemento)
+        if ((visu_pazymiu_sk) % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+
+        /*
+        vector<int> visi_pazymiai = A.pazymiai;
+        visi_pazymiai.push_back(A.egzo_rezas);
+        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
+        int visu_pazymiu_sk = visi_pazymiai.size();
+        if (visu_pazymiu_sk % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+        */
+        grupe[studentu_sk] = A;
+        studentu_sk++;
+
+        delete[] visi_pazymiai;
+        // A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+    }
+}
 
 void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 {
@@ -100,7 +273,7 @@ void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
     while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
     {
-        cout << "Netinkama rank_ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
         cin.clear();
         cin.ignore(MAX_INT, '\n');
     }
@@ -185,10 +358,6 @@ void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
                 visi_pazymiai[i] = 0;
             visi_pazymiai[min_iverciu_sk] = A.egzo_rezas;
             std::sort(visi_pazymiai, visi_pazymiai + visu_pazymiu_sk); // surikiuoja masyvą did. tvarka (nuo pirmo lig paskutinio elemento)
-            for (int i = 0; i < visu_pazymiu_sk; i++)
-            {
-                cout << i << ".: " << visi_pazymiai[i] << "   ";
-            }
             if ((visu_pazymiu_sk) % 2 != 0)
                 A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
             else
