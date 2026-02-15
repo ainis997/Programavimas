@@ -30,7 +30,7 @@ struct Studentas
     double rezas_med;
 };
 
-void ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
+void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void isvestis(Studentas *&grupe);
 
 // DEĪKTAN DABBER NI LABBAN ĒNSTAN PŪNKCIJAN
@@ -47,6 +47,7 @@ void padid_masyva(int &dab_dydis, T *&masyvas)
 int main()
 {
     // realiai vos ne visas main turinys turės būti begaliniam loope (jis baigsis tik vartotojui paliepus)
+
     /*
     string eiga;
     cout << "Pasirinkite, ka norite daryti:" << endl
@@ -76,10 +77,10 @@ int main()
         //
         break;
     }*/
-    int studentu_masyvo_dydis = 5;
+    int studentu_masyvo_dydis = 10;
     Studentas *grupe = new Studentas[studentu_masyvo_dydis];
     // vector<Studentas> grupe;
-    ivestis(grupe, studentu_masyvo_dydis);
+    rank_ivestis(grupe, studentu_masyvo_dydis);
     isvestis(grupe);
 
     delete[] grupe;
@@ -93,13 +94,13 @@ int main()
 
 int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir išvesties fjai)
 
-void ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
+void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 {
     int min_iverciu_sk;
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
     while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
     {
-        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cout << "Netinkama rank_ivestis. Iveskite minimalu iverciu skaiciu: ";
         cin.clear();
         cin.ignore(MAX_INT, '\n');
     }
@@ -143,7 +144,7 @@ void ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
             {
                 pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia string į int.
                 if (pazymys < 0 || pazymys > 10)
-                    throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
+                    throw "Netinkama rank_ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai[iverciu_sk] = pazymys;
                 iverciu_suma += pazymys;
                 iverciu_sk++;
@@ -154,14 +155,14 @@ void ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
-                cout << "Netinkama ivestis. Iveskite pazymi nuo 1 iki 10: ";
+                cout << "Netinkama rank_ivestis. Iveskite pazymi nuo 1 iki 10: ";
             }
         }
 
         cout << "Iveskite egzamino vertinima: ";
         while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 0 || A.egzo_rezas > 10)
         {
-            cout << "Netinkama ivestis. Iveskite pazymi tarp 1 ir 10: ";
+            cout << "Netinkama rank_ivestis. Iveskite pazymi tarp 1 ir 10: ";
             cin.clear();
             cin.ignore(MAX_INT, '\n');
         }
@@ -174,7 +175,6 @@ void ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 
         // medianos apsk.
         int *visi_pazymiai;
-        // DAR REIKIA PATIKRINT AR ČIA TIKRAI VISKAS GERAI: JEIGU NE, TAI GAL PATS SKAIČIAVIMAS ARBA FOR LOOPAS KURIS; NES TESTAVIME ATRODĖ BŠK NUKRYPĘ
         if (iverciu_sk < min_iverciu_sk)
         {
             int visu_pazymiu_sk = min_iverciu_sk + 1;
@@ -184,7 +184,11 @@ void ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
             for (int i = iverciu_sk; i < min_iverciu_sk; i++)
                 visi_pazymiai[i] = 0;
             visi_pazymiai[min_iverciu_sk] = A.egzo_rezas;
-            std::sort(visi_pazymiai, visi_pazymiai + min_iverciu_sk); // surikiuoja masyvą did. tvarka (nuo pirmo lig paskutinio elemento)
+            std::sort(visi_pazymiai, visi_pazymiai + visu_pazymiu_sk); // surikiuoja masyvą did. tvarka (nuo pirmo lig paskutinio elemento)
+            for (int i = 0; i < visu_pazymiu_sk; i++)
+            {
+                cout << i << ".: " << visi_pazymiai[i] << "   ";
+            }
             if ((visu_pazymiu_sk) % 2 != 0)
                 A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
             else
