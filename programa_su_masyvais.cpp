@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+// #include <vector>
 #include <algorithm>
 #include <iomanip>
 #include <limits>  // maksimaliai int reikšmei gauti
@@ -14,7 +14,7 @@ using std::left;
 using std::right;
 using std::setw;
 using std::string;
-using std::vector;
+// using std::vector;
 
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
@@ -51,8 +51,6 @@ void padid_masyva(int &dab_dydis, T *&masyvas)
 
 int main()
 {
-    // realiai vos ne visas main turinys turės būti begaliniam loope (jis baigsis tik vartotojui paliepus)
-
     for (;;)
     {
         srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
@@ -64,7 +62,6 @@ int main()
              << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
              << "3 - sugeneruoti duomenis" << endl
              << "4 - baigti darba" << endl;
-        // bool ok_eiga = eiga == 1 || eiga == 2 || eiga == 3 || eiga == 4;
         while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4))
         {
             cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
@@ -101,13 +98,6 @@ int main()
             break;
         }
     }
-
-    // pritaikymas terminalui: tinkama programos pabaiga (kad vartotojas spėtų pamatyti išvestį)
-    /*cin.ignore(); // išvalo įvesties buferį (atmintį); be jo — programos langas iš karto išsijungia
-    cout << endl
-         << "Programos pabaiga. Spauskite ENTER..." << endl;
-    cin.get(); // lauks kol vartotojas paspaus enter
-    */
 }
 
 void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
@@ -129,6 +119,10 @@ void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
         cin.ignore(MAX_INT, '\n');
     }
 
+    // vardų generavimui
+    string vardai[10] = {"Jonas", "Lina", "Marius", "Eglė", "Tomas", "Mindaugas", "Vytautas", "Miglė", "Aistė", "Ieva"};
+    string pavardes[10] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+
     for (int i = 0; i < reikiamas_studentu_sk; i++)
     {
         if (studentu_sk == studentu_masyvo_dydis)
@@ -136,8 +130,6 @@ void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 
         Studentas A;
 
-        string vardai[10] = {"Jonas", "Lina", "Marius", "Eglė", "Tomas", "Mindaugas", "Vytautas", "Miglė", "Aistė", "Ieva"};
-        string pavardes[10] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
         A.vardas = vardai[rand() % 10];
         A.pavarde = pavardes[rand() % 10];
 
@@ -215,10 +207,10 @@ void misri_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 
         Studentas A;
         cout << "Iveskite varda ir pavarde: ";
-        cin >> A.vardas >> A.pavarde;
-
+        cin >> A.vardas;
         if (A.vardas == "x")
             break;
+        cin >> A.pavarde;
 
         int iverciu_sk = 0;
         int iverciu_suma = 0;
