@@ -31,6 +31,8 @@ struct Studentas
     double rezas_med;
 };
 
+int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir įvesties (studentų skaičiaus sekimui), ir išvesties (lentelės spausdinimui) fjoms)
+
 void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void misri_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
@@ -56,7 +58,8 @@ int main()
         srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
 
         int eiga;
-        cout << "Pasirinkite, ka norite daryti:" << endl
+        cout << endl
+             << "Pasirinkite, ka norite daryti:" << endl
              << "1 - ivesti duomenis ranka" << endl
              << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
              << "3 - sugeneruoti duomenis" << endl
@@ -79,16 +82,19 @@ int main()
             rank_ivestis(grupe, studentu_masyvo_dydis);
             isvestis(grupe);
             delete[] grupe;
+            studentu_sk = 0; // atstatom studentų sk. (globalus kint., taigi reikia tai daryt)
             break;
         case 2:
             misri_ivestis(grupe, studentu_masyvo_dydis);
             isvestis(grupe);
             delete[] grupe;
+            studentu_sk = 0;
             break;
         case 3:
             generuota_ivestis(grupe, studentu_masyvo_dydis);
             isvestis(grupe);
             delete[] grupe;
+            studentu_sk = 0;
             break;
         case 4:
             return 0;
@@ -103,8 +109,6 @@ int main()
     cin.get(); // lauks kol vartotojas paspaus enter
     */
 }
-
-int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir išvesties fjai)
 
 void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 {
