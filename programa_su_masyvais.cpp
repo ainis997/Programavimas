@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-// #include <vector>
 #include <algorithm>
 #include <iomanip>
 #include <limits>  // maksimaliai int reikšmei gauti
@@ -14,12 +13,9 @@ using std::left;
 using std::right;
 using std::setw;
 using std::string;
-// using std::vector;
 
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
-
-// int masyvo_dydis = 10;
 
 struct Studentas
 {
@@ -38,7 +34,7 @@ void misri_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis);
 void isvestis(Studentas *&grupe);
 
-// DEĪKTAN DABBER NI LABBAN ĒNSTAN PŪNKCIJAN
+// masyvo (bet kokio) padidinimo pagalb. funkcija
 template <typename T>
 void padid_masyva(int &dab_dydis, T *&masyvas)
 {
@@ -75,7 +71,6 @@ int main()
         switch (eiga)
         {
         case 1:
-            // vector<Studentas> grupe;
             rank_ivestis(grupe, studentu_masyvo_dydis);
             isvestis(grupe);
             delete[] grupe;
@@ -120,8 +115,10 @@ void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
     }
 
     // vardų generavimui
-    string vardai[10] = {"Jonas", "Lina", "Marius", "Eglė", "Tomas", "Mindaugas", "Vytautas", "Miglė", "Aistė", "Ieva"};
-    string pavardes[10] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+    string vyr_vardai[10] = {"Jonas", "Lukas", "Marius", "Azuolas", "Tomas", "Mindaugas", "Vytautas", "Rimvydas", "Povilas", "Audrius"};
+    string mot_vardai[10] = {"Lina", "Egle", "Migle", "Aiste", "Ieva", "Austeja", "Saule", "Gabija", "Lukne", "Ugne"};
+    string vyr_pavardes[10] = {"Butkus", "Zemaitis", "Rimkus", "Simkus", "Mazeika", "Petraitis", "Braziunas", "Sukys", "Simonis", "Bareikis"};
+    string mot_pavardes[10] = {"Butkute", "Zemaityte", "Rimkute", "Simkute", "Mazeikaite", "Petraityte", "Braziunaite", "Sukyte", "Simonyte", "Bareikyte"};
 
     for (int i = 0; i < reikiamas_studentu_sk; i++)
     {
@@ -130,8 +127,16 @@ void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
 
         Studentas A;
 
-        A.vardas = vardai[rand() % 10];
-        A.pavarde = pavardes[rand() % 10];
+        if (rand() % 2 == 0)
+        {
+            A.vardas = vyr_vardai[rand() % 10];
+            A.pavarde = vyr_pavardes[rand() % 10];
+        }
+        else
+        {
+            A.vardas = mot_vardai[rand() % 10];
+            A.pavarde = mot_pavardes[rand() % 10];
+        }
 
         int iverciu_sk = 0;
         int iverciu_suma = 0;
@@ -166,21 +171,10 @@ void generuota_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
         else
             A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
 
-        /*
-        vector<int> visi_pazymiai = A.pazymiai;
-        visi_pazymiai.push_back(A.egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-        */
         grupe[studentu_sk] = A;
         studentu_sk++;
 
         delete[] visi_pazymiai;
-        // A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
 
@@ -245,21 +239,10 @@ void misri_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
         else
             A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
 
-        /*
-        vector<int> visi_pazymiai = A.pazymiai;
-        visi_pazymiai.push_back(A.egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-        */
         grupe[studentu_sk] = A;
         studentu_sk++;
 
         delete[] visi_pazymiai;
-        // A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
 
@@ -313,7 +296,7 @@ void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
             {
                 pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia string į int.
                 if (pazymys < 0 || pazymys > 10)
-                    throw "Netinkama rank_ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
+                    throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai[iverciu_sk] = pazymys;
                 iverciu_suma += pazymys;
                 iverciu_sk++;
@@ -324,17 +307,18 @@ void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
-                cout << "Netinkama rank_ivestis. Iveskite pazymi nuo 1 iki 10: ";
+                cout << "Netinkama ivestis. Iveskite pazymi nuo 1 iki 10: ";
             }
         }
 
         cout << "Iveskite egzamino vertinima: ";
         while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 0 || A.egzo_rezas > 10)
         {
-            cout << "Netinkama rank_ivestis. Iveskite pazymi tarp 1 ir 10: ";
+            cout << "Netinkama ivestis. Iveskite pazymi tarp 1 ir 10: ";
             cin.clear();
             cin.ignore(MAX_INT, '\n');
         }
+        cin.ignore(MAX_INT, '\n'); // SKIRTA TAM, jeigu būtų įvestas float skaičius: ši komanda ištrins bufery likusią pokablelinę dalį (jinai lieka, kadangi programa pasiima tik sveikąją dalį iš įvesties). To reikia todėl, nes ta likusi bufery dalis po to tampa sekančios įvesties dalim (o to mum nereik)
 
         // vidurkio apsk.
         if (iverciu_sk < min_iverciu_sk)
@@ -373,21 +357,10 @@ void rank_ivestis(Studentas *&grupe, int &studentu_masyvo_dydis)
                 A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
         }
 
-        /*
-        vector<int> visi_pazymiai = A.pazymiai;
-        visi_pazymiai.push_back(A.egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-        */
         grupe[studentu_sk] = A;
         studentu_sk++;
 
         delete[] visi_pazymiai;
-        // A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
 
@@ -414,13 +387,13 @@ void isvestis(Studentas *&grupe)
 
     // lentelės viršutinės eilutės spausdinimas (joje — stulpelių pavadinimai)
     cout
-        << left << setw(15) << "Vardas"
-        << left << setw(20) << "Pavarde"
+        << left << setw(20) << "Vardas"
+        << left << setw(25) << "Pavarde"
         << left << setw(10) << "Galutinis (" << pasirinktas_galutinis << ")"
         << endl;
 
     // skiriamosios linijos tarp lentelės viršutinės ir likusiųjų eilučių spausdinimas
-    const int LENTELES_PLOTIS = 50;
+    const int LENTELES_PLOTIS = 60;
     for (int i = 0; i < LENTELES_PLOTIS; i++)
         cout << "-";
     cout << endl;
@@ -430,8 +403,8 @@ void isvestis(Studentas *&grupe)
         for (int i = 0; i < studentu_sk; i++)
         {
             cout
-                << left << setw(15) << grupe[i].vardas
-                << left << setw(20) << grupe[i].pavarde
+                << left << setw(20) << grupe[i].vardas
+                << left << setw(25) << grupe[i].pavarde
                 << setw(10) << std::fixed << std::setprecision(2) << grupe[i].rezas_vid
                 << endl;
         }
@@ -441,8 +414,8 @@ void isvestis(Studentas *&grupe)
         for (int i = 0; i < studentu_sk; i++)
         {
             cout
-                << left << setw(15) << grupe[i].vardas
-                << left << setw(20) << grupe[i].pavarde
+                << left << setw(20) << grupe[i].vardas
+                << left << setw(25) << grupe[i].pavarde
                 << setw(10) << std::fixed << std::setprecision(2) << grupe[i].rezas_med
                 << endl;
         }

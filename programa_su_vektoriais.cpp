@@ -3,7 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
-#include <limits> // maksimaliai int reikšmei gauti
+#include <limits>  // maksimaliai int reikšmei gauti
+#include <cstdlib> // atsitiktiniam skaičiam
 
 // su šitais nereiks visur std:: dadėt
 using std::cin;
@@ -27,24 +28,191 @@ struct Studentas
     double rezas_med;
 };
 
-void ivestis(vector<Studentas> &grupe);
+int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir įvesties (studentų skaičiaus sekimui), ir išvesties (lentelės spausdinimui) fjoms)
+
+void generuota_ivestis(vector<Studentas> &grupe);
+void misri_ivestis(vector<Studentas> &grupe);
+void rank_ivestis(vector<Studentas> &grupe);
 void isvestis(vector<Studentas> &grupe);
 
 int main()
 {
-    vector<Studentas> grupe;
-    ivestis(grupe);
-    isvestis(grupe);
+    for (;;)
+    {
+        srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
 
-    // pritaikymas terminalui: tinkama programos pabaiga (kad vartotojas spėtų pamatyti išvestį)
-    cin.ignore(); // išvalo įvesties buferį (atmintį); be jo — programos langas iš karto išsijungia
-    cout << endl
-         << "Programos pabaiga. Spauskite ENTER..." << endl;
-    cin.get(); // lauks kol vartotojas paspaus enter
+        int eiga;
+        cout << endl
+             << "Pasirinkite, ka norite daryti:" << endl
+             << "1 - ivesti duomenis ranka" << endl
+             << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
+             << "3 - sugeneruoti duomenis" << endl
+             << "4 - baigti darba" << endl;
+        while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4))
+        {
+            cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
+            cin.clear();
+            cin.ignore(MAX_INT, '\n');
+        }
+
+        vector<Studentas> grupe;
+
+        switch (eiga)
+        {
+        case 1:
+            rank_ivestis(grupe);
+            isvestis(grupe);
+            studentu_sk = 0; // atstatom studentų sk. (globalus kint., taigi reikia tai daryt)
+            break;
+        case 2:
+            misri_ivestis(grupe);
+            isvestis(grupe);
+            studentu_sk = 0;
+            break;
+        case 3:
+            generuota_ivestis(grupe);
+            isvestis(grupe);
+            studentu_sk = 0;
+            break;
+        case 4:
+            return 0;
+            break;
+        }
+    }
 }
 
-void ivestis(vector<Studentas> &grupe)
+void generuota_ivestis(vector<Studentas> &grupe)
 {
+    int min_iverciu_sk;
+    int reikiamas_studentu_sk;
+    cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+    cout << "Iveskite, kiek norite sugeneruoti studentu: ";
+    while (!(cin >> reikiamas_studentu_sk) || reikiamas_studentu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite studentu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+
+    // vardų generavimui
+    vector<string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
+    vector<string> vyr_pavardes = {"Butkus", "Zemaitis", "Rimkus", "Simkus", "Mazeika", "Petraitis", "Braziunas", "Sukys", "Simonis", "Bareikis"};
+    vector<string> mot_pavardes = {"Butkute", "Zemaityte", "Rimkute", "Simkute", "Mazeikaite", "Petraityte", "Braziunaite", "Sukyte", "Simonyte", "Bareikyte"};
+
+    for (int i = 0; i < reikiamas_studentu_sk; i++)
+    {
+        Studentas A;
+
+        A.vardas = vardai[rand() % 20];
+        if (A.vardas.back() == 's')
+            A.pavarde = vyr_pavardes[rand() % 10];
+        else
+            A.pavarde = mot_pavardes[rand() % 10];
+
+        int iverciu_sk = 0;
+        int iverciu_suma = 0;
+
+        for (int i = 0; i < min_iverciu_sk; i++)
+        {
+            A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+            iverciu_suma += A.pazymiai.back();
+            iverciu_sk++;
+        }
+        A.egzo_rezas = rand() % 11; // 0-10
+
+        // vidurkio apsk.
+        if (iverciu_sk == 0) // mb ni prewerīngi
+            A.rezas_vid = A.egzo_rezas * 0.6;
+        else
+            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
+
+        // medianos apsk.
+        vector<int> visi_pazymiai = A.pazymiai;
+        visi_pazymiai.push_back(A.egzo_rezas);
+        std::sort(visi_pazymiai.begin(), visi_pazymiai.end());
+        int visu_pazymiu_sk = visi_pazymiai.size();
+        if (visu_pazymiu_sk % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+
+        grupe.push_back(A);
+        A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+    }
+}
+
+void misri_ivestis(vector<Studentas> &grupe)
+{
+    int min_iverciu_sk;
+    cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+
+    cout << "Įveskite studentų duomenis." << endl
+         << "Kai įvesite visus studentus, įveskite 'x'." << endl;
+
+    for (int i = 0;; i++)
+    {
+        Studentas A;
+        cout << "Iveskite varda ir pavarde: ";
+        cin >> A.vardas;
+        if (A.vardas == "x")
+            break;
+        cin >> A.pavarde;
+
+        int iverciu_sk = 0;
+        int iverciu_suma = 0;
+
+        for (int i = 0; i < min_iverciu_sk; i++)
+        {
+            A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+            iverciu_suma += A.pazymiai.back();
+            iverciu_sk++;
+        }
+        A.egzo_rezas = rand() % 11;
+
+        // vidurkio apsk.
+        if (iverciu_sk == 0) // mb ni prewerīngi
+            A.rezas_vid = A.egzo_rezas * 0.6;
+        else
+            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
+
+        // medianos apsk.
+        vector<int> visi_pazymiai = A.pazymiai;
+        visi_pazymiai.push_back(A.egzo_rezas);
+        std::sort(visi_pazymiai.begin(), visi_pazymiai.end());
+        int visu_pazymiu_sk = visi_pazymiai.size();
+        if (visu_pazymiu_sk % 2 != 0)
+            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+
+        grupe.push_back(A);
+        A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+    }
+}
+
+void rank_ivestis(vector<Studentas> &grupe)
+{
+    int min_iverciu_sk;
+    cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    {
+        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
+        cin.clear();
+        cin.ignore(MAX_INT, '\n');
+    }
+
     for (int i = 0;; i++)
     {
         if (i > 0)
@@ -78,31 +246,42 @@ void ivestis(vector<Studentas> &grupe)
             try
             {
                 pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia string į int.
-                if (pazymys < 1 || pazymys > 10)
+                if (pazymys < 0 || pazymys > 10)
                     throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai.push_back(pazymys);
-                iverciu_sk++;
                 iverciu_suma += pazymys;
+                iverciu_sk++;
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
-                cout << "Netinkama ivestis. Iveskite pazymi nuo 1 iki 10: ";
+                cout << "Netinkama ivestis. Iveskite pazymi tarp 0 iki 10: ";
             }
         }
 
         cout << "Iveskite egzamino vertinima: ";
-        while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 1 || A.egzo_rezas > 10)
+        while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 0 || A.egzo_rezas > 10)
         {
-            cout << "Netinkama ivestis. Iveskite pazymi tarp 1 ir 10: ";
+            cout << "Netinkama ivestis. Iveskite pazymi tarp 0 ir 10: ";
             cin.clear();
             cin.ignore(MAX_INT, '\n');
         }
+        cin.ignore(MAX_INT, '\n'); // SKIRTA TAM, jeigu būtų įvestas float skaičius: ši komanda ištrins bufery likusią pokablelinę dalį (jinai lieka, kadangi programa pasiima tik sveikąją dalį iš įvesties). To reikia todėl, nes ta likusi bufery dalis po to tampa sekančios įvesties dalim (o to mum nereik)
 
         // vidurkio apsk.
-        A.rezas_vid = (iverciu_suma * 1.0) / (iverciu_sk * 1.0) * 0.4 + (A.egzo_rezas * 0.6);
+        if (iverciu_sk < min_iverciu_sk)
+            A.rezas_vid = ((iverciu_suma * 1.0) / (min_iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
+        else
+            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
 
         // medianos apsk.
         vector<int> visi_pazymiai = A.pazymiai;
+        if (iverciu_sk < min_iverciu_sk)
+        {
+            while (visi_pazymiai.size() != min_iverciu_sk)
+            {
+                visi_pazymiai.push_back(0);
+            }
+        }
         visi_pazymiai.push_back(A.egzo_rezas);
         std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
         int visu_pazymiu_sk = visi_pazymiai.size();
@@ -133,40 +312,41 @@ void isvestis(vector<Studentas> &grupe)
     string pasirinktas_galutinis;
     if (galutinio_pasirinkimas == "v")
         pasirinktas_galutinis = "Vid.";
+
     else if (galutinio_pasirinkimas == "m")
         pasirinktas_galutinis = "Med.";
 
     // lentelės viršutinės eilutės spausdinimas (joje — stulpelių pavadinimai)
     cout
-        << left << setw(15) << "Vardas"
-        << left << setw(20) << "Pavarde"
+        << left << setw(20) << "Vardas"
+        << left << setw(25) << "Pavarde"
         << left << setw(10) << "Galutinis (" << pasirinktas_galutinis << ")"
         << endl;
 
     // skiriamosios linijos tarp lentelės viršutinės ir likusiųjų eilučių spausdinimas
-    const int LENTELES_PLOTIS = 50;
+    const int LENTELES_PLOTIS = 60;
     for (int i = 0; i < LENTELES_PLOTIS; i++)
         cout << "-";
     cout << endl;
 
     if (galutinio_pasirinkimas == "v")
     {
-        for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
+        for (const auto &A : grupe)
         {
             cout
-                << left << setw(15) << A.vardas
-                << left << setw(20) << A.pavarde
+                << left << setw(20) << A.vardas
+                << left << setw(25) << A.pavarde
                 << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid
                 << endl;
         }
     }
     else if (galutinio_pasirinkimas == "m")
     {
-        for (const auto &A : grupe) // su &, const apsaugo nuo pakeitimo (jo nenorim)
+        for (const auto &A : grupe)
         {
             cout
-                << left << setw(15) << A.vardas
-                << left << setw(20) << A.pavarde
+                << left << setw(20) << A.vardas
+                << left << setw(25) << A.pavarde
                 << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med
                 << endl;
         }
