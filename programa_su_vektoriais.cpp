@@ -25,24 +25,22 @@ struct Studentas
     string vardas = "Vardas";
     string pavarde = "Pavardė";
     vector<int> pazymiai;
-    int egzo_rezas;
-    // double rezas_vid; // gal vietoj šių narių palikti tiesiog double'ą grąžinančias apskaičiavimo funkcijas?
-    // double rezas_med;
-    double rezas_vid() const // dadėtas const reiškia, kad šitas metodas niekaip nepakeis paties objekto (tik read only)
+    int egzo_rezas = 0;
+    double rezas_vid = 0; // gal vietoj šių narių palikti tiesiog double'ą grąžinančias apskaičiavimo funkcijas?
+    double rezas_med = 0;
+    void apsk_vid() // dadėtas const reiškia, kad šitas metodas niekaip nepakeis paties objekto (tik read only)
     {
         if (pazymiai.size() == 0)
-            return egzo_rezas * 0.6;
+            rezas_vid = egzo_rezas * 0.6;
         int pazymiu_suma = 0;
         for (auto paz : pazymiai)
             pazymiu_suma += paz;
-        double rezas_vid = ((pazymiu_suma * 1.0) / (pazymiai.size() * 1.0)) * 0.4 + (egzo_rezas * 0.6);
-        return rezas_vid;
+        rezas_vid = ((pazymiu_suma * 1.0) / (pazymiai.size() * 1.0)) * 0.4 + (egzo_rezas * 0.6);
     }
-    double rezas_med() const
+    void apsk_med()
     {
         if (pazymiai.size() == 0)
-            return 0;
-        double rezas_med = 0;
+            return;
         vector<int> visi_pazymiai = pazymiai;
         visi_pazymiai.push_back(egzo_rezas);
         std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
@@ -51,7 +49,6 @@ struct Studentas
             rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
         else
             rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-        return rezas_med;
     }
 };
 
@@ -60,8 +57,17 @@ int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reiki
 void generuota_ivestis(vector<Studentas> &grupe);
 void misri_ivestis(vector<Studentas> &grupe);
 void rank_ivestis(vector<Studentas> &grupe);
-void failo_ivestis(string failo_pav, vector<Studentas> &grupe);
+void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe);
 void isvestis(vector<Studentas> &grupe);
+
+bool pagal_varda_did(Studentas &A, Studentas &B);
+bool pagal_varda_maz(Studentas &A, Studentas &B);
+bool pagal_pavarde_did(Studentas &A, Studentas &B);
+bool pagal_pavarde_maz(Studentas &A, Studentas &B);
+bool pagal_vidurki_did(Studentas &A, Studentas &B);
+bool pagal_vidurki_maz(Studentas &A, Studentas &B);
+bool pagal_mediana_did(Studentas &A, Studentas &B);
+bool pagal_mediana_maz(Studentas &A, Studentas &B);
 
 int main()
 {
@@ -86,12 +92,12 @@ int main()
 
         vector<Studentas> grupe;
 
-        const string failo_pav = "kursiokai.txt";
+        const string FAILO_PAV = "kursiokai.txt";
 
         switch (eiga)
         {
         case 1:
-            failo_ivestis(failo_pav, grupe);
+            failo_ivestis(FAILO_PAV, grupe);
             isvestis(grupe);
             studentu_sk = 0;
             break;
@@ -117,7 +123,7 @@ int main()
     }
 }
 
-void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
+void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe)
 {
     FILE *failo_ptr; // C stiliaus failo rodyklės kintamasis
 
@@ -125,7 +131,7 @@ void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
 
     // LAIKO MAT.
     char eil_buferis[250];
-    failo_ptr = fopen(failo_pav.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
+    failo_ptr = fopen(FAILO_PAV.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
 
     if (failo_ptr == NULL)
     {
@@ -166,6 +172,9 @@ void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
             continue;
         A.egzo_rezas = A.pazymiai.back(); // paskutinis elementas — egzamino rezas
         A.pazymiai.pop_back();            // ištrinam egzo rezą iš pažymių vektoriaus
+
+        A.apsk_vid();
+        A.apsk_med();
 
         grupe.push_back(A);
         A.pazymiai.clear();
@@ -217,6 +226,9 @@ void generuota_ivestis(vector<Studentas> &grupe)
         }
         A.egzo_rezas = rand() % 11; // 0-10
 
+        A.apsk_vid();
+        A.apsk_med();
+
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
@@ -255,6 +267,9 @@ void misri_ivestis(vector<Studentas> &grupe)
             iverciu_sk++;
         }
         A.egzo_rezas = rand() % 11;
+
+        A.apsk_vid();
+        A.apsk_med();
 
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
@@ -331,6 +346,9 @@ void rank_ivestis(vector<Studentas> &grupe)
             A.pazymiai.resize(min_iverciu_sk, 0); // pridės reikiamą sk. nulių, jeigu pažymių yra mažiau nei jų privalomas minimalus sk.
         }
 
+        A.apsk_vid();
+        A.apsk_med();
+
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
@@ -357,6 +375,61 @@ void isvestis(vector<Studentas> &grupe)
     else if (galutinio_pasirinkimas == "m")
         pasirinktas_galutinis = "Med.";
 
+    string rus; // rus - rūšiavimo būdas
+    cout << "Pasirinkite studentu rusiavimo buda:" << endl
+         << "'vard' - pagal varda" << endl
+         << "'pav' - pagal pavarde" << endl
+         << "'vid' - pagal vidurki" << endl
+         << "'med' - pagal mediana" << endl
+         << "'ne' - nerusiuoti" << endl;
+    // bool tinkama_rus_ivestis = rus == "vard" || rus == "pav" || rus == "vid" || rus == "med" || rus == "ne";
+    for (;;)
+    {
+        cin >> rus;
+        if (rus == "vard" || rus == "pav" || rus == "vid" || rus == "med" || rus == "ne")
+            break;
+        cout << "Netinkama ivestis. Galimos ivesti reiksmes: 'vard', 'pav', 'vid', 'med', 'ne': ";
+    }
+
+    if (rus != "ne")
+    {
+        string tvarka;
+        cout << "Pasirinkite studentu rusiavimo tvarka:" << endl
+             << "'d' - didejimo tvarka" << endl
+             << "'m' - mazejimo tvarka" << endl;
+        // bool tinkama_tvarkos_ivestis = tvarka == "d" || tvarka == "m";
+        for (;;)
+        {
+            cin >> tvarka;
+            if (tvarka == "d" || tvarka == "m")
+                break;
+            cout << "Netinkama ivestis. Galimos ivesti reiksmes: 'd', 'm': ";
+        }
+
+        if (tvarka == "d")
+        {
+            if (rus == "vard")
+                std::sort(grupe.begin(), grupe.end(), pagal_varda_did);
+            else if (rus == "pav")
+                std::sort(grupe.begin(), grupe.end(), pagal_pavarde_did);
+            else if (rus == "vid")
+                std::sort(grupe.begin(), grupe.end(), pagal_vidurki_did);
+            else if (rus == "med")
+                std::sort(grupe.begin(), grupe.end(), pagal_mediana_did);
+        }
+        else if (tvarka == "m")
+        {
+            if (rus == "vard")
+                std::sort(grupe.begin(), grupe.end(), pagal_varda_maz);
+            else if (rus == "pav")
+                std::sort(grupe.begin(), grupe.end(), pagal_pavarde_maz);
+            else if (rus == "vid")
+                std::sort(grupe.begin(), grupe.end(), pagal_vidurki_maz);
+            else if (rus == "med")
+                std::sort(grupe.begin(), grupe.end(), pagal_mediana_maz);
+        }
+    }
+
     // lentelės viršutinės eilutės spausdinimas (joje — stulpelių pavadinimai)
     cout
         << left << setw(20) << "Vardas"
@@ -377,7 +450,7 @@ void isvestis(vector<Studentas> &grupe)
             cout
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid()
+                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid
                 << endl;
         }
     }
@@ -388,8 +461,64 @@ void isvestis(vector<Studentas> &grupe)
             cout
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med()
+                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med
                 << endl;
         }
     }
+}
+
+bool pagal_varda_did(Studentas &A, Studentas &B)
+{
+    for (char &raide : A.vardas)
+        raide = std::tolower(raide);
+    for (char &raide : B.vardas)
+        raide = std::tolower(raide);
+    return A.vardas < B.vardas;
+}
+
+bool pagal_varda_maz(Studentas &A, Studentas &B)
+{
+    for (char &raide : A.vardas)
+        raide = std::tolower(raide);
+    for (char &raide : B.vardas)
+        raide = std::tolower(raide);
+    return A.vardas > B.vardas;
+}
+
+bool pagal_pavarde_did(Studentas &A, Studentas &B)
+{
+    for (char &raide : A.pavarde)
+        raide = std::tolower(raide);
+    for (char &raide : B.pavarde)
+        raide = std::tolower(raide);
+    return A.pavarde < B.pavarde;
+}
+
+bool pagal_pavarde_maz(Studentas &A, Studentas &B)
+{
+    for (char &raide : A.pavarde)
+        raide = std::tolower(raide);
+    for (char &raide : B.pavarde)
+        raide = std::tolower(raide);
+    return A.pavarde > B.pavarde;
+}
+
+bool pagal_vidurki_did(Studentas &A, Studentas &B)
+{
+    return A.rezas_vid < B.rezas_vid;
+}
+
+bool pagal_vidurki_maz(Studentas &A, Studentas &B)
+{
+    return A.rezas_vid > B.rezas_vid;
+}
+
+bool pagal_mediana_did(Studentas &A, Studentas &B)
+{
+    return A.rezas_med < B.rezas_med;
+}
+
+bool pagal_mediana_maz(Studentas &A, Studentas &B)
+{
+    return A.rezas_med > B.rezas_med;
 }
