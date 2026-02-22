@@ -11,7 +11,6 @@
 // su šitais nereiks visur std:: dadėt
 using std::cin;
 using std::cout;
-using std::endl;
 using std::left;
 using std::right;
 using std::setw;
@@ -66,8 +65,8 @@ struct Failo_dorojimo_laikai
 void generuota_ivestis(vector<Studentas> &grupe);
 void misri_ivestis(vector<Studentas> &grupe);
 void rank_ivestis(vector<Studentas> &grupe);
-void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
-void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
+void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
+void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
 bool pagal_varda_maz(Studentas &A, Studentas &B);
@@ -85,13 +84,13 @@ int main()
         srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
 
         int eiga;
-        cout << endl
-             << "Pasirinkite, ka norite daryti:" << endl
-             << "1 - ivesti duomenis is failo" << endl
-             << "2 - ivesti duomenis ranka" << endl
-             << "3 - ivesti duomenis, pazymius sugeneruoti" << endl
-             << "4 - sugeneruoti duomenis" << endl
-             << "5 - baigti darba" << endl;
+        cout << '\n'
+             << "Pasirinkite, ka norite daryti:" << '\n'
+             << "1 - ivesti duomenis is failo" << '\n'
+             << "2 - ivesti duomenis ranka" << '\n'
+             << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
+             << "4 - sugeneruoti duomenis" << '\n'
+             << "5 - baigti darba" << '\n';
         while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
         {
             cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
@@ -101,7 +100,8 @@ int main()
 
         vector<Studentas> grupe;
 
-        const string FAILO_PAV = "studentai10000.txt";
+        const string SKAIT_FAILO_PAV = "studentai10000.txt";
+        const string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
         vector<Failo_dorojimo_laikai> laikai;
 
@@ -110,32 +110,32 @@ int main()
         case 1:
             Failo_dorojimo_laikai t;
             // auto pr = std::chrono::high_resolution_clock::now();
-            failo_ivestis(FAILO_PAV, grupe, t, laikai);
-            isvestis(grupe, t, laikai);
+            failo_ivestis(SKAIT_FAILO_PAV, grupe, t, laikai);
+            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
             // auto pab = std::chrono::high_resolution_clock::now();
             // std::chrono::duration<double> trukme = pab - pr;
-            // cout << endl
-            //      << "Visas failo įvesties ir išvesties laikas: " << trukme.count() << "s" << endl;
-            cout << "Failo nuskaitymo trukme: " << t.nuskaitymas.count() << "s" << endl
-                 << "Failo duomenu apdorojimo trukme: " << t.duomenu_apdorojimas.count() << "s" << endl
-                 << "Failo duomenu surikiavimo trukme: " << t.duomenu_rikiavimas.count() << "s" << endl
-                 << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << endl;
+            // cout << '\n'
+            //      << "Visas failo įvesties ir išvesties laikas: " << trukme.count() << "s" << '\n';
+            cout << "Failo nuskaitymo trukme: " << t.nuskaitymas.count() << "s" << '\n'
+                 << "Failo duomenu apdorojimo trukme: " << t.duomenu_apdorojimas.count() << "s" << '\n'
+                 << "Failo duomenu surikiavimo trukme: " << t.duomenu_rikiavimas.count() << "s" << '\n'
+                 << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << '\n';
             // laikai.push_back(t);
             studentu_sk = 0;
             break;
         case 2:
             rank_ivestis(grupe);
-            isvestis(grupe, t, laikai);
+            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
             studentu_sk = 0; // atstatom studentų sk. (globalus kint., taigi reikia tai daryt)
             break;
         case 3:
             misri_ivestis(grupe);
-            isvestis(grupe, t, laikai);
+            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
             studentu_sk = 0;
             break;
         case 4:
             generuota_ivestis(grupe);
-            isvestis(grupe, t, laikai);
+            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
             studentu_sk = 0;
             break;
         case 5:
@@ -145,28 +145,28 @@ int main()
     }
 }
 
-void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
+void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
 {
-    FILE *failo_ptr; // C stiliaus failo rodyklės kintamasis
+    FILE *skaitymo_f; // C stiliaus failo rodyklės kintamasis
 
     vector<string> eilutes; // čia bus laikomos nuskaitytos failo eilutės
 
     auto pati_pradzia = std::chrono::high_resolution_clock::now();
     auto pr = pati_pradzia;
     char eil_buferis[250];
-    failo_ptr = fopen(FAILO_PAV.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
+    skaitymo_f = fopen(SKAIT_FAILO_PAV.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
 
-    if (failo_ptr == NULL)
+    if (skaitymo_f == NULL)
     {
         // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
         return;
     }
 
-    while (fgets(eil_buferis, 250, failo_ptr) != NULL)
+    while (fgets(eil_buferis, 250, skaitymo_f) != NULL)
     {
         eilutes.push_back(eil_buferis);
     }
-    fclose(failo_ptr);
+    fclose(skaitymo_f);
     auto pab = std::chrono::high_resolution_clock::now();
     t.nuskaitymas = pab - pr;
 
@@ -273,8 +273,8 @@ void misri_ivestis(vector<Studentas> &grupe)
         cin.ignore(MAX_INT, '\n');
     }
 
-    cout << "Įveskite studentų duomenis." << endl
-         << "Kai įvesite visus studentus, įveskite 'x'." << endl;
+    cout << "Įveskite studentų duomenis." << '\n'
+         << "Kai įvesite visus studentus, įveskite 'x'." << '\n';
 
     for (int i = 0;; i++)
     {
@@ -320,10 +320,10 @@ void rank_ivestis(vector<Studentas> &grupe)
         if (i > 0)
         {
             string arDarVestiStudenta;
-            cout << "Ar norite suvesti dar vieno studento duomenis?" << endl;
+            cout << "Ar norite suvesti dar vieno studento duomenis?" << '\n';
             while (arDarVestiStudenta != "n" && arDarVestiStudenta != "t")
             {
-                cout << "Jeigu taip, iveskite 't'. Jeigu ne, iveskite 'n'." << endl;
+                cout << "Jeigu taip, iveskite 't'. Jeigu ne, iveskite 'n'." << '\n';
                 cin >> arDarVestiStudenta;
             }
             if (arDarVestiStudenta == "n")
@@ -336,7 +336,7 @@ void rank_ivestis(vector<Studentas> &grupe)
 
         // int iverciu_sk = 0;
         int iverciu_suma = 0;
-        cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << endl;
+        cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << '\n';
         for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
         {
             int pazymys;
@@ -382,14 +382,16 @@ void rank_ivestis(vector<Studentas> &grupe)
     }
 }
 
-void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
+void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
 {
+    FILE *rasymo_f;
+
     string galutinio_pasirinkimas;
     bool ar_ivestas_tinkamas_galutinio_tipas = false;
     while (ar_ivestas_tinkamas_galutinio_tipas == false)
     {
-        cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << endl
-             << "Jeigu vidurki, iveskite 'v'. Jeigu mediana, iveskite 'm'. " << endl;
+        cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << '\n'
+             << "Jeigu vidurki, iveskite 'v'. Jeigu mediana, iveskite 'm'. " << '\n';
         cin >> galutinio_pasirinkimas;
         if (galutinio_pasirinkimas == "v" || galutinio_pasirinkimas == "m")
             ar_ivestas_tinkamas_galutinio_tipas = true;
@@ -398,18 +400,18 @@ void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_d
     // dinamiškam lentelės stulpelių pavadinimų pavaizdavimui
     string pasirinktas_galutinis;
     if (galutinio_pasirinkimas == "v")
-        pasirinktas_galutinis = "Vid.";
+        pasirinktas_galutinis = "Galutinis (Vid.)";
 
     else if (galutinio_pasirinkimas == "m")
-        pasirinktas_galutinis = "Med.";
+        pasirinktas_galutinis = "Galutinis (Med.)";
 
     string rus; // rus - rūšiavimo būdas
-    cout << "Pasirinkite studentu rusiavimo buda:" << endl
-         << "'vard' - pagal varda" << endl
-         << "'pav' - pagal pavarde" << endl
-         << "'vid' - pagal vidurki" << endl
-         << "'med' - pagal mediana" << endl
-         << "'ne' - nerusiuoti" << endl;
+    cout << "Pasirinkite studentu rusiavimo buda:" << '\n'
+         << "'vard' - pagal varda" << '\n'
+         << "'pav' - pagal pavarde" << '\n'
+         << "'vid' - pagal vidurki" << '\n'
+         << "'med' - pagal mediana" << '\n'
+         << "'ne' - nerusiuoti" << '\n';
     // bool tinkama_rus_ivestis = rus == "vard" || rus == "pav" || rus == "vid" || rus == "med" || rus == "ne";
     for (;;)
     {
@@ -423,9 +425,9 @@ void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_d
     if (rus != "ne")
     {
         string tvarka;
-        cout << "Pasirinkite studentu rusiavimo tvarka:" << endl
-             << "'d' - didejimo tvarka" << endl
-             << "'m' - mazejimo tvarka" << endl;
+        cout << "Pasirinkite studentu rusiavimo tvarka:" << '\n'
+             << "'d' - didejimo tvarka" << '\n'
+             << "'m' - mazejimo tvarka" << '\n';
         // bool tinkama_tvarkos_ivestis = tvarka == "d" || tvarka == "m";
         for (;;)
         {
@@ -461,43 +463,60 @@ void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_d
     auto pab = std::chrono::high_resolution_clock::now();
     t.duomenu_rikiavimas = pab - pr;
 
-    pr = std::chrono::high_resolution_clock::now(); // PABANDYTI SPAUSDINTI SU C PRIEMONĖMIS, GAL GREIČIAU BUS
+    pr = std::chrono::high_resolution_clock::now();
+
+    rasymo_f = fopen(RAS_FAILO_PAV.c_str(), "w"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
+
+    if (rasymo_f == NULL)
+    {
+        // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
+        return;
+    }
 
     // lentelės viršutinės eilutės spausdinimas (joje — stulpelių pavadinimai)
-    cout
+    fprintf(rasymo_f, "%-20s %-25s %-15s\n", "Vardas", "Pavarde", pasirinktas_galutinis.c_str());
+    /*cout
         << left << setw(20) << "Vardas"
         << left << setw(25) << "Pavarde"
-        << left << setw(10) << "Galutinis (" << pasirinktas_galutinis << ")"
-        << endl;
+        << left << setw(15) << "Galutinis (" << pasirinktas_galutinis << ")"
+        << '\n';*/
 
     // skiriamosios linijos tarp lentelės viršutinės ir likusiųjų eilučių spausdinimas
     const int LENTELES_PLOTIS = 60;
     for (int i = 0; i < LENTELES_PLOTIS; i++)
-        cout << "-";
-    cout << endl;
+        fprintf(rasymo_f, "-");
+    // cout << "-";
+    fprintf(rasymo_f, "\n");
+    // cout << '\n';
 
     if (galutinio_pasirinkimas == "v")
     {
         for (const auto &A : grupe)
         {
-            cout
+            fprintf(rasymo_f, "%-20s %-25s %-15.2lf\n", A.vardas.c_str(), A.pavarde.c_str(), A.rezas_vid);
+
+            /*cout
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid
-                << endl;
+                << setw(15) << std::fixed << std::setprecision(2) << A.rezas_vid
+                << '\n';*/
         }
     }
     else if (galutinio_pasirinkimas == "m")
     {
         for (const auto &A : grupe)
         {
-            cout
+            fprintf(rasymo_f, "%-20s %-25s %-15.2lf\n", A.vardas.c_str(), A.pavarde.c_str(), A.rezas_med);
+
+            /*cout
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med
-                << endl;
+                << setw(15) << std::fixed << std::setprecision(2) << A.rezas_med
+                << '\n';*/
         }
     }
+    fclose(rasymo_f);
+
     pab = std::chrono::high_resolution_clock::now();
     t.duomenu_isvedimas = pab - pr;
 }
