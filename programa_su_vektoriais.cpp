@@ -6,6 +6,7 @@
 #include <limits>  // maksimaliai int reikšmei gauti
 #include <cstdlib> // atsitiktiniam skaičiam
 #include <sstream> // string streamui
+#include <chrono>  // laiko fiksavimui
 
 // su šitais nereiks visur std:: dadėt
 using std::cin;
@@ -54,11 +55,19 @@ struct Studentas
 
 int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir įvesties (studentų skaičiaus sekimui), ir išvesties (lentelės spausdinimui) fjoms)
 
+struct Failo_dorojimo_laikai
+{
+    std::chrono::duration<double> nuskaitymas;
+    std::chrono::duration<double> duomenu_apdorojimas;
+    std::chrono::duration<double> duomenu_rikiavimas;
+    std::chrono::duration<double> duomenu_isvedimas;
+};
+
 void generuota_ivestis(vector<Studentas> &grupe);
 void misri_ivestis(vector<Studentas> &grupe);
 void rank_ivestis(vector<Studentas> &grupe);
-void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe);
-void isvestis(vector<Studentas> &grupe);
+void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
+void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
 bool pagal_varda_maz(Studentas &A, Studentas &B);
@@ -92,28 +101,41 @@ int main()
 
         vector<Studentas> grupe;
 
-        const string FAILO_PAV = "kursiokai.txt";
+        const string FAILO_PAV = "studentai10000.txt";
+
+        vector<Failo_dorojimo_laikai> laikai;
 
         switch (eiga)
         {
         case 1:
-            failo_ivestis(FAILO_PAV, grupe);
-            isvestis(grupe);
+            Failo_dorojimo_laikai t;
+            // auto pr = std::chrono::high_resolution_clock::now();
+            failo_ivestis(FAILO_PAV, grupe, t, laikai);
+            isvestis(grupe, t, laikai);
+            // auto pab = std::chrono::high_resolution_clock::now();
+            // std::chrono::duration<double> trukme = pab - pr;
+            // cout << endl
+            //      << "Visas failo įvesties ir išvesties laikas: " << trukme.count() << "s" << endl;
+            cout << "Failo nuskaitymo trukme: " << t.nuskaitymas.count() << "s" << endl
+                 << "Failo duomenu apdorojimo trukme: " << t.duomenu_apdorojimas.count() << "s" << endl
+                 << "Failo duomenu surikiavimo trukme: " << t.duomenu_rikiavimas.count() << "s" << endl
+                 << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << endl;
+            // laikai.push_back(t);
             studentu_sk = 0;
             break;
         case 2:
             rank_ivestis(grupe);
-            isvestis(grupe);
+            isvestis(grupe, t, laikai);
             studentu_sk = 0; // atstatom studentų sk. (globalus kint., taigi reikia tai daryt)
             break;
         case 3:
             misri_ivestis(grupe);
-            isvestis(grupe);
+            isvestis(grupe, t, laikai);
             studentu_sk = 0;
             break;
         case 4:
             generuota_ivestis(grupe);
-            isvestis(grupe);
+            isvestis(grupe, t, laikai);
             studentu_sk = 0;
             break;
         case 5:
@@ -123,13 +145,14 @@ int main()
     }
 }
 
-void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe)
+void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
 {
     FILE *failo_ptr; // C stiliaus failo rodyklės kintamasis
 
     vector<string> eilutes; // čia bus laikomos nuskaitytos failo eilutės
 
-    // LAIKO MAT.
+    auto pati_pradzia = std::chrono::high_resolution_clock::now();
+    auto pr = pati_pradzia;
     char eil_buferis[250];
     failo_ptr = fopen(FAILO_PAV.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
 
@@ -144,7 +167,10 @@ void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe)
         eilutes.push_back(eil_buferis);
     }
     fclose(failo_ptr);
+    auto pab = std::chrono::high_resolution_clock::now();
+    t.nuskaitymas = pab - pr;
 
+    pr = std::chrono::high_resolution_clock::now();
     if (eilutes.empty())
     {
         // ERROR?
@@ -179,6 +205,8 @@ void failo_ivestis(string FAILO_PAV, vector<Studentas> &grupe)
         grupe.push_back(A);
         A.pazymiai.clear();
     }
+    pab = std::chrono::high_resolution_clock::now();
+    t.duomenu_apdorojimas = pab - pr;
 }
 
 void generuota_ivestis(vector<Studentas> &grupe)
@@ -354,7 +382,7 @@ void rank_ivestis(vector<Studentas> &grupe)
     }
 }
 
-void isvestis(vector<Studentas> &grupe)
+void isvestis(vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
 {
     string galutinio_pasirinkimas;
     bool ar_ivestas_tinkamas_galutinio_tipas = false;
@@ -391,6 +419,7 @@ void isvestis(vector<Studentas> &grupe)
         cout << "Netinkama ivestis. Galimos ivesti reiksmes: 'vard', 'pav', 'vid', 'med', 'ne': ";
     }
 
+    auto pr = std::chrono::high_resolution_clock::now();
     if (rus != "ne")
     {
         string tvarka;
@@ -429,6 +458,10 @@ void isvestis(vector<Studentas> &grupe)
                 std::sort(grupe.begin(), grupe.end(), pagal_mediana_maz);
         }
     }
+    auto pab = std::chrono::high_resolution_clock::now();
+    t.duomenu_rikiavimas = pab - pr;
+
+    pr = std::chrono::high_resolution_clock::now(); // PABANDYTI SPAUSDINTI SU C PRIEMONĖMIS, GAL GREIČIAU BUS
 
     // lentelės viršutinės eilutės spausdinimas (joje — stulpelių pavadinimai)
     cout
@@ -465,6 +498,8 @@ void isvestis(vector<Studentas> &grupe)
                 << endl;
         }
     }
+    pab = std::chrono::high_resolution_clock::now();
+    t.duomenu_isvedimas = pab - pr;
 }
 
 bool pagal_varda_did(Studentas &A, Studentas &B)
