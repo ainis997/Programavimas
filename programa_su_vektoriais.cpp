@@ -30,6 +30,8 @@ struct Studentas
     // double rezas_med;
     double rezas_vid() const // dadėtas const reiškia, kad šitas metodas niekaip nepakeis paties objekto (tik read only)
     {
+        if (pazymiai.size() == 0)
+            return egzo_rezas * 0.6;
         int pazymiu_suma = 0;
         for (auto paz : pazymiai)
             pazymiu_suma += paz;
@@ -38,6 +40,8 @@ struct Studentas
     }
     double rezas_med() const
     {
+        if (pazymiai.size() == 0)
+            return 0;
         double rezas_med = 0;
         vector<int> visi_pazymiai = pazymiai;
         visi_pazymiai.push_back(egzo_rezas);
@@ -115,9 +119,9 @@ int main()
 
 void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
 {
-    FILE *failo_ptr;
+    FILE *failo_ptr; // C stiliaus failo rodyklės kintamasis
 
-    vector<string> eilutes;
+    vector<string> eilutes; // čia bus laikomos nuskaitytos failo eilutės
 
     // LAIKO MAT.
     char eil_buferis[250];
@@ -141,11 +145,11 @@ void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
         return;
     }
 
-    eilutes.erase(eilutes.begin()); // ištrinam pirmą elementą, nes jame — antraštinėji eilutė
+    eilutes.erase(eilutes.begin()); // ištrinam pirmą elementą, nes jame — antraštinė eilutė
 
     for (const auto &eil : eilutes) // su & nesukuriamos eilutės kopijos — veikia greičiau
     {
-        std::istringstream srautas(eil);
+        std::istringstream srautas(eil); // eilutės įvesties ("skaitymo") srautas
 
         Studentas A;
 
@@ -163,7 +167,8 @@ void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
         A.egzo_rezas = A.pazymiai.back(); // paskutinis elementas — egzamino rezas
         A.pazymiai.pop_back();            // ištrinam egzo rezą iš pažymių vektoriaus
 
-        // SKAIČIAVIMAS..
+        grupe.push_back(A);
+        A.pazymiai.clear();
     }
 }
 
