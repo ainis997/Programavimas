@@ -26,8 +26,29 @@ struct Studentas
     string pavarde = "Pavardė";
     vector<int> pazymiai;
     int egzo_rezas;
-    double rezas_vid;
-    double rezas_med;
+    // double rezas_vid; // gal vietoj šių narių palikti tiesiog double'ą grąžinančias apskaičiavimo funkcijas?
+    // double rezas_med;
+    double rezas_vid() const // dadėtas const reiškia, kad šitas metodas niekaip nepakeis paties objekto (tik read only)
+    {
+        int pazymiu_suma = 0;
+        for (auto paz : pazymiai)
+            pazymiu_suma += paz;
+        double rezas_vid = ((pazymiu_suma * 1.0) / (pazymiai.size() * 1.0)) * 0.4 + (egzo_rezas * 0.6);
+        return rezas_vid;
+    }
+    double rezas_med() const
+    {
+        double rezas_med = 0;
+        vector<int> visi_pazymiai = pazymiai;
+        visi_pazymiai.push_back(egzo_rezas);
+        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
+        int visu_pazymiu_sk = visi_pazymiai.size();
+        if (visu_pazymiu_sk % 2 != 0)
+            rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+        else
+            rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+        return rezas_med;
+    }
 };
 
 int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir įvesties (studentų skaičiaus sekimui), ir išvesties (lentelės spausdinimui) fjoms)
@@ -191,22 +212,6 @@ void generuota_ivestis(vector<Studentas> &grupe)
         }
         A.egzo_rezas = rand() % 11; // 0-10
 
-        // vidurkio apsk.
-        if (iverciu_sk == 0) // mb ni prewerīngi
-            A.rezas_vid = A.egzo_rezas * 0.6;
-        else
-            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
-
-        // medianos apsk.
-        vector<int> visi_pazymiai = A.pazymiai;
-        visi_pazymiai.push_back(A.egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end());
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
@@ -246,22 +251,6 @@ void misri_ivestis(vector<Studentas> &grupe)
         }
         A.egzo_rezas = rand() % 11;
 
-        // vidurkio apsk.
-        if (iverciu_sk == 0) // mb ni prewerīngi
-            A.rezas_vid = A.egzo_rezas * 0.6;
-        else
-            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
-
-        // medianos apsk.
-        vector<int> visi_pazymiai = A.pazymiai;
-        visi_pazymiai.push_back(A.egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end());
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
@@ -297,7 +286,7 @@ void rank_ivestis(vector<Studentas> &grupe)
         cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
 
-        int iverciu_sk = 0;
+        // int iverciu_sk = 0;
         int iverciu_suma = 0;
         cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << endl;
         for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
@@ -315,7 +304,7 @@ void rank_ivestis(vector<Studentas> &grupe)
                     throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai.push_back(pazymys);
                 iverciu_suma += pazymys;
-                iverciu_sk++;
+                // iverciu_sk++;
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
@@ -332,28 +321,10 @@ void rank_ivestis(vector<Studentas> &grupe)
         }
         cin.ignore(MAX_INT, '\n'); // SKIRTA TAM, jeigu būtų įvestas float skaičius: ši komanda ištrins bufery likusią pokablelinę dalį (jinai lieka, kadangi programa pasiima tik sveikąją dalį iš įvesties). To reikia todėl, nes ta likusi bufery dalis po to tampa sekančios įvesties dalim (o to mum nereik)
 
-        // vidurkio apsk.
-        if (iverciu_sk < min_iverciu_sk)
-            A.rezas_vid = ((iverciu_suma * 1.0) / (min_iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
-        else
-            A.rezas_vid = ((iverciu_suma * 1.0) / (iverciu_sk * 1.0)) * 0.4 + (A.egzo_rezas * 0.6);
-
-        // medianos apsk.
-        vector<int> visi_pazymiai = A.pazymiai;
-        if (iverciu_sk < min_iverciu_sk)
+        if (A.pazymiai.size() < min_iverciu_sk)
         {
-            while (visi_pazymiai.size() != min_iverciu_sk)
-            {
-                visi_pazymiai.push_back(0);
-            }
+            A.pazymiai.resize(min_iverciu_sk, 0); // pridės reikiamą sk. nulių, jeigu pažymių yra mažiau nei jų privalomas minimalus sk.
         }
-        visi_pazymiai.push_back(A.egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            A.rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            A.rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
 
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
@@ -401,7 +372,7 @@ void isvestis(vector<Studentas> &grupe)
             cout
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid
+                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_vid()
                 << endl;
         }
     }
@@ -412,7 +383,7 @@ void isvestis(vector<Studentas> &grupe)
             cout
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
-                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med
+                << setw(10) << std::fixed << std::setprecision(2) << A.rezas_med()
                 << endl;
         }
     }
