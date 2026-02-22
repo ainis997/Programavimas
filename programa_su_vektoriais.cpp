@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <limits>  // maksimaliai int reikšmei gauti
 #include <cstdlib> // atsitiktiniam skaičiam
+#include <sstream> // string streamui
 
 // su šitais nereiks visur std:: dadėt
 using std::cin;
@@ -21,7 +22,8 @@ const auto MAX_INT = std::numeric_limits<int>::max();
 
 struct Studentas
 {
-    string vardas, pavarde;
+    string vardas = "Vardas";
+    string pavarde = "Pavardė";
     vector<int> pazymiai;
     int egzo_rezas;
     double rezas_vid;
@@ -33,6 +35,7 @@ int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reiki
 void generuota_ivestis(vector<Studentas> &grupe);
 void misri_ivestis(vector<Studentas> &grupe);
 void rank_ivestis(vector<Studentas> &grupe);
+void failo_ivestis(string failo_pav, vector<Studentas> &grupe);
 void isvestis(vector<Studentas> &grupe);
 
 int main()
@@ -44,11 +47,12 @@ int main()
         int eiga;
         cout << endl
              << "Pasirinkite, ka norite daryti:" << endl
-             << "1 - ivesti duomenis ranka" << endl
-             << "2 - ivesti duomenis, pazymius sugeneruoti" << endl
-             << "3 - sugeneruoti duomenis" << endl
-             << "4 - baigti darba" << endl;
-        while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4))
+             << "1 - ivesti duomenis is failo" << endl
+             << "2 - ivesti duomenis ranka" << endl
+             << "3 - ivesti duomenis, pazymius sugeneruoti" << endl
+             << "4 - sugeneruoti duomenis" << endl
+             << "5 - baigti darba" << endl;
+        while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
         {
             cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
             cin.clear();
@@ -57,27 +61,88 @@ int main()
 
         vector<Studentas> grupe;
 
+        const string failo_pav = "kursiokai.txt";
+
         switch (eiga)
         {
         case 1:
+            failo_ivestis(failo_pav, grupe);
+            isvestis(grupe);
+            studentu_sk = 0;
+            break;
+        case 2:
             rank_ivestis(grupe);
             isvestis(grupe);
             studentu_sk = 0; // atstatom studentų sk. (globalus kint., taigi reikia tai daryt)
             break;
-        case 2:
+        case 3:
             misri_ivestis(grupe);
             isvestis(grupe);
             studentu_sk = 0;
             break;
-        case 3:
+        case 4:
             generuota_ivestis(grupe);
             isvestis(grupe);
             studentu_sk = 0;
             break;
-        case 4:
+        case 5:
             return 0;
             break;
         }
+    }
+}
+
+void failo_ivestis(string failo_pav, vector<Studentas> &grupe)
+{
+    FILE *failo_ptr;
+
+    vector<string> eilutes;
+
+    // LAIKO MAT.
+    char eil_buferis[250];
+    failo_ptr = fopen(failo_pav.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
+
+    if (failo_ptr == NULL)
+    {
+        // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
+        return;
+    }
+
+    while (fgets(eil_buferis, 250, failo_ptr) != NULL)
+    {
+        eilutes.push_back(eil_buferis);
+    }
+    fclose(failo_ptr);
+
+    if (eilutes.empty())
+    {
+        // ERROR?
+        return;
+    }
+
+    eilutes.erase(eilutes.begin()); // ištrinam pirmą elementą, nes jame — antraštinėji eilutė
+
+    for (const auto &eil : eilutes) // su & nesukuriamos eilutės kopijos — veikia greičiau
+    {
+        std::istringstream srautas(eil);
+
+        Studentas A;
+
+        if (!(srautas >> A.vardas >> A.pavarde))
+            continue;
+
+        int temp; // laikinas kintamasis pažymių perdavimui
+        while (srautas >> temp)
+        {
+            A.pazymiai.push_back(temp);
+        }
+
+        if (A.pazymiai.empty())
+            continue;
+        A.egzo_rezas = A.pazymiai.back(); // paskutinis elementas — egzamino rezas
+        A.pazymiai.pop_back();            // ištrinam egzo rezą iš pažymių vektoriaus
+
+        // SKAIČIAVIMAS..
     }
 }
 
