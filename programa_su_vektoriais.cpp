@@ -52,21 +52,20 @@ struct Studentas
     }
 };
 
-int studentu_sk = 0; // nustatom čia, kad būtų globalus, visur matomas (reikia jo ir įvesties (studentų skaičiaus sekimui), ir išvesties (lentelės spausdinimui) fjoms)
-
 struct Failo_dorojimo_laikai
 {
     std::chrono::duration<double> nuskaitymas;
     std::chrono::duration<double> duomenu_apdorojimas;
     std::chrono::duration<double> duomenu_rikiavimas;
     std::chrono::duration<double> duomenu_isvedimas;
+    std::chrono::duration<double> visa_trukme;
 };
 
 void generuota_ivestis(vector<Studentas> &grupe);
 void misri_ivestis(vector<Studentas> &grupe);
 void rank_ivestis(vector<Studentas> &grupe);
-void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
-void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai);
+void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t);
+void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t);
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
 bool pagal_varda_maz(Studentas &A, Studentas &B);
@@ -79,6 +78,7 @@ bool pagal_mediana_maz(Studentas &A, Studentas &B);
 
 int main()
 {
+    bool ar_failas_jau_apdorotas = false;
     for (;;)
     {
         srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
@@ -93,72 +93,83 @@ int main()
              << "5 - baigti darba" << '\n';
         while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
         {
-            cout << "Pasirinkite, ka norite daryti [1/2/3/4]: ";
+            cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
             cin.clear();
             cin.ignore(MAX_INT, '\n');
         }
 
         vector<Studentas> grupe;
 
-        const string SKAIT_FAILO_PAV = "studentai10000.txt";
+        string SKAIT_FAILO_PAV;
+        // const string SKAIT_FAILO_PAV = "studentai10000.txt";
         const string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
-        vector<Failo_dorojimo_laikai> laikai;
+        Failo_dorojimo_laikai t;
 
         switch (eiga)
         {
         case 1:
-            Failo_dorojimo_laikai t;
-            // auto pr = std::chrono::high_resolution_clock::now();
-            failo_ivestis(SKAIT_FAILO_PAV, grupe, t, laikai);
-            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
-            // auto pab = std::chrono::high_resolution_clock::now();
-            // std::chrono::duration<double> trukme = pab - pr;
-            // cout << '\n'
-            //      << "Visas failo įvesties ir išvesties laikas: " << trukme.count() << "s" << '\n';
+        {
+            // atstatom/nustatom nulin laikus
+            t.nuskaitymas = t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
+
+            cout << "Iveskite ivesties failo pavadinima: ";
+            cin >> SKAIT_FAILO_PAV;
+            auto pati_pradzia = std::chrono::high_resolution_clock::now();
+            failo_ivestis(SKAIT_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_PAV, grupe, t);
+            auto pati_pab = std::chrono::high_resolution_clock::now();
+            t.visa_trukme = pati_pab - pati_pradzia;
+
             cout << "Failo nuskaitymo trukme: " << t.nuskaitymas.count() << "s" << '\n'
                  << "Failo duomenu apdorojimo trukme: " << t.duomenu_apdorojimas.count() << "s" << '\n'
                  << "Failo duomenu surikiavimo trukme: " << t.duomenu_rikiavimas.count() << "s" << '\n'
-                 << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << '\n';
-            // laikai.push_back(t);
-            studentu_sk = 0;
+                 << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << '\n'
+                 << "Visos programos trukme: " << t.visa_trukme.count() << "s" << '\n';
             break;
+        }
         case 2:
+        {
             rank_ivestis(grupe);
-            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
-            studentu_sk = 0; // atstatom studentų sk. (globalus kint., taigi reikia tai daryt)
+            isvestis(RAS_FAILO_PAV, grupe, t);
             break;
+        }
         case 3:
+        {
             misri_ivestis(grupe);
-            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
-            studentu_sk = 0;
+            isvestis(RAS_FAILO_PAV, grupe, t);
             break;
+        }
         case 4:
+        {
             generuota_ivestis(grupe);
-            isvestis(RAS_FAILO_PAV, grupe, t, laikai);
-            studentu_sk = 0;
+            isvestis(RAS_FAILO_PAV, grupe, t);
             break;
+        }
         case 5:
+        {
             return 0;
             break;
+        }
         }
     }
 }
 
-void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
+void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t)
 {
+    auto pr = std::chrono::high_resolution_clock::now();
+
     FILE *skaitymo_f; // C stiliaus failo rodyklės kintamasis
 
     vector<string> eilutes; // čia bus laikomos nuskaitytos failo eilutės
 
-    auto pati_pradzia = std::chrono::high_resolution_clock::now();
-    auto pr = pati_pradzia;
     char eil_buferis[250];
     skaitymo_f = fopen(SKAIT_FAILO_PAV.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
 
     if (skaitymo_f == NULL)
     {
         // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
+        cout << "Ivesties failas nurodytu pavadinimu nerastas." << '\n';
         return;
     }
 
@@ -194,7 +205,7 @@ void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_doroj
             A.pazymiai.push_back(temp);
         }
 
-        if (A.pazymiai.empty())
+        if (A.pazymiai.empty()) // jeigu pažymių vektorius gautųsi tuščias, tai pereit (continue) prie kitos iteracijos
             continue;
         A.egzo_rezas = A.pazymiai.back(); // paskutinis elementas — egzamino rezas
         A.pazymiai.pop_back();            // ištrinam egzo rezą iš pažymių vektoriaus
@@ -382,8 +393,11 @@ void rank_ivestis(vector<Studentas> &grupe)
     }
 }
 
-void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t, vector<Failo_dorojimo_laikai> &laikai)
+void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t)
 {
+    if (grupe.empty())
+        return;
+
     FILE *rasymo_f;
 
     string galutinio_pasirinkimas;
