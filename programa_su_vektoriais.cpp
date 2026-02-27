@@ -24,49 +24,62 @@ const auto MAX_INT = std::numeric_limits<int>::max();
 struct Studentas
 {
     string vardas = "Vardas";
-    string pavarde = "Pavardė";
+    string pavarde = "Pavarde";
     vector<int> pazymiai;
     int egzo_rezas = 0;
-    double rezas_vid = 0; // gal vietoj šių narių palikti tiesiog double'ą grąžinančias apskaičiavimo funkcijas?
+    double rezas_vid = 0;
     double rezas_med = 0;
-    void apsk_vid() // dadėtas const reiškia, kad šitas metodas niekaip nepakeis paties objekto (tik read only)
-    {
-        if (pazymiai.size() == 0)
-            rezas_vid = egzo_rezas * 0.6;
-        int pazymiu_suma = 0;
-        for (auto paz : pazymiai)
-            pazymiu_suma += paz;
-        rezas_vid = ((pazymiu_suma * 1.0) / (pazymiai.size() * 1.0)) * 0.4 + (egzo_rezas * 0.6);
-    }
-    void apsk_med()
-    {
-        if (pazymiai.size() == 0)
-            return;
-        vector<int> visi_pazymiai = pazymiai;
-        visi_pazymiai.push_back(egzo_rezas);
-        std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
-        int visu_pazymiu_sk = visi_pazymiai.size();
-        if (visu_pazymiu_sk % 2 != 0)
-            rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
-        else
-            rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
-    }
+    void apsk_vid(); // void, nes vid. ir med. reik iš anksto apskaičiuot (o ne spausd metu), nes pagal tai reik leist rūšiuot
+    void apsk_med();
 };
 
-struct Failo_dorojimo_laikai
+void Studentas::apsk_vid()
 {
-    // std::chrono::duration<double> nuskaitymas;
+    if (pazymiai.size() == 0)
+        rezas_vid = egzo_rezas * 0.6;
+    int pazymiu_suma = 0;
+    for (auto paz : pazymiai)
+        pazymiu_suma += paz;
+    rezas_vid = ((pazymiu_suma * 1.0) / (pazymiai.size() * 1.0)) * 0.4 + (egzo_rezas * 0.6);
+}
+
+void Studentas::apsk_med()
+{
+    if (pazymiai.size() == 0)
+        return;
+    vector<int> visi_pazymiai = pazymiai;
+    visi_pazymiai.push_back(egzo_rezas);
+    std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
+    int visu_pazymiu_sk = visi_pazymiai.size();
+    if (visu_pazymiu_sk % 2 != 0)
+        rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+    else
+        rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+}
+
+struct Programos_laikai
+{
     std::chrono::duration<double> duomenu_apdorojimas;
     std::chrono::duration<double> duomenu_rikiavimas;
     std::chrono::duration<double> duomenu_isvedimas;
     std::chrono::duration<double> visa_trukme;
+    void spausd_laikus();
 };
+
+void Programos_laikai::spausd_laikus()
+{
+    cout << '\n'
+         << "Failo duomenu apdorojimo trukme: " << duomenu_apdorojimas.count() << "s" << '\n'
+         << "Failo duomenu surikiavimo trukme: " << duomenu_rikiavimas.count() << "s" << '\n'
+         << "Failo duomenu isvedimo trukme: " << duomenu_isvedimas.count() << "s" << '\n'
+         << "Visos programos trukme: " << visa_trukme.count() << "s" << '\n';
+}
 
 void generuota_ivestis(vector<Studentas> &grupe);
 void misri_ivestis(vector<Studentas> &grupe);
 void rank_ivestis(vector<Studentas> &grupe);
-void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t);
-void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t);
+void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t);
+void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t);
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
 bool pagal_varda_maz(Studentas &A, Studentas &B);
@@ -104,7 +117,7 @@ int main()
         string SKAIT_FAILO_PAV;
         const string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
-        Failo_dorojimo_laikai t;
+        Programos_laikai t;
 
         switch (eiga)
         {
@@ -122,11 +135,7 @@ int main()
             auto pati_pab = std::chrono::high_resolution_clock::now();
             t.visa_trukme = pati_pab - pati_pradzia;
 
-            cout << '\n'
-                 << "Failo duomenu apdorojimo trukme: " << t.duomenu_apdorojimas.count() << "s" << '\n'
-                 << "Failo duomenu surikiavimo trukme: " << t.duomenu_rikiavimas.count() << "s" << '\n'
-                 << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << '\n'
-                 << "Visos programos trukme: " << t.visa_trukme.count() << "s" << '\n';
+            t.spausd_laikus();
             break;
         }
         case 2:
@@ -156,7 +165,7 @@ int main()
     }
 }
 
-void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t)
+void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t)
 {
     auto pr = std::chrono::high_resolution_clock::now();
 
@@ -373,7 +382,7 @@ void rank_ivestis(vector<Studentas> &grupe)
     }
 }
 
-void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_laikai &t)
+void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
