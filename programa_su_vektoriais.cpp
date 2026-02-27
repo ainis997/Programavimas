@@ -215,22 +215,62 @@ void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Programos_l
 
 void generuota_ivestis(vector<Studentas> &grupe)
 {
-    int min_iverciu_sk;
-    int reikiamas_studentu_sk;
+    int min_iverciu_sk = 0;
+    string ivestis1;
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    while (std::getline(cin, ivestis1))
     {
-        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
-        cin.clear();
-        cin.ignore(MAX_INT, '\n');
+        std::istringstream sr(ivestis1);
+        if (sr >> ivestis1)
+        {
+            try
+            {
+                string perteklius;
+                if (sr >> perteklius) // programa nelūštų be šito (tsg paima pirmą elementą), bet tai tsg aiškumui
+                    throw std::runtime_error("Pertekline ivestis.");
+                min_iverciu_sk = std::stoi(ivestis1);
+                if (min_iverciu_sk <= 0)
+                    throw std::runtime_error("Netinkama ivestis");
+                break; // jeigu viršuj buvo errorų, šio kodo nepasieks; jeigu nebuvo - pasieks
+            }
+            catch (const std::exception &e)
+            {
+                cout << "Netinkama ivestis. Iveskite dar karta: ";
+            }
+        }
     }
+
+    int reikiamas_studentu_sk = 0;
+    string ivestis2;
     cout << "Iveskite, kiek norite sugeneruoti studentu: ";
-    while (!(cin >> reikiamas_studentu_sk) || reikiamas_studentu_sk <= 0)
+    while (std::getline(cin, ivestis2))
     {
-        cout << "Netinkama ivestis. Iveskite studentu skaiciu: ";
-        cin.clear();
-        cin.ignore(MAX_INT, '\n');
+        std::istringstream sr(ivestis2);
+        if (sr >> ivestis2)
+        {
+            try
+            {
+                string perteklius;
+                if (sr >> perteklius) // programa nelūštų be šito (tsg paima pirmą elementą), bet tai tsg aiškumui
+                    throw std::runtime_error("Pertekline ivestis.");
+                min_iverciu_sk = std::stoi(ivestis2);
+                if (min_iverciu_sk <= 0)
+                    throw std::runtime_error("Netinkama ivestis");
+                break; // jeigu viršuj buvo errorų, šio kodo nepasieks; jeigu nebuvo - pasieks
+            }
+            catch (const std::exception &e)
+            {
+                cout << "Netinkama ivestis. Iveskite dar karta: ";
+            }
+        }
     }
+
+    // while (!(cin >> reikiamas_studentu_sk) || reikiamas_studentu_sk <= 0)
+    // {
+    //     cout << "Netinkama ivestis. Iveskite studentu skaiciu: ";
+    //     cin.clear();
+    //     cin.ignore(MAX_INT, '\n');
+    // }
 
     // vardų generavimui
     vector<string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
@@ -264,16 +304,31 @@ void generuota_ivestis(vector<Studentas> &grupe)
 void misri_ivestis(vector<Studentas> &grupe)
 {
     int min_iverciu_sk;
+    string min_iverciu_sk_ivestis;
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
+    while (std::getline(cin, min_iverciu_sk_ivestis))
     {
-        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
-        cin.clear();
-        cin.ignore(MAX_INT, '\n');
+        std::istringstream sr(min_iverciu_sk_ivestis);
+        if (sr >> min_iverciu_sk_ivestis)
+        {
+            try
+            {
+                string perteklius;
+                if (sr >> perteklius) // programa nelūštų be šito (tsg paima pirmą elementą), bet tai tsg aiškumui
+                    throw std::runtime_error("Pertekline ivestis.");
+                min_iverciu_sk = std::stoi(min_iverciu_sk_ivestis);
+                if (min_iverciu_sk <= 0)
+                    throw std::runtime_error("Skaicius nedidesnis uz 0.");
+                break;
+            }
+            catch (const std::exception &e)
+            {
+                cout << "Netinkama ivestis. Iveskite dar karta: ";
+            }
+        }
     }
 
-    cout << "Įveskite studentų duomenis." << '\n'
-         << "Kai įvesite visus studentus, įveskite 'x'." << '\n';
+    cout << "Įveskite studentų duomenis. Kai įvesite visus studentus, įveskite 'x'." << '\n';
 
     for (int i = 0;; i++)
     {
@@ -282,12 +337,6 @@ void misri_ivestis(vector<Studentas> &grupe)
         bool ar_ivestis_atsaukiama = true;                     // true reiškia, kad šioje įvestyje galima atšaukti studentų duomenų pildymo apskritai (jeigu vartotojas įves "x", )
         if (!vardo_pavardes_ivestis(A, ar_ivestis_atsaukiama)) // jeigu f-ja grąžina false, tai reikia nutraukti visą šį loopą
             break;
-
-        // cout << "Iveskite varda ir pavarde: ";
-        // cin >> A.vardas;
-        // if (A.vardas == "x")
-        //     break;
-        // cin >> A.pavarde;
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {
