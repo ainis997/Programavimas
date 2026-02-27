@@ -81,6 +81,8 @@ void rank_ivestis(vector<Studentas> &grupe);
 void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t);
 void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t);
 
+bool vardo_pavardes_ivestis(Studentas &A, bool ar_ivestis_atsaukiama);
+
 bool pagal_varda_did(Studentas &A, Studentas &B);
 bool pagal_varda_maz(Studentas &A, Studentas &B);
 bool pagal_pavarde_did(Studentas &A, Studentas &B);
@@ -245,14 +247,9 @@ void generuota_ivestis(vector<Studentas> &grupe)
         else
             A.pavarde = mot_pavardes[rand() % 10];
 
-        int iverciu_sk = 0;
-        int iverciu_suma = 0;
-
         for (int i = 0; i < min_iverciu_sk; i++)
         {
             A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
-            iverciu_suma += A.pazymiai.back();
-            iverciu_sk++;
         }
         A.egzo_rezas = rand() % 11; // 0-10
 
@@ -281,20 +278,20 @@ void misri_ivestis(vector<Studentas> &grupe)
     for (int i = 0;; i++)
     {
         Studentas A;
-        cout << "Iveskite varda ir pavarde: ";
-        cin >> A.vardas;
-        if (A.vardas == "x")
-            break;
-        cin >> A.pavarde;
 
-        int iverciu_sk = 0;
-        int iverciu_suma = 0;
+        bool ar_ivestis_atsaukiama = true;                     // true reiškia, kad šioje įvestyje galima atšaukti studentų duomenų pildymo apskritai (jeigu vartotojas įves "x", )
+        if (!vardo_pavardes_ivestis(A, ar_ivestis_atsaukiama)) // jeigu f-ja grąžina false, tai reikia nutraukti visą šį loopą
+            break;
+
+        // cout << "Iveskite varda ir pavarde: ";
+        // cin >> A.vardas;
+        // if (A.vardas == "x")
+        //     break;
+        // cin >> A.pavarde;
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {
             A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
-            iverciu_suma += A.pazymiai.back();
-            iverciu_sk++;
         }
         A.egzo_rezas = rand() % 11;
 
@@ -333,10 +330,10 @@ void rank_ivestis(vector<Studentas> &grupe)
         }
 
         Studentas A;
-        cout << "Iveskite varda ir pavarde: ";
-        cin >> A.vardas >> A.pavarde;
 
-        int iverciu_suma = 0;
+        bool ar_ivestis_atsaukiama = false;
+        vardo_pavardes_ivestis(A, ar_ivestis_atsaukiama); // false reiškia, kad šioje įvestyje negalima atšaukti studentų duomenų pildymo apskritai
+
         cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << '\n';
         for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
         {
@@ -352,7 +349,6 @@ void rank_ivestis(vector<Studentas> &grupe)
                 if (pazymys < 0 || pazymys > 10)
                     throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai.push_back(pazymys);
-                iverciu_suma += pazymys;
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
@@ -381,6 +377,49 @@ void rank_ivestis(vector<Studentas> &grupe)
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
+
+// grąžina bool: jeigu false, tai po vardo/pavardės įvedimo nebebus tęsiamas apskritai studentų duomenų pildymas (reikia mišrios įvesties f-jai); jeigu true, tai atvirkščiai, nieks nesikeičia
+bool vardo_pavardes_ivestis(Studentas &A, bool ar_ivestis_atsaukiama)
+{
+    cout << "Iveskite varda ir pavarde: ";
+    for (;;)
+    {
+        string vardas_pavarde;
+        if (std::getline(cin, vardas_pavarde)) // jeigu sėkmingai nuskaito eilutę, tai ...
+        {
+            if (vardas_pavarde.empty())
+            {
+                cout << "Tuscia ivestis. Iveskite dar karta: ";
+                continue;
+            }
+            if (vardas_pavarde == "x" && ar_ivestis_atsaukiama) // sąlyga, reikalinga mišrios įvesties f-jai
+            {
+                return false;
+            }
+            std::istringstream sr(vardas_pavarde);
+            string vardo_ivestis, pavardes_ivestis;
+            string perteklius;
+            if (sr >> vardo_ivestis >> pavardes_ivestis) // jeigu sėkmingai nuskaitytos dvi vertės - vardo ir pavardės - tai ...
+            {
+                if (sr >> perteklius) // jeigu ivesta per daug duomenu
+                {
+                    cout << "Pertekline ivestis. Iveskite dar karta: ";
+                    continue;
+                }
+                A.vardas = vardo_ivestis;
+                A.pavarde = pavardes_ivestis;
+                break;
+            }
+            else
+                cout << "Netinkama ivestis. Iveskite dar karta: ";
+        }
+        else
+            cout << "Netinkama ivestis. Iveskite dar karta: ";
+    }
+    return true;
+}
+
+// ===== IŠVESTIS =====
 
 void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t)
 {
