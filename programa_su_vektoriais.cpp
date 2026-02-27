@@ -7,6 +7,7 @@
 #include <cstdlib> // atsitiktiniam skaičiam
 #include <sstream> // string streamui
 #include <chrono>  // laiko fiksavimui
+#include <fstream> // failam
 
 // su šitais nereiks visur std:: dadėt
 using std::cin;
@@ -54,7 +55,7 @@ struct Studentas
 
 struct Failo_dorojimo_laikai
 {
-    std::chrono::duration<double> nuskaitymas;
+    // std::chrono::duration<double> nuskaitymas;
     std::chrono::duration<double> duomenu_apdorojimas;
     std::chrono::duration<double> duomenu_rikiavimas;
     std::chrono::duration<double> duomenu_isvedimas;
@@ -101,7 +102,6 @@ int main()
         vector<Studentas> grupe;
 
         string SKAIT_FAILO_PAV;
-        // const string SKAIT_FAILO_PAV = "studentai10000.txt";
         const string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
         Failo_dorojimo_laikai t;
@@ -111,17 +111,18 @@ int main()
         case 1:
         {
             // atstatom/nustatom nulin laikus
-            t.nuskaitymas = t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
+            t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
 
-            cout << "Iveskite ivesties failo pavadinima: ";
-            cin >> SKAIT_FAILO_PAV;
+            cout << "Iveskite ivesties failo pavadinima:\n";
+            cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
+            std::getline(cin, SKAIT_FAILO_PAV);
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SKAIT_FAILO_PAV, grupe, t);
             isvestis(RAS_FAILO_PAV, grupe, t);
             auto pati_pab = std::chrono::high_resolution_clock::now();
             t.visa_trukme = pati_pab - pati_pradzia;
 
-            cout << "Failo nuskaitymo trukme: " << t.nuskaitymas.count() << "s" << '\n'
+            cout << '\n'
                  << "Failo duomenu apdorojimo trukme: " << t.duomenu_apdorojimas.count() << "s" << '\n'
                  << "Failo duomenu surikiavimo trukme: " << t.duomenu_rikiavimas.count() << "s" << '\n'
                  << "Failo duomenu isvedimo trukme: " << t.duomenu_isvedimas.count() << "s" << '\n'
@@ -159,40 +160,19 @@ void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_doroj
 {
     auto pr = std::chrono::high_resolution_clock::now();
 
-    FILE *skaitymo_f; // C stiliaus failo rodyklės kintamasis
-
-    vector<string> eilutes; // čia bus laikomos nuskaitytos failo eilutės
-
-    char eil_buferis[250];
-    skaitymo_f = fopen(SKAIT_FAILO_PAV.c_str(), "r"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
-
-    if (skaitymo_f == NULL)
+    std::ifstream sk_failas(SKAIT_FAILO_PAV); // sukuria įvesties srautą ir atidaro failą
+    if (!sk_failas.is_open())
     {
         // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
         cout << "Ivesties failas nurodytu pavadinimu nerastas." << '\n';
         return;
     }
 
-    while (fgets(eil_buferis, 250, skaitymo_f) != NULL)
-    {
-        eilutes.push_back(eil_buferis);
-    }
-    fclose(skaitymo_f);
-    auto pab = std::chrono::high_resolution_clock::now();
-    t.nuskaitymas = pab - pr;
+    string sk_failo_eil;
 
-    pr = std::chrono::high_resolution_clock::now();
-    if (eilutes.empty())
+    while (std::getline(sk_failas, sk_failo_eil))
     {
-        // ERROR?
-        return;
-    }
-
-    eilutes.erase(eilutes.begin()); // ištrinam pirmą elementą, nes jame — antraštinė eilutė
-
-    for (const auto &eil : eilutes) // su & nesukuriamos eilutės kopijos — veikia greičiau
-    {
-        std::istringstream srautas(eil); // eilutės įvesties ("skaitymo") srautas
+        std::istringstream srautas(sk_failo_eil); // eilutės įvesties ("skaitymo") srautas
 
         Studentas A;
 
@@ -216,7 +196,9 @@ void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Failo_doroj
         grupe.push_back(A);
         A.pazymiai.clear();
     }
-    pab = std::chrono::high_resolution_clock::now();
+
+    sk_failas.close();
+    auto pab = std::chrono::high_resolution_clock::now();
     t.duomenu_apdorojimas = pab - pr;
 }
 
@@ -345,7 +327,6 @@ void rank_ivestis(vector<Studentas> &grupe)
         cout << "Iveskite varda ir pavarde: ";
         cin >> A.vardas >> A.pavarde;
 
-        // int iverciu_sk = 0;
         int iverciu_suma = 0;
         cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << '\n';
         for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
@@ -363,7 +344,6 @@ void rank_ivestis(vector<Studentas> &grupe)
                     throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai.push_back(pazymys);
                 iverciu_suma += pazymys;
-                // iverciu_sk++;
             }
             catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
             {
@@ -397,8 +377,6 @@ void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_lai
 {
     if (grupe.empty())
         return;
-
-    FILE *rasymo_f;
 
     string galutinio_pasirinkimas;
     bool ar_ivestas_tinkamas_galutinio_tipas = false;
@@ -442,7 +420,6 @@ void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_lai
         cout << "Pasirinkite studentu rusiavimo tvarka:" << '\n'
              << "'d' - didejimo tvarka" << '\n'
              << "'m' - mazejimo tvarka" << '\n';
-        // bool tinkama_tvarkos_ivestis = tvarka == "d" || tvarka == "m";
         for (;;)
         {
             cin >> tvarka;
@@ -479,57 +456,50 @@ void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Failo_dorojimo_lai
 
     pr = std::chrono::high_resolution_clock::now();
 
-    rasymo_f = fopen(RAS_FAILO_PAV.c_str(), "w"); // .c_str() tam, kad paverstų C++inį stringą į C'inį stringą (fopen() — C funkcija, dėl to reikia pritaikyt jai))
+    std::ofstream ras_failas(RAS_FAILO_PAV);
 
-    if (rasymo_f == NULL)
+    if (!ras_failas.is_open())
     {
         // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
+        cout << "Nepavyko atidaryti isvesties failo." << '\n';
         return;
     }
 
-    // lentelės viršutinės eilutės spausdinimas (joje — stulpelių pavadinimai)
-    fprintf(rasymo_f, "%-20s %-25s %-15s\n", "Vardas", "Pavarde", pasirinktas_galutinis.c_str());
-    /*cout
+    ras_failas
         << left << setw(20) << "Vardas"
         << left << setw(25) << "Pavarde"
-        << left << setw(15) << "Galutinis (" << pasirinktas_galutinis << ")"
-        << '\n';*/
+        << left << setw(15) << pasirinktas_galutinis
+        << '\n';
 
     // skiriamosios linijos tarp lentelės viršutinės ir likusiųjų eilučių spausdinimas
     const int LENTELES_PLOTIS = 60;
     for (int i = 0; i < LENTELES_PLOTIS; i++)
-        fprintf(rasymo_f, "-");
-    // cout << "-";
-    fprintf(rasymo_f, "\n");
-    // cout << '\n';
+        ras_failas << "-";
+    ras_failas << '\n';
 
     if (galutinio_pasirinkimas == "v")
     {
         for (const auto &A : grupe)
         {
-            fprintf(rasymo_f, "%-20s %-25s %-15.2lf\n", A.vardas.c_str(), A.pavarde.c_str(), A.rezas_vid);
-
-            /*cout
+            ras_failas
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
                 << setw(15) << std::fixed << std::setprecision(2) << A.rezas_vid
-                << '\n';*/
+                << '\n';
         }
     }
     else if (galutinio_pasirinkimas == "m")
     {
         for (const auto &A : grupe)
         {
-            fprintf(rasymo_f, "%-20s %-25s %-15.2lf\n", A.vardas.c_str(), A.pavarde.c_str(), A.rezas_med);
-
-            /*cout
+            ras_failas
                 << left << setw(20) << A.vardas
                 << left << setw(25) << A.pavarde
                 << setw(15) << std::fixed << std::setprecision(2) << A.rezas_med
-                << '\n';*/
+                << '\n';
         }
     }
-    fclose(rasymo_f);
+    ras_failas.close();
 
     pab = std::chrono::high_resolution_clock::now();
     t.duomenu_isvedimas = pab - pr;
