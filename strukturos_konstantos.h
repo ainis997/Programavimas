@@ -1,0 +1,30 @@
+#pragma once
+
+#include <string>
+#include <vector>
+#include <chrono>
+#include <limits> // maksimaliai int reikšmei gauti
+
+// kad būtų trumpiau
+const auto MAX_INT = std::numeric_limits<int>::max();
+
+struct Studentas
+{
+    std::string vardas = "Vardas";
+    std::string pavarde = "Pavarde";
+    std::vector<int> pazymiai;
+    int egzo_rezas = 0;
+    double rezas_vid = 0;
+    double rezas_med = 0;
+    void apsk_vid(); // void, nes vid. ir med. reik iš anksto apskaičiuot (o ne spausd metu), nes pagal tai reik leist rūšiuot
+    void apsk_med();
+};
+
+struct Programos_laikai
+{
+    std::chrono::duration<double> duomenu_apdorojimas;
+    std::chrono::duration<double> duomenu_rikiavimas;
+    std::chrono::duration<double> duomenu_isvedimas;
+    std::chrono::duration<double> visa_trukme;
+    void spausd_laikus();
+};

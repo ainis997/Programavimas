@@ -1,0 +1,89 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <chrono>
+
+#include "strukturos_konstantos.h"
+#include "ivestis_isvestis.h"
+
+using std::cin;
+using std::cout;
+using std::left;
+using std::right;
+using std::string;
+using std::vector;
+
+int main()
+{
+    bool ar_failas_jau_apdorotas = false;
+    for (;;)
+    {
+        srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
+
+        int eiga;
+        cout << '\n'
+             << "Pasirinkite, ka norite daryti:" << '\n'
+             << "1 - ivesti duomenis is failo" << '\n'
+             << "2 - ivesti duomenis ranka" << '\n'
+             << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
+             << "4 - sugeneruoti duomenis" << '\n'
+             << "5 - baigti darba" << '\n';
+        while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
+        {
+            cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
+            cin.clear();
+            cin.ignore(MAX_INT, '\n');
+        }
+
+        vector<Studentas> grupe;
+
+        string SKAIT_FAILO_PAV;
+        const string RAS_FAILO_PAV = "studentu_isvestis.txt";
+
+        Programos_laikai t;
+
+        switch (eiga)
+        {
+        case 1:
+        {
+            // atstatom/nustatom nulin laikus
+            t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
+
+            cout << "Iveskite ivesties failo pavadinima:\n";
+            cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
+            std::getline(cin, SKAIT_FAILO_PAV);
+            auto pati_pradzia = std::chrono::high_resolution_clock::now();
+            failo_ivestis(SKAIT_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_PAV, grupe, t);
+            auto pati_pab = std::chrono::high_resolution_clock::now();
+            t.visa_trukme = pati_pab - pati_pradzia;
+
+            t.spausd_laikus();
+            break;
+        }
+        case 2:
+        {
+            rank_ivestis(grupe);
+            isvestis(RAS_FAILO_PAV, grupe, t);
+            break;
+        }
+        case 3:
+        {
+            misri_ivestis(grupe);
+            isvestis(RAS_FAILO_PAV, grupe, t);
+            break;
+        }
+        case 4:
+        {
+            generuota_ivestis(grupe);
+            isvestis(RAS_FAILO_PAV, grupe, t);
+            break;
+        }
+        case 5:
+        {
+            return 0;
+            break;
+        }
+        }
+    }
+}
