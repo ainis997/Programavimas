@@ -82,7 +82,7 @@ void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Programos_l
 void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &t);
 
 bool vardo_pavardes_ivestis(Studentas &A, bool ar_ivestis_atsaukiama);
-void skaiciaus_ivestis(int &sk);
+void natur_skaiciaus_ivestis(int &sk, bool (*papild_salygu_fja)(int) = nullptr);
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
 bool pagal_varda_maz(Studentas &A, Studentas &B);
@@ -216,7 +216,7 @@ void failo_ivestis(string SKAIT_FAILO_PAV, vector<Studentas> &grupe, Programos_l
 
 // ================
 
-void skaiciaus_ivestis(int &sk)
+void natur_skaiciaus_ivestis(int &sk, bool (*papild_salygu_fja)(int)) // default reikšmė nullptr, jeigu papildomų sąlygų nustatymo funkcija nebus pateikta iškvietime
 {
     string ivestis;
 
@@ -236,6 +236,9 @@ void skaiciaus_ivestis(int &sk)
                     throw std::runtime_error("Netinkama ivestis.");
                 if (sk <= 0)
                     throw std::runtime_error("Netinkama ivestis.");
+                if (papild_salygu_fja != nullptr)
+                    if (papild_salygu_fja(sk))
+                        throw std::runtime_error("Netinkama ivestis.");
                 break; // jeigu viršuj buvo errorų, šio kodo nepasieks; jeigu nebuvo - pasieks
             }
             catch (const std::exception &e)
@@ -246,17 +249,22 @@ void skaiciaus_ivestis(int &sk)
     }
 }
 
+bool ar_sk_nedidesnis_uz_0(int x)
+{
+    return x <= 0;
+}
+
 void generuota_ivestis(vector<Studentas> &grupe)
 {
     int min_iverciu_sk = 0;
     string ivestis1;
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    skaiciaus_ivestis(min_iverciu_sk); // perduodam kintamojo *referencą*
+    natur_skaiciaus_ivestis(min_iverciu_sk, ar_sk_nedidesnis_uz_0); // perduodam kintamojo *referencą*
 
     int reikiamas_studentu_sk = 0;
     string ivestis2;
     cout << "Iveskite, kiek norite sugeneruoti studentu: ";
-    skaiciaus_ivestis(reikiamas_studentu_sk); // perduodam kintamojo *referencą*
+    natur_skaiciaus_ivestis(reikiamas_studentu_sk, ar_sk_nedidesnis_uz_0); // perduodam kintamojo *referencą*
 
     // vardų generavimui
     vector<string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
@@ -292,7 +300,7 @@ void misri_ivestis(vector<Studentas> &grupe)
     int min_iverciu_sk = 0;
     string ivestis3;
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    skaiciaus_ivestis(min_iverciu_sk); // perduodam kintamojo *referencą*
+    natur_skaiciaus_ivestis(min_iverciu_sk, nullptr); // perduodam kintamojo *referencą*
 
     cout << "Įveskite studentų duomenis. Kai įvesite visus studentus, įveskite 'x'." << '\n';
 
@@ -318,27 +326,34 @@ void misri_ivestis(vector<Studentas> &grupe)
     }
 }
 
+bool ar_sk_ne_tarp_0_ir_10(int x)
+{
+    return x < 0 || x > 10;
+}
+
 void rank_ivestis(vector<Studentas> &grupe)
 {
     int min_iverciu_sk;
     cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    while (!(cin >> min_iverciu_sk) || min_iverciu_sk <= 0)
-    {
-        cout << "Netinkama ivestis. Iveskite minimalu iverciu skaiciu: ";
-        cin.clear();
-        cin.ignore(MAX_INT, '\n');
-    }
+    natur_skaiciaus_ivestis(min_iverciu_sk, ar_sk_nedidesnis_uz_0);
 
     for (int i = 0;; i++)
     {
         if (i > 0)
         {
             string arDarVestiStudenta;
-            cout << "Ar norite suvesti dar vieno studento duomenis?" << '\n';
-            while (arDarVestiStudenta != "n" && arDarVestiStudenta != "t")
+            string ivestis;
+            cout << "Ar norite suvesti dar vieno studento duomenis?" << '\n'
+                 << "t - taip, n - ne\n";
+            for (;;)
             {
-                cout << "Jeigu taip, iveskite 't'. Jeigu ne, iveskite 'n'." << '\n';
-                cin >> arDarVestiStudenta;
+                std::getline(cin, ivestis);
+                if (ivestis == "t" || ivestis == "n")
+                {
+                    arDarVestiStudenta = ivestis;
+                    break;
+                }
+                cout << "Netinkama ivestis. Iveskite dar karta: ";
             }
             if (arDarVestiStudenta == "n")
                 break;
@@ -350,6 +365,7 @@ void rank_ivestis(vector<Studentas> &grupe)
         vardo_pavardes_ivestis(A, ar_ivestis_atsaukiama); // false reiškia, kad šioje įvestyje negalima atšaukti studentų duomenų pildymo apskritai
 
         cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << '\n';
+        // čia palikti cin, kad būtų lankstesnis įvedimas: gali ir enteriais, ir tarpais atskirt pažymius
         for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
         {
             int pazymys;
@@ -372,13 +388,14 @@ void rank_ivestis(vector<Studentas> &grupe)
         }
 
         cout << "Iveskite egzamino vertinima: ";
-        while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 0 || A.egzo_rezas > 10)
-        {
-            cout << "Netinkama ivestis. Iveskite pazymi tarp 0 ir 10: ";
-            cin.clear();
-            cin.ignore(MAX_INT, '\n');
-        }
-        cin.ignore(MAX_INT, '\n'); // SKIRTA TAM, jeigu būtų įvestas float skaičius: ši komanda ištrins bufery likusią pokablelinę dalį (jinai lieka, kadangi programa pasiima tik sveikąją dalį iš įvesties). To reikia todėl, nes ta likusi bufery dalis po to tampa sekančios įvesties dalim (o to mum nereik)
+        natur_skaiciaus_ivestis(A.egzo_rezas, ar_sk_ne_tarp_0_ir_10);
+        // while (!(cin >> A.egzo_rezas) || A.egzo_rezas < 0 || A.egzo_rezas > 10)
+        // {
+        //     cout << "Netinkama ivestis. Iveskite pazymi tarp 0 ir 10: ";
+        //     cin.clear();
+        //     cin.ignore(MAX_INT, '\n');
+        // }
+        // cin.ignore(MAX_INT, '\n'); // SKIRTA TAM, jeigu būtų įvestas float skaičius: ši komanda ištrins bufery likusią pokablelinę dalį (jinai lieka, kadangi programa pasiima tik sveikąją dalį iš įvesties). To reikia todėl, nes ta likusi bufery dalis po to tampa sekančios įvesties dalim (o to mum nereik)
 
         if (A.pazymiai.size() < min_iverciu_sk)
         {
@@ -570,37 +587,37 @@ void isvestis(string RAS_FAILO_PAV, vector<Studentas> &grupe, Programos_laikai &
 
 bool pagal_varda_did(Studentas &A, Studentas &B)
 {
-    for (char &raide : A.vardas)
-        raide = std::tolower(raide);
-    for (char &raide : B.vardas)
-        raide = std::tolower(raide);
+    // for (char &raide : A.vardas)
+    //     raide = std::tolower(raide);
+    // for (char &raide : B.vardas)
+    //     raide = std::tolower(raide);
     return A.vardas < B.vardas;
 }
 
 bool pagal_varda_maz(Studentas &A, Studentas &B)
 {
-    for (char &raide : A.vardas)
-        raide = std::tolower(raide);
-    for (char &raide : B.vardas)
-        raide = std::tolower(raide);
+    // for (char &raide : A.vardas)
+    //     raide = std::tolower(raide);
+    // for (char &raide : B.vardas)
+    //     raide = std::tolower(raide);
     return A.vardas > B.vardas;
 }
 
 bool pagal_pavarde_did(Studentas &A, Studentas &B)
 {
-    for (char &raide : A.pavarde)
-        raide = std::tolower(raide);
-    for (char &raide : B.pavarde)
-        raide = std::tolower(raide);
+    // for (char &raide : A.pavarde)
+    //     raide = std::tolower(raide);
+    // for (char &raide : B.pavarde)
+    //     raide = std::tolower(raide);
     return A.pavarde < B.pavarde;
 }
 
 bool pagal_pavarde_maz(Studentas &A, Studentas &B)
 {
-    for (char &raide : A.pavarde)
-        raide = std::tolower(raide);
-    for (char &raide : B.pavarde)
-        raide = std::tolower(raide);
+    // for (char &raide : A.pavarde)
+    //     raide = std::tolower(raide);
+    // for (char &raide : B.pavarde)
+    //     raide = std::tolower(raide);
     return A.pavarde > B.pavarde;
 }
 
