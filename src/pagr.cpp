@@ -6,6 +6,7 @@
 #include "strukturos_konstantos.h"
 #include "ivestis.h"
 #include "isvestis.h"
+#include "ivesties_pagalb_fjos.h"
 
 // using std::std::cin;
 // using std::std::cout;
@@ -29,12 +30,14 @@ int main()
                   << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
                   << "4 - sugeneruoti duomenis" << '\n'
                   << "5 - baigti darba" << '\n';
-        while (!(std::cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
-        {
-            std::cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
-            std::cin.clear();
-            std::cin.ignore(MAX_INT, '\n');
-        }
+        bool ar_ivestis_atsaukiama = false;
+        natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5, ar_ivestis_atsaukiama);
+        // while (!(std::cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
+        // {
+        //     std::cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
+        //     std::cin.clear();
+        //     std::cin.ignore(MAX_INT, '\n');
+        // }
 
         std::vector<Studentas> grupe;
 

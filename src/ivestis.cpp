@@ -58,7 +58,7 @@ void rank_ivestis(std::vector<Studentas> &grupe)
 {
     int min_iverciu_sk;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    natur_skaiciaus_ivestis(min_iverciu_sk, ar_sk_nedidesnis_uz_0);
+    natur_skaiciaus_ivestis(min_iverciu_sk, ar_sk_nedidesnis_uz_0); // false reiškia, kad ivestis neatsaukiama
 
     for (int i = 0;; i++)
     {
@@ -100,22 +100,25 @@ void rank_ivestis(std::vector<Studentas> &grupe)
         for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
         {
             int pazymys;
-            std::string ivercio_ivestis;
-            std::cin >> ivercio_ivestis;
-            if (ivercio_ivestis == "x")
-                break;
+            // std::string ivercio_ivestis;
+            // std::cin >> ivercio_ivestis;
+            // if (ivercio_ivestis == "x")
+            //     break;
 
-            try
-            {
-                pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia std::string į int.
-                if (pazymys < 0 || pazymys > 10)
-                    throw std::domain_error("Netinkama ivestis (galima ivestis: sveikasis skaicius nuo 0 iki 10)."); // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
-                A.pazymiai.push_back(pazymys);
-            }
-            catch (...)
-            {
-                ivesties_klaidos_valdymas();
-            }
+            // try
+            // {
+            bool ar_ivestis_atsaukiama = true;
+            if (!natur_skaiciaus_ivestis(pazymys, ar_sk_ne_tarp_0_ir_10, ar_ivestis_atsaukiama))
+                break;
+            // pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia std::string į int.
+            // if (pazymys < 0 || pazymys > 10)
+            //     throw std::domain_error("Netinkama ivestis (galima ivestis: sveikasis skaicius nuo 0 iki 10)."); // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
+            A.pazymiai.push_back(pazymys);
+            // }
+            // catch (...)
+            // {
+            //     ivesties_klaidos_valdymas();
+            // }
         }
 
         std::cout << "Iveskite egzamino vertinima: ";
@@ -148,7 +151,7 @@ void misri_ivestis(std::vector<Studentas> &grupe)
     int min_iverciu_sk = 0;
     std::string ivestis3;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
-    natur_skaiciaus_ivestis(min_iverciu_sk, nullptr); // perduodam kintamojo *referencą*
+    natur_skaiciaus_ivestis(min_iverciu_sk); // perduodam kintamojo *referencą*
 
     std::cout << "Įveskite studentų duomenis. Kai įvesite visus studentus, įveskite 'x'." << '\n';
 
