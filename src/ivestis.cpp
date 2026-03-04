@@ -14,11 +14,11 @@
 #include "strukturos_konstantos.h"
 #include "klaidu_valdymas.h"
 
-void failo_ivestis(std::vector<Studentas> &grupe, Programos_laikai &t)
+void failo_ivestis(const std::string SK_FAILO_NUORODA, std::vector<Studentas> &grupe, Programos_laikai &t)
 {
-    std::ifstream sk_failas = skait_failo_pav_gavimas();
+    std::ifstream sk_failas = skait_failo_paruosimas(SK_FAILO_NUORODA);
 
-    auto pr = std::chrono::high_resolution_clock::now(); // matuojam nuo čia, nes skait_failo_pav_gavimas turi įvesties
+    auto pr = std::chrono::high_resolution_clock::now(); // matuojam nuo čia, nes skait_failo_paruosimas turi įvesties
 
     std::string sk_failo_eil;
 

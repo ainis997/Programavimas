@@ -8,18 +8,21 @@
 #include <fstream>
 
 // įvesties (skaitymo) failo pavadinimo gavimo funkcija
-std::ifstream skait_failo_pav_gavimas()
+std::ifstream skait_failo_paruosimas(std::string SK_FAILO_NUORODA)
 {
     std::string skait_failo_pav;
+    std::string pilna_failo_nuoroda; // path + file name
     std::cout << "Iveskite ivesties failo pavadinima:\n";
     for (;;)
     {
         try
         {
             std::getline(std::cin, skait_failo_pav);
-            std::ifstream sk_failas(skait_failo_pav); // sukuria įvesties srautą ir atidaro failą
+            pilna_failo_nuoroda = SK_FAILO_NUORODA + skait_failo_pav;
+            std::ifstream sk_failas(pilna_failo_nuoroda); // sukuria įvesties srautą ir atidaro failą
             if (!sk_failas.is_open())
                 throw std::runtime_error("Ivesties failas nurodytu pavadinimu nerastas.");
+            return sk_failas;
             break; // jeigu prieš tai bus išmesta klaida, šio kodo programa nepasieks
         }
         catch (...)
@@ -27,8 +30,6 @@ std::ifstream skait_failo_pav_gavimas()
             ivesties_klaidos_valdymas();
         }
     }
-    std::ifstream skait_failas(skait_failo_pav);
-    return skait_failas;
 }
 
 // pagalbinės vartotojo įvesties programoj funkcijos

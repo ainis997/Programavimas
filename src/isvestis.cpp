@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iomanip>
 
-void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programos_laikai &t)
+void isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -127,7 +127,7 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
 
     auto pr = std::chrono::high_resolution_clock::now();
 
-    std::ofstream ras_failas(RAS_FAILO_PAV);
+    std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
 
     if (!ras_failas.is_open())
     {
@@ -174,4 +174,8 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
 
     auto pab = std::chrono::high_resolution_clock::now();
     t.duomenu_isvedimas = pab - pr;
+
+    std::cout << '\n'
+              << "Isvedimas baigtas."
+              << '\n';
 }

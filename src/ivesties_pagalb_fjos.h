@@ -3,7 +3,7 @@
 #include "strukturos_konstantos.h"
 
 // įvesties (skaitymo) failo pavadinimo gavimo funkcija
-std::ifstream skait_failo_pav_gavimas();
+std::ifstream skait_failo_paruosimas(std::string SK_FAILO_NUORODA);
 
 // pagalbinės vartotojo įvesties programoj funkcijos
 bool vardo_pavardes_ivestis(Studentas &A, bool ar_ivestis_atsaukiama);

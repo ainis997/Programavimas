@@ -40,6 +40,8 @@ int main()
 
         std::vector<Studentas> grupe;
 
+        const std::string SK_FAILO_NUORODA = "ivesties_failai/";   // root dir atžvilgiu
+        const std::string RAS_FAILO_NUORODA = "isvesties_failai/"; // root dir atžvilgiu
         const std::string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
         Programos_laikai t;
@@ -57,8 +59,8 @@ int main()
             // std::getline(std::cin, SKAIT_FAILO_PAV);
             // std::string SKAIT_FAILO_PAV = skait_failo_pav_gavimas();
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
-            failo_ivestis(grupe, t);
-            isvestis(RAS_FAILO_PAV, grupe, t);
+            failo_ivestis(SK_FAILO_NUORODA, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
             auto pati_pab = std::chrono::high_resolution_clock::now();
             t.visa_trukme = pati_pab - pati_pradzia;
 
@@ -68,19 +70,19 @@ int main()
         case 2:
         {
             rank_ivestis(grupe);
-            isvestis(RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
             break;
         }
         case 3:
         {
             misri_ivestis(grupe);
-            isvestis(RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
             break;
         }
         case 4:
         {
             generuota_ivestis(grupe);
-            isvestis(RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
             break;
         }
         case 5:
