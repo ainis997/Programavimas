@@ -21,7 +21,7 @@ std::ifstream skait_failo_paruosimas(std::string SK_FAILO_NUORODA)
             pilna_failo_nuoroda = SK_FAILO_NUORODA + skait_failo_pav;
             std::ifstream sk_failas(pilna_failo_nuoroda); // sukuria įvesties srautą ir atidaro failą
             if (!sk_failas.is_open())
-                throw std::runtime_error("Ivesties failas nurodytu pavadinimu nerastas.");
+                throw std::runtime_error("Ivesties failas nurodytu pavadinimu ivesties failu aplankale nerastas.");
             return sk_failas;
             break; // jeigu prieš tai bus išmesta klaida, šio kodo programa nepasieks
         }
