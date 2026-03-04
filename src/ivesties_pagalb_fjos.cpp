@@ -4,6 +4,33 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <fstream>
+
+// įvesties (skaitymo) failo pavadinimo gavimo funkcija
+std::ifstream skait_failo_pav_gavimas()
+{
+    std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko (reikia, nes prieš tai cin naudojom)
+    std::string skait_failo_pav;
+    std::cout << "Iveskite ivesties failo pavadinima:\n";
+    for (;;)
+    {
+        try
+        {
+            std::getline(std::cin, skait_failo_pav);
+            std::ifstream sk_failas(skait_failo_pav); // sukuria įvesties srautą ir atidaro failą
+            if (!sk_failas.is_open())
+                throw std::runtime_error("Ivesties failas nurodytu pavadinimu nerastas.");
+            break; // jeigu prieš tai bus išmesta klaida, šio kodo programa nepasieks
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << "Ivyko klaida: " << e.what() << '\n';
+            std::cout << "Iveskite failo pavadinima is naujo: ";
+        }
+    }
+    std::ifstream skait_failas(skait_failo_pav);
+    return skait_failas;
+}
 
 // pagalbinės vartotojo įvesties programoj funkcijos
 

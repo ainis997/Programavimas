@@ -13,26 +13,11 @@
 #include "ivesties_pagalb_fjos.h"
 #include "strukturos_konstantos.h"
 
-// su šitais nereiks visur std:: dadėt
-// using std::std::cin;
-// using std::std::cout;
-// using std::left;
-// using std::right;
-// using std::setw;
-// using std::std::string;
-// using std::std::vector;
-
-void failo_ivestis(std::string SKAIT_FAILO_PAV, std::vector<Studentas> &grupe, Programos_laikai &t)
+void failo_ivestis(std::vector<Studentas> &grupe, Programos_laikai &t)
 {
-    auto pr = std::chrono::high_resolution_clock::now();
+    std::ifstream sk_failas = skait_failo_pav_gavimas();
 
-    std::ifstream sk_failas(SKAIT_FAILO_PAV); // sukuria įvesties srautą ir atidaro failą
-    if (!sk_failas.is_open())
-    {
-        // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
-        std::cout << "Ivesties failas nurodytu pavadinimu nerastas." << '\n';
-        return;
-    }
+    auto pr = std::chrono::high_resolution_clock::now(); // matuojam nuo čia, nes skait_failo_pav_gavimas turi įvesties
 
     std::string sk_failo_eil;
 
