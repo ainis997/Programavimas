@@ -1,5 +1,8 @@
 .vscode
 
+bin/
+obj/
+
 *.exe
 
 *.txt
