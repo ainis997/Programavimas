@@ -12,6 +12,7 @@
 #include "ivestis.h"
 #include "ivesties_pagalb_fjos.h"
 #include "strukturos_konstantos.h"
+#include "klaidu_valdymas.h"
 
 void failo_ivestis(std::vector<Studentas> &grupe, Programos_laikai &t)
 {
@@ -69,13 +70,20 @@ void rank_ivestis(std::vector<Studentas> &grupe)
                       << "t - taip, n - ne\n";
             for (;;)
             {
-                std::getline(std::cin, ivestis);
-                if (ivestis == "t" || ivestis == "n")
+                try
                 {
-                    arDarVestiStudenta = ivestis;
-                    break;
+                    std::getline(std::cin, ivestis);
+                    if (ivestis == "t" || ivestis == "n")
+                    {
+                        arDarVestiStudenta = ivestis;
+                        break;
+                    }
+                    throw std::runtime_error("Ivestas netinkamas atsakymas (galimi atsakymai: t, n).");
                 }
-                std::cout << "Netinkama ivestis. Iveskite dar karta: ";
+                catch (...)
+                {
+                    ivesties_klaidos_valdymas();
+                }
             }
             if (arDarVestiStudenta == "n")
                 break;
@@ -84,6 +92,7 @@ void rank_ivestis(std::vector<Studentas> &grupe)
         Studentas A;
 
         bool ar_ivestis_atsaukiama = false;
+        // vvv įves A.vardas ir A.pavarde
         vardo_pavardes_ivestis(A, ar_ivestis_atsaukiama); // false reiškia, kad šioje įvestyje negalima atšaukti studentų duomenų pildymo apskritai
 
         std::cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << '\n';
@@ -100,12 +109,12 @@ void rank_ivestis(std::vector<Studentas> &grupe)
             {
                 pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia std::string į int.
                 if (pazymys < 0 || pazymys > 10)
-                    throw "Netinkama ivestis"; // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
+                    throw std::domain_error("Netinkama ivestis (galima ivestis: sveikasis skaicius nuo 0 iki 10)."); // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
                 A.pazymiai.push_back(pazymys);
             }
-            catch (...) // "..." argumentas sako, kad priimk bet kokią klaidą; šiuo catch bloku valdom dvi klaidas: std::string>int konvertavimo galimą klaidą IR netinkamą pažymio skaitinę vertę (ne tarp 1 ir 10)
+            catch (...)
             {
-                std::cout << "Netinkama ivestis. Iveskite pazymi tarp 0 iki 10: ";
+                ivesties_klaidos_valdymas();
             }
         }
 
