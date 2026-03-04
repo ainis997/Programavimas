@@ -1,6 +1,7 @@
 #include "isvestis.h"
 #include "isvesties_pagalb_fjos.h"
 #include "strukturos_konstantos.h"
+#include "klaidu_valdymas.h"
 
 #include <iostream>
 #include <string>
@@ -15,14 +16,25 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
         return;
 
     std::string galutinio_pasirinkimas;
-    bool ar_ivestas_tinkamas_galutinio_tipas = false;
-    while (ar_ivestas_tinkamas_galutinio_tipas == false)
+    std::cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << '\n'
+              << "Jeigu vidurki, iveskite 'v'. Jeigu mediana, iveskite 'm'. " << '\n';
+    for (;;)
     {
-        std::cout << "Ar norite rasti galutini vidurki ar galutine mediana?" << '\n'
-                  << "Jeigu vidurki, iveskite 'v'. Jeigu mediana, iveskite 'm'. " << '\n';
-        std::cin >> galutinio_pasirinkimas;
-        if (galutinio_pasirinkimas == "v" || galutinio_pasirinkimas == "m")
-            ar_ivestas_tinkamas_galutinio_tipas = true;
+        try
+        {
+            std::string ivestis;
+            std::getline(std::cin, ivestis);
+            if (ivestis == "v" || ivestis == "m")
+            {
+                galutinio_pasirinkimas = ivestis;
+                break;
+            }
+            throw std::invalid_argument("Ivestas netinkamas atsakymas (galimi atsakymai: v, m).");
+        }
+        catch (...)
+        {
+            ivesties_klaidos_valdymas();
+        }
     }
 
     // dinamiškam lentelės stulpelių pavadinimų pavaizdavimui
@@ -40,16 +52,25 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
               << "'vid' - pagal vidurki" << '\n'
               << "'med' - pagal mediana" << '\n'
               << "'ne' - nerusiuoti" << '\n';
-    // bool tinkama_rus_ivestis = rus == "vard" || rus == "pav" || rus == "vid" || rus == "med" || rus == "ne";
     for (;;)
     {
-        std::cin >> rus;
-        if (rus == "vard" || rus == "pav" || rus == "vid" || rus == "med" || rus == "ne")
-            break;
-        std::cout << "Netinkama ivestis. Galimos ivesti reiksmes: 'vard', 'pav', 'vid', 'med', 'ne': ";
+        try
+        {
+            std::string ivestis;
+            std::getline(std::cin, ivestis);
+            if (ivestis == "vard" || ivestis == "pav" || ivestis == "vid" || ivestis == "med" || ivestis == "ne")
+            {
+                rus = ivestis;
+                break;
+            }
+            throw std::invalid_argument("Ivestas netinkamas atsakymas (galimi atsakymai: vard, pav, vid, med, ne).");
+        }
+        catch (...)
+        {
+            ivesties_klaidos_valdymas();
+        }
     }
 
-    auto pr = std::chrono::high_resolution_clock::now();
     if (rus != "ne")
     {
         std::string tvarka;
@@ -58,11 +79,24 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
                   << "'m' - mazejimo tvarka" << '\n';
         for (;;)
         {
-            std::cin >> tvarka;
-            if (tvarka == "d" || tvarka == "m")
-                break;
-            std::cout << "Netinkama ivestis. Galimos ivesti reiksmes: 'd', 'm': ";
+            try
+            {
+                std::string ivestis;
+                std::getline(std::cin, ivestis);
+                if (ivestis == "d" || ivestis == "m")
+                {
+                    tvarka = ivestis;
+                    break;
+                }
+                throw std::invalid_argument("Ivestas netinkamas atsakymas (galimi atsakymai: d, m).");
+            }
+            catch (...)
+            {
+                ivesties_klaidos_valdymas();
+            }
         }
+
+        auto pr = std::chrono::high_resolution_clock::now();
 
         if (tvarka == "d")
         {
@@ -86,11 +120,12 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
             else if (rus == "med")
                 std::sort(grupe.begin(), grupe.end(), pagal_mediana_maz);
         }
-    }
-    auto pab = std::chrono::high_resolution_clock::now();
-    t.duomenu_rikiavimas = pab - pr;
 
-    pr = std::chrono::high_resolution_clock::now();
+        auto pab = std::chrono::high_resolution_clock::now();
+        t.duomenu_rikiavimas = pab - pr;
+    }
+
+    auto pr = std::chrono::high_resolution_clock::now();
 
     std::ofstream ras_failas(RAS_FAILO_PAV);
 
@@ -137,6 +172,6 @@ void isvestis(std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programo
     }
     ras_failas.close();
 
-    pab = std::chrono::high_resolution_clock::now();
+    auto pab = std::chrono::high_resolution_clock::now();
     t.duomenu_isvedimas = pab - pr;
 }

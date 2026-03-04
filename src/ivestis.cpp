@@ -78,7 +78,7 @@ void rank_ivestis(std::vector<Studentas> &grupe)
                         arDarVestiStudenta = ivestis;
                         break;
                     }
-                    throw std::runtime_error("Ivestas netinkamas atsakymas (galimi atsakymai: t, n).");
+                    throw std::invalid_argument("Ivestas netinkamas atsakymas (galimi atsakymai: t, n).");
                 }
                 catch (...)
                 {
@@ -96,40 +96,18 @@ void rank_ivestis(std::vector<Studentas> &grupe)
         vardo_pavardes_ivestis(A, ar_ivestis_atsaukiama); // false reiškia, kad šioje įvestyje negalima atšaukti studentų duomenų pildymo apskritai
 
         std::cout << "Iveskite semestro ivercius: (kai suvesite visus semestro ivercius, iveskite 'x')" << '\n';
-        // čia palikti std::cin, kad būtų lankstesnis įvedimas: gali ir enteriais, ir tarpais atskirt pažymius
-        for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x")
+
+        for (;;) // for loopas be parametrų — begalinis loopas (iš jo išeis tik jeigu vartotojas įves "x" (tuo atveju ta fja grąžins false))
         {
             int pazymys;
-            // std::string ivercio_ivestis;
-            // std::cin >> ivercio_ivestis;
-            // if (ivercio_ivestis == "x")
-            //     break;
-
-            // try
-            // {
             bool ar_ivestis_atsaukiama = true;
             if (!natur_skaiciaus_ivestis(pazymys, ar_sk_ne_tarp_0_ir_10, ar_ivestis_atsaukiama))
                 break;
-            // pazymys = std::stoi(ivercio_ivestis); // std::stoi funkcija paverčia std::string į int.
-            // if (pazymys < 0 || pazymys > 10)
-            //     throw std::domain_error("Netinkama ivestis (galima ivestis: sveikasis skaicius nuo 0 iki 10)."); // tuščio "throw;" negalima palikt, nes td tsg užlauš programą
             A.pazymiai.push_back(pazymys);
-            // }
-            // catch (...)
-            // {
-            //     ivesties_klaidos_valdymas();
-            // }
         }
 
         std::cout << "Iveskite egzamino vertinima: ";
         natur_skaiciaus_ivestis(A.egzo_rezas, ar_sk_ne_tarp_0_ir_10);
-        // while (!(std::cin >> A.egzo_rezas) || A.egzo_rezas < 0 || A.egzo_rezas > 10)
-        // {
-        //     std::cout << "Netinkama ivestis. Iveskite pazymi tarp 0 ir 10: ";
-        //     std::cin.clear();
-        //     std::cin.ignore(MAX_INT, '\n');
-        // }
-        // std::cin.ignore(MAX_INT, '\n'); // SKIRTA TAM, jeigu būtų įvestas float skaičius: ši komanda ištrins bufery likusią pokablelinę dalį (jinai lieka, kadangi programa pasiima tik sveikąją dalį iš įvesties). To reikia todėl, nes ta likusi bufery dalis po to tampa sekančios įvesties dalim (o to mum nereik)
 
         if (A.pazymiai.size() < min_iverciu_sk)
         {

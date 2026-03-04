@@ -30,8 +30,7 @@ int main()
                   << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
                   << "4 - sugeneruoti duomenis" << '\n'
                   << "5 - baigti darba" << '\n';
-        bool ar_ivestis_atsaukiama = false;
-        natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5, ar_ivestis_atsaukiama);
+        natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5);
         // while (!(std::cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
         // {
         //     std::cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";

@@ -10,7 +10,6 @@
 // įvesties (skaitymo) failo pavadinimo gavimo funkcija
 std::ifstream skait_failo_pav_gavimas()
 {
-    std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko (reikia, nes prieš tai cin naudojom)
     std::string skait_failo_pav;
     std::cout << "Iveskite ivesties failo pavadinima:\n";
     for (;;)
