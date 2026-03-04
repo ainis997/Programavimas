@@ -14,6 +14,26 @@
 // using std::std::string;
 // using std::std::vector;
 
+std::string skait_failo_pav_gavimas() {
+    std::string SKAIT_FAILO_PAV;
+    std::cout << "Iveskite ivesties failo pavadinima:\n";
+    for (;;) {
+        try {
+            std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
+            std::getline(std::cin, SKAIT_FAILO_PAV);
+            std::ifstream sk_failas(SKAIT_FAILO_PAV); // sukuria įvesties srautą ir atidaro failą
+            if (!sk_failas.is_open())
+                throw "Ivesties failas nurodytu pavadinimu nerastas.";
+            break;
+        }
+        catch (std::exception &e) {
+            std::cerr << e << '\n';
+            std::cout << "Iveskite failo pavadinima is naujo: ";
+    }
+    return SKAIT_FAILO_PAV;
+            
+}
+
 int main()
 {
     bool ar_failas_jau_apdorotas = false;
@@ -38,7 +58,6 @@ int main()
 
         std::vector<Studentas> grupe;
 
-        std::string SKAIT_FAILO_PAV;
         const std::string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
         Programos_laikai t;
@@ -50,9 +69,11 @@ int main()
             // atstatom/nustatom nulin laikus
             t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
 
-            std::cout << "Iveskite ivesties failo pavadinima:\n";
-            std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
-            std::getline(std::cin, SKAIT_FAILO_PAV);
+            // std::string SKAIT_FAILO_PAV;
+            // std::cout << "Iveskite ivesties failo pavadinima:\n";
+            //std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
+            // std::getline(std::cin, SKAIT_FAILO_PAV);
+            std::string SKAIT_FAILO_PAV = skait_failo_pav_gavimas();
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SKAIT_FAILO_PAV, grupe, t);
             isvestis(RAS_FAILO_PAV, grupe, t);
