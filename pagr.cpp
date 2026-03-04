@@ -4,14 +4,15 @@
 #include <chrono>
 
 #include "strukturos_konstantos.h"
-#include "ivestis_isvestis.h"
+#include "ivestis.h"
+#include "isvestis.h"
 
-using std::cin;
-using std::cout;
-using std::left;
-using std::right;
-using std::string;
-using std::vector;
+// using std::std::cin;
+// using std::std::cout;
+// using std::left;
+// using std::right;
+// using std::std::string;
+// using std::std::vector;
 
 int main()
 {
@@ -21,24 +22,24 @@ int main()
         srand(time(0)); // nustatom rand() seedą (visos programos pradžioj)
 
         int eiga;
-        cout << '\n'
-             << "Pasirinkite, ka norite daryti:" << '\n'
-             << "1 - ivesti duomenis is failo" << '\n'
-             << "2 - ivesti duomenis ranka" << '\n'
-             << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
-             << "4 - sugeneruoti duomenis" << '\n'
-             << "5 - baigti darba" << '\n';
-        while (!(cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
+        std::cout << '\n'
+                  << "Pasirinkite, ka norite daryti:" << '\n'
+                  << "1 - ivesti duomenis is failo" << '\n'
+                  << "2 - ivesti duomenis ranka" << '\n'
+                  << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
+                  << "4 - sugeneruoti duomenis" << '\n'
+                  << "5 - baigti darba" << '\n';
+        while (!(std::cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
         {
-            cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
-            cin.clear();
-            cin.ignore(MAX_INT, '\n');
+            std::cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
+            std::cin.clear();
+            std::cin.ignore(MAX_INT, '\n');
         }
 
-        vector<Studentas> grupe;
+        std::vector<Studentas> grupe;
 
-        string SKAIT_FAILO_PAV;
-        const string RAS_FAILO_PAV = "studentu_isvestis.txt";
+        std::string SKAIT_FAILO_PAV;
+        const std::string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
         Programos_laikai t;
 
@@ -49,9 +50,9 @@ int main()
             // atstatom/nustatom nulin laikus
             t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
 
-            cout << "Iveskite ivesties failo pavadinima:\n";
-            cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
-            std::getline(cin, SKAIT_FAILO_PAV);
+            std::cout << "Iveskite ivesties failo pavadinima:\n";
+            std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
+            std::getline(std::cin, SKAIT_FAILO_PAV);
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SKAIT_FAILO_PAV, grupe, t);
             isvestis(RAS_FAILO_PAV, grupe, t);

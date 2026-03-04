@@ -1,4 +1,4 @@
-#include "pagalbines_fjos.h"
+#include "strukturos_konstantos.h"
 
 // ===== Studentu rikiavimo funkcijos =====
 
@@ -56,16 +56,4 @@ bool pagal_mediana_did(Studentas &A, Studentas &B)
 bool pagal_mediana_maz(Studentas &A, Studentas &B)
 {
     return A.rezas_med > B.rezas_med;
-}
-
-// ===== =====
-
-bool ar_sk_ne_tarp_0_ir_10(int x)
-{
-    return x < 0 || x > 10;
-}
-
-bool ar_sk_nedidesnis_uz_0(int x)
-{
-    return x <= 0;
 }
