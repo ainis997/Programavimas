@@ -71,6 +71,8 @@ int main()
         {
             std::vector<StudentasBeGalutiniu> grupe;
             visu_stud_duomenu_generavimo_ivestis(grupe);
+            visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
+            break;
         }
         case 6:
         {

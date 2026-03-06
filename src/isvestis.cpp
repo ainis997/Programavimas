@@ -179,3 +179,49 @@ void isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vec
               << "Isvedimas baigtas."
               << '\n';
 }
+
+// ==========================================
+
+void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vector<StudentasBeGalutiniu> &grupe, Programos_laikai &t)
+{
+    if (grupe.empty())
+        return;
+
+    auto pr = std::chrono::high_resolution_clock::now();
+
+    std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
+
+    if (!ras_failas.is_open())
+    {
+        // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
+        std::cout << "Nepavyko atidaryti isvesties failo." << '\n';
+        return;
+    }
+
+    ras_failas
+        << std::left << std::setw(20) << "Vardas"
+        << std::left << std::setw(25) << "Pavarde";
+
+    for (int i = 0; i < grupe.at(0).pazymiai.size(); i++) // kiek pažymių bus pirmame masyve, tai tiek turi būti ir visuose kituose! (pagal dab. įvesties funkcijos įgyvendinimą)
+        ras_failas << std::left << std::setw(15) << "ND" + std::to_string(i + 1);
+    ras_failas << std::left << std::setw(20) << "Egz." << '\n';
+
+    for (const auto &A : grupe)
+    {
+        ras_failas
+            << std::left << std::setw(20) << A.vardas
+            << std::left << std::setw(25) << A.pavarde;
+        for (const int &paz : A.pazymiai)
+            ras_failas << std::left << std::setw(15) << paz;
+        ras_failas << std::left << std::setw(20) << A.egzo_rezas << '\n';
+    }
+
+    ras_failas.close();
+
+    auto pab = std::chrono::high_resolution_clock::now();
+    t.duomenu_isvedimas = pab - pr;
+
+    std::cout << '\n'
+              << "Isvedimas baigtas."
+              << '\n';
+}

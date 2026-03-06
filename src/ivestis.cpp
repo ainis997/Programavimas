@@ -217,9 +217,9 @@ void visu_stud_duomenu_generavimo_ivestis(std::vector<StudentasBeGalutiniu> &gru
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {
-            A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+            A.pazymiai.push_back(rand() % 10); // sugeneruoti sk. nuo 1 iki 10
         }
-        A.egzo_rezas = rand() % 11; // 0-10
+        A.egzo_rezas = rand() % 10; // 1-10
 
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
