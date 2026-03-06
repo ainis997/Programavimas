@@ -11,6 +11,17 @@
 std::ifstream skait_failo_paruosimas(std::string SK_FAILO_NUORODA)
 {
     std::string skait_failo_pav;
+    try
+    {
+        std::cout << "Ivesties failu aplankalo tekstiniai failai: ";
+        int ar_pavyko = system("powershell ls .\\ivesties_failai *.txt");
+        if (ar_pavyko != 0)
+            throw std::runtime_error("");
+    }
+    catch (...)
+    {
+        std::cout << "(Ivesties failu aplankalo tekstiniu failu nuskaityti nepavyko.)\n";
+    }
     std::string pilna_failo_nuoroda; // path + file name
     std::cout << "Iveskite ivesties failo pavadinima:\n";
     for (;;)
@@ -67,32 +78,6 @@ bool natur_skaiciaus_ivestis(int &sk, bool (*papild_salygu_netenkinimo_fja)(int)
 
             sk = temp_sk; // pagaliau priskiriam skaičiui vertę
             break;
-
-            // std::string ivestis;
-            // if (std::getline(std::cin, ivestis))
-            // {
-            //     std::istringstream sr(ivestis);
-            //     if (sr >> ivestis)
-            //     {
-            //         std::string perteklius;
-            //         if (sr >> perteklius) // programa nelūštų be šito (tsg paima pirmą elementą), bet tai tsg aiškumui
-            //             throw std::invalid_argument("Pertekline ivestis.");
-            //         size_t perskaitytu_simboliu_sk;
-            //         sk = std::stoi(ivestis, &perskaitytu_simboliu_sk); // 2-as parametras: tam, kad stoi galėtų kintamajan (pro rodyklę) įrašyt perskaitytų simbolių skaičių
-            //         if (perskaitytu_simboliu_sk != ivestis.length())   // tam, jeigu ivestu pvz. "7t" (pats std::stoi nesugaudo tokių!)
-            //             throw std::invalid_argument("Netinkama ivestis.");
-            //         if (sk <= 0)
-            //             throw std::domain_error("Netinkama ivestis.");
-            //         if (papild_salygu_netenkinimo_fja != nullptr)
-            //             if (papild_salygu_netenkinimo_fja(sk)) // jeigu netenkina įvesties skaičiaus tikrinimo sąlygos (pvz., yra <0 ar >10 (tuo atveju meta true!)), tai mesti errorą
-            //                 throw std::domain_error("Netinkama ivestis.");
-            //         break; // jeigu viršuj buvo errorų, šio kodo nepasieks; jeigu nebuvo - pasieks
-            //     }
-            //     else
-            //         throw std::invalid_argument("Neaptikta ivestis.");
-            // }
-            // else
-            //     throw std::invalid_argument("Neaptikta ivestis.");
         }
         catch (...)
         {
