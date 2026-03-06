@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iomanip>
 
-void isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vector<Studentas> &grupe, Programos_laikai &t)
+void isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -127,7 +127,8 @@ void isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vec
 
     auto pr = std::chrono::high_resolution_clock::now();
 
-    std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
+    std::ofstream ras_failas = ras_failo_paruosimas(RAS_FAILO_NUORODA);
+    // std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
 
     if (!ras_failas.is_open())
     {
@@ -182,14 +183,15 @@ void isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vec
 
 // ==========================================
 
-void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::string RAS_FAILO_PAV, std::vector<StudentasBeGalutiniu> &grupe, Programos_laikai &t)
+void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::vector<StudentasBeGalutiniu> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
 
     auto pr = std::chrono::high_resolution_clock::now();
 
-    std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
+    std::ofstream ras_failas = ras_failo_paruosimas(RAS_FAILO_NUORODA);
+    // std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
 
     if (!ras_failas.is_open())
     {

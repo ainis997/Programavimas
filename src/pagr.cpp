@@ -30,7 +30,7 @@ int main()
 
         const std::string SK_FAILO_NUORODA = "ivesties_failai/";   // root dir atžvilgiu
         const std::string RAS_FAILO_NUORODA = "isvesties_failai/"; // root dir atžvilgiu
-        const std::string RAS_FAILO_PAV = "studentu_isvestis.txt";
+        // const std::string RAS_FAILO_PAV = "studentu_isvestis.txt";
 
         Programos_laikai t;
 
@@ -42,7 +42,7 @@ int main()
             t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SK_FAILO_NUORODA, grupe, t);
-            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, grupe, t);
             auto pati_pab = std::chrono::high_resolution_clock::now();
             t.visa_trukme = pati_pab - pati_pradzia;
 
@@ -52,26 +52,26 @@ int main()
         case 2:
         {
             rank_ivestis(grupe);
-            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, grupe, t);
             break;
         }
         case 3:
         {
             misri_ivestis(grupe);
-            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, grupe, t);
             break;
         }
         case 4:
         {
             generuota_ivestis(grupe);
-            isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
+            isvestis(RAS_FAILO_NUORODA, grupe, t);
             break;
         }
         case 5:
         {
             std::vector<StudentasBeGalutiniu> grupe;
             visu_stud_duomenu_generavimo_ivestis(grupe);
-            visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
+            visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, grupe, t);
             break;
         }
         case 6:
