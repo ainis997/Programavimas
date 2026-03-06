@@ -20,6 +20,14 @@ struct Studentas
     void apsk_med();
 };
 
+struct StudentasBeGalutiniu
+{
+    std::string vardas = "Vardas";
+    std::string pavarde = "Pavarde";
+    std::vector<int> pazymiai;
+    int egzo_rezas = 0;
+};
+
 struct Programos_laikai
 {
     std::chrono::duration<double> duomenu_apdorojimas;

@@ -195,3 +195,70 @@ void generuota_ivestis(std::vector<Studentas> &grupe)
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
     }
 }
+
+void visu_stud_duomenu_generavimo_ivestis(std::vector<StudentasBeGalutiniu> &grupe)
+{
+    int min_iverciu_sk = 0;
+    std::string ivestis1;
+    std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+    natur_skaiciaus_ivestis(min_iverciu_sk, ar_sk_nedidesnis_uz_0); // perduodam kintamojo *referencą*
+
+    int reikiamas_studentu_sk = 0;
+    std::string ivestis2;
+    std::cout << "Iveskite, kiek norite sugeneruoti studentu: ";
+    natur_skaiciaus_ivestis(reikiamas_studentu_sk, ar_sk_nedidesnis_uz_0); // perduodam kintamojo *referencą*
+
+    for (int i = 0; i < reikiamas_studentu_sk; i++)
+    {
+        StudentasBeGalutiniu A;
+
+        A.vardas = "Vardas" + std::to_string(i + 1);
+        A.pavarde = "Pavarde" + std::to_string(i + 1);
+
+        for (int i = 0; i < min_iverciu_sk; i++)
+        {
+            A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+        }
+        A.egzo_rezas = rand() % 11; // 0-10
+
+        grupe.push_back(A);
+        A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+    }
+}
+
+// void generuota_skirstoma_pazymiu_ivestis(std::vector<Studentas> &geri, std::vector<Studentas> &blogi)
+// {
+//     int min_iverciu_sk = 0;
+//     std::string ivestis1;
+//     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
+//     natur_skaiciaus_ivestis(min_iverciu_sk, ar_sk_nedidesnis_uz_0); // perduodam kintamojo *referencą*
+
+//     int reikiamas_studentu_sk = 0;
+//     std::string ivestis2;
+//     std::cout << "Iveskite, kiek norite sugeneruoti studentu: ";
+//     natur_skaiciaus_ivestis(reikiamas_studentu_sk, ar_sk_nedidesnis_uz_0); // perduodam kintamojo *referencą*
+
+//     for (int i = 0; i < reikiamas_studentu_sk; i++)
+//     {
+//         Studentas A;
+
+//         A.vardas = "Vardas" + i+1;
+//         A.pavarde = "Pavarde" + i+1;
+
+//         for (int i = 0; i < min_iverciu_sk; i++)
+//         {
+//             A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+//         }
+//         A.egzo_rezas = rand() % 11; // 0-10
+
+//         A.apsk_vid();
+//         A.apsk_med();
+
+//         if (A.rezas_vid >= 5.0)
+//             geri.push_back(A);
+//         else if (A.rezas_vid < 5.0)
+//             blogi.push_back(A);
+
+//         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias
+//     }
+// }

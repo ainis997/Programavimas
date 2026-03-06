@@ -22,7 +22,7 @@ int main()
                   << "2 - ivesti duomenis ranka" << '\n'
                   << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
                   << "4 - sugeneruoti galutinius duomenis" << '\n'
-                  << "5 - sugeneruoti ir suskirstyti pazymiu duomenis" << '\n'
+                  << "5 - sugeneruoti visus studentu duomenis" << '\n'
                   << "6 - baigti darba" << '\n';
         natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5_6);
 
@@ -69,7 +69,8 @@ int main()
         }
         case 5:
         {
-            //
+            std::vector<StudentasBeGalutiniu> grupe;
+            visu_stud_duomenu_generavimo_ivestis(grupe);
         }
         case 6:
         {
