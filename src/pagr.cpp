@@ -39,10 +39,10 @@ int main()
         case 1:
         {
             // atstatom/nustatom nulin laikus
-            t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
+            // t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SK_FAILO_NUORODA, grupe, t);
-            isvestis(RAS_FAILO_NUORODA, grupe, t);
+            skirstoma_isvestis(RAS_FAILO_NUORODA, grupe, t);
             auto pati_pab = std::chrono::high_resolution_clock::now();
             t.visa_trukme = pati_pab - pati_pradzia;
 
@@ -70,16 +70,11 @@ int main()
         case 5:
         {
             std::vector<StudentasBeGalutiniu> grupe;
-            // auto pr = std::chrono::high_resolution_clock::now();
+            auto pr = std::chrono::high_resolution_clock::now();
             visu_stud_duomenu_generavimo_ivestis(grupe);
-            // auto pab = std::chrono::high_resolution_clock::now();
-            // std::chrono::duration<double> iv = pab - pr;
-            // pr = std::chrono::high_resolution_clock::now();
             visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, grupe, t);
-            // pab = std::chrono::high_resolution_clock::now();
-            // std::chrono::duration<double> isv = pab - pr;
-            // std::cout << "Ivesties laikas: " << iv.count() << '\n'
-            //          << "Isvesties laikas: " << isv.count() << '\n';
+            auto pab = std::chrono::high_resolution_clock::now();
+            // t.spausd_laikus();
             break;
         }
         case 6:

@@ -30,9 +30,11 @@ struct StudentasBeGalutiniu
 
 struct Programos_laikai
 {
-    std::chrono::duration<double> duomenu_apdorojimas;
+    std::chrono::duration<double> duomenu_nuskaitymas;
     std::chrono::duration<double> duomenu_rikiavimas;
-    std::chrono::duration<double> duomenu_isvedimas;
+    std::chrono::duration<double> studentu_skirstymas;
+    std::chrono::duration<double> geru_isvedimas;
+    std::chrono::duration<double> blogu_isvedimas;
     std::chrono::duration<double> visa_trukme;
     void spausd_laikus();
 };

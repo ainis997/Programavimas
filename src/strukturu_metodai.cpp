@@ -31,8 +31,10 @@ void Studentas::apsk_med()
 void Programos_laikai::spausd_laikus()
 {
     std::cout << '\n'
-              << "Failo duomenu apdorojimo trukme: " << duomenu_apdorojimas.count() << "s" << '\n'
+              << "Failo duomenu nuskaitymo trukme: " << duomenu_nuskaitymas.count() << "s" << '\n'
               << "Failo duomenu surikiavimo trukme: " << duomenu_rikiavimas.count() << "s" << '\n'
-              << "Failo duomenu isvedimo trukme: " << duomenu_isvedimas.count() << "s" << '\n'
+              << "Studentu suskirstymo i atskirus konteinerius trukme: " << studentu_skirstymas.count() << "s" << '\n'
+              << "Geru studentu isvedimo trukme: " << geru_isvedimas.count() << "s" << '\n'
+              << "Blogu studentu isvedimo trukme: " << blogu_isvedimas.count() << "s" << '\n'
               << "Visos programos trukme: " << visa_trukme.count() << "s" << '\n';
 }
