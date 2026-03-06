@@ -70,8 +70,16 @@ int main()
         case 5:
         {
             std::vector<StudentasBeGalutiniu> grupe;
+            // auto pr = std::chrono::high_resolution_clock::now();
             visu_stud_duomenu_generavimo_ivestis(grupe);
+            // auto pab = std::chrono::high_resolution_clock::now();
+            // std::chrono::duration<double> iv = pab - pr;
+            // pr = std::chrono::high_resolution_clock::now();
             visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, grupe, t);
+            // pab = std::chrono::high_resolution_clock::now();
+            // std::chrono::duration<double> isv = pab - pr;
+            // std::cout << "Ivesties laikas: " << iv.count() << '\n'
+            //          << "Isvesties laikas: " << isv.count() << '\n';
             break;
         }
         case 6:
