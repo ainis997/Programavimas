@@ -70,11 +70,9 @@ int main()
         case 5:
         {
             std::vector<StudentasBeGalutiniu> grupe;
-            auto pr = std::chrono::high_resolution_clock::now();
             visu_stud_duomenu_generavimo_ivestis(grupe);
-            visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, grupe, t);
-            auto pab = std::chrono::high_resolution_clock::now();
-            // t.spausd_laikus();
+            visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, grupe, t); // stwi mattauimai dateīnas poteikūsnas kērdan (be enwesennins)
+            std::cout << "Failo kurimo ir jo uzdarymo trukme: " << t.failo_generavimo_trukme.count() << "s" << '\n';
             break;
         }
         case 6:

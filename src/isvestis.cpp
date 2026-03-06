@@ -188,10 +188,7 @@ void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::v
     if (grupe.empty())
         return;
 
-    auto pr = std::chrono::high_resolution_clock::now();
-
     std::ofstream ras_failas = ras_failo_paruosimas(RAS_FAILO_NUORODA);
-    // std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
 
     if (!ras_failas.is_open())
     {
@@ -199,6 +196,8 @@ void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::v
         std::cout << "Nepavyko atidaryti isvesties failo." << '\n';
         return;
     }
+
+    auto pr = std::chrono::high_resolution_clock::now();
 
     ras_failas
         << std::left << std::setw(20) << "Vardas"
@@ -221,7 +220,7 @@ void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::v
     ras_failas.close();
 
     auto pab = std::chrono::high_resolution_clock::now();
-    // t.duomenu_isvedimas = pab - pr;
+    t.failo_generavimo_trukme = pab - pr;
 
     std::cout << '\n'
               << "Isvedimas baigtas."
