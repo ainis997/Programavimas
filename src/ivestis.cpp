@@ -52,6 +52,7 @@ void failo_ivestis(const std::string SK_FAILO_NUORODA, std::vector<Studentas> &g
     sk_failas.close();
     auto pab = std::chrono::high_resolution_clock::now();
     t.duomenu_nuskaitymas = pab - pr;
+    t.visa_trukme += t.duomenu_nuskaitymas;
 }
 
 void rank_ivestis(std::vector<Studentas> &grupe)

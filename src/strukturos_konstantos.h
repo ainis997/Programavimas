@@ -35,6 +35,7 @@ struct Programos_laikai
     std::chrono::duration<double> studentu_skirstymas;
     std::chrono::duration<double> geru_isvedimas;
     std::chrono::duration<double> blogu_isvedimas;
-    std::chrono::duration<double> visa_trukme;
+    std::chrono::duration<double> visa_trukme = std::chrono::milliseconds::zero();
+    std::chrono::duration<double> visa_trukme_su_ivestim = std::chrono::milliseconds::zero();
     void spausd_laikus();
 };

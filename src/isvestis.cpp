@@ -335,6 +335,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &g
 
         auto pab = std::chrono::high_resolution_clock::now();
         t.duomenu_rikiavimas = pab - pr;
+        t.visa_trukme += t.duomenu_rikiavimas;
     }
 
     // STUDENTŲ SKIRSTYMAS
@@ -366,12 +367,16 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &g
 
     auto pab = std::chrono::high_resolution_clock::now();
     t.studentu_skirstymas = pab - pr;
+    t.visa_trukme += t.studentu_skirstymas;
 
     std::cout << "Geru studentu isvedimas:\n";
     t.geru_isvedimas = spausdinimas(RAS_FAILO_NUORODA, galutinio_pasirinkimas, geri); // išspausdina ir td grąžina mum spausdinimo trukmę (be vartotojo įvesčių)
 
     std::cout << "Blogu studentu isvedimas:\n";
     t.blogu_isvedimas = spausdinimas(RAS_FAILO_NUORODA, galutinio_pasirinkimas, blogi);
+
+    t.visa_trukme += t.geru_isvedimas;
+    t.visa_trukme += t.blogu_isvedimas;
 
     std::cout << '\n'
               << "Isvedimas baigtas."
@@ -435,9 +440,9 @@ std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::s
         }
     }
 
-    auto pab = std::chrono::high_resolution_clock::now();
-
     ras_failas.close();
+
+    auto pab = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> isvedimo_trukme = pab - pr;
 

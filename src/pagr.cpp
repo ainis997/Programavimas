@@ -39,12 +39,12 @@ int main()
         case 1:
         {
             // atstatom/nustatom nulin laikus
-            // t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
+            t.duomenu_nuskaitymas = t.duomenu_rikiavimas = t.studentu_skirstymas = t.geru_isvedimas = t.blogu_isvedimas = t.visa_trukme = t.visa_trukme_su_ivestim = std::chrono::milliseconds::zero();
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SK_FAILO_NUORODA, grupe, t);
             skirstoma_isvestis(RAS_FAILO_NUORODA, grupe, t);
             auto pati_pab = std::chrono::high_resolution_clock::now();
-            t.visa_trukme = pati_pab - pati_pradzia;
+            t.visa_trukme_su_ivestim = pati_pab - pati_pradzia;
 
             t.spausd_laikus();
             break;
