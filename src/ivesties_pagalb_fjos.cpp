@@ -145,7 +145,7 @@ bool ar_sk_nedidesnis_uz_0(int x)
     return x <= 0;
 }
 
-bool ar_sk_nera_1_2_3_4_5(int x)
+bool ar_sk_nera_1_2_3_4_5_6(int x)
 {
-    return x != 1 && x != 2 && x != 3 && x != 4 && x != 5;
+    return x != 1 && x != 2 && x != 3 && x != 4 && x != 5 && x != 6;
 }

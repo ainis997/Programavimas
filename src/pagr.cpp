@@ -21,9 +21,10 @@ int main()
                   << "1 - ivesti duomenis is failo" << '\n'
                   << "2 - ivesti duomenis ranka" << '\n'
                   << "3 - ivesti duomenis, pazymius sugeneruoti" << '\n'
-                  << "4 - sugeneruoti duomenis" << '\n'
-                  << "5 - baigti darba" << '\n';
-        natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5);
+                  << "4 - sugeneruoti galutinius duomenis" << '\n'
+                  << "5 - sugeneruoti ir suskirstyti pazymiu duomenis" << '\n'
+                  << "6 - baigti darba" << '\n';
+        natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5_6);
 
         std::vector<Studentas> grupe;
 
@@ -67,6 +68,10 @@ int main()
             break;
         }
         case 5:
+        {
+            //
+        }
+        case 6:
         {
             return 0;
             break;
