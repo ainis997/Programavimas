@@ -4,37 +4,21 @@
 
 bool pagal_varda_did(Studentas &A, Studentas &B)
 {
-    // for (char &raide : A.vardas)
-    //     raide = std::tolower(raide);
-    // for (char &raide : B.vardas)
-    //     raide = std::tolower(raide);
     return A.vardas < B.vardas;
 }
 
 bool pagal_varda_maz(Studentas &A, Studentas &B)
 {
-    // for (char &raide : A.vardas)
-    //     raide = std::tolower(raide);
-    // for (char &raide : B.vardas)
-    //     raide = std::tolower(raide);
     return A.vardas > B.vardas;
 }
 
 bool pagal_pavarde_did(Studentas &A, Studentas &B)
 {
-    // for (char &raide : A.pavarde)
-    //     raide = std::tolower(raide);
-    // for (char &raide : B.pavarde)
-    //     raide = std::tolower(raide);
     return A.pavarde < B.pavarde;
 }
 
 bool pagal_pavarde_maz(Studentas &A, Studentas &B)
 {
-    // for (char &raide : A.pavarde)
-    //     raide = std::tolower(raide);
-    // for (char &raide : B.pavarde)
-    //     raide = std::tolower(raide);
     return A.pavarde > B.pavarde;
 }
 

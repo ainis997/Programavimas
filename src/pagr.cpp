@@ -8,13 +8,6 @@
 #include "isvestis.h"
 #include "ivesties_pagalb_fjos.h"
 
-// using std::std::cin;
-// using std::std::cout;
-// using std::left;
-// using std::right;
-// using std::std::string;
-// using std::std::vector;
-
 int main()
 {
     bool ar_failas_jau_apdorotas = false;
@@ -31,12 +24,6 @@ int main()
                   << "4 - sugeneruoti duomenis" << '\n'
                   << "5 - baigti darba" << '\n';
         natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5);
-        // while (!(std::cin >> eiga) || (eiga != 1 && eiga != 2 && eiga != 3 && eiga != 4 && eiga != 5))
-        // {
-        //     std::cout << "Pasirinkite, ka norite daryti [1/2/3/4/5]: ";
-        //     std::cin.clear();
-        //     std::cin.ignore(MAX_INT, '\n');
-        // }
 
         std::vector<Studentas> grupe;
 
@@ -52,12 +39,6 @@ int main()
         {
             // atstatom/nustatom nulin laikus
             t.duomenu_apdorojimas = t.duomenu_rikiavimas = t.duomenu_isvedimas = std::chrono::milliseconds::zero();
-
-            // std::string SKAIT_FAILO_PAV;
-            // std::cout << "Iveskite ivesties failo pavadinima:\n";
-            // std::cin.ignore(MAX_INT, '\n'); // ištrint įvestį iš buferio, jeigu iš ankstesnės įvesties kažkas jame liko
-            // std::getline(std::cin, SKAIT_FAILO_PAV);
-            // std::string SKAIT_FAILO_PAV = skait_failo_pav_gavimas();
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
             failo_ivestis(SK_FAILO_NUORODA, grupe, t);
             isvestis(RAS_FAILO_NUORODA, RAS_FAILO_PAV, grupe, t);
