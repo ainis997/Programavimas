@@ -337,17 +337,31 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &g
         t.duomenu_rikiavimas = pab - pr;
     }
 
+    // STUDENTŲ SKIRSTYMAS
     auto pr = std::chrono::high_resolution_clock::now();
 
     std::vector<Studentas> geri;
     std::vector<Studentas> blogi;
 
-    for (const auto &stud : grupe)
+    if (galutinio_pasirinkimas == "v")
     {
-        if (stud.rezas_vid >= 5.0)
-            geri.push_back(stud);
-        else
-            blogi.push_back(stud);
+        for (const auto &stud : grupe)
+        {
+            if (stud.rezas_vid >= 5.0)
+                geri.push_back(stud);
+            else
+                blogi.push_back(stud);
+        }
+    }
+    else if (galutinio_pasirinkimas == "m")
+    {
+        for (const auto &stud : grupe)
+        {
+            if (stud.rezas_med >= 5.0)
+                geri.push_back(stud);
+            else
+                blogi.push_back(stud);
+        }
     }
 
     auto pab = std::chrono::high_resolution_clock::now();
@@ -373,7 +387,7 @@ std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::s
     {
         // MEST AR PARODYT ERRORĄ, GAL IR SU TEMPLATE KLAIDŲ VALDYMO F-JA
         std::cout << "Nepavyko atidaryti isvesties failo." << '\n';
-        return;
+        return std::chrono::milliseconds::zero();
     }
 
     auto pr = std::chrono::high_resolution_clock::now();
