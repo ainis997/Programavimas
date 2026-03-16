@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
+#include <list>
 #include <algorithm>
 #include <iomanip>
 #include <limits>  // maksimaliai int reikšmei gauti

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <deque>
+#include <list>
 #include <algorithm>
 
 #include "strukturos_konstantos.h"

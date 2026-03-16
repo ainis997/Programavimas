@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <deque>
+#include <list>
 
 #include "strukturos_konstantos.h"
 

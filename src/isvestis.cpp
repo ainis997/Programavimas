@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
+#include <list>
 #include <algorithm>
 #include <fstream>
 #include <iomanip>

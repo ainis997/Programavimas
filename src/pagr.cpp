@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
+#include <list>
 #include <chrono>
 
 #include "strukturos_konstantos.h"

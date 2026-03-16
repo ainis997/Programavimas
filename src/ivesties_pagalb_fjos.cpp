@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
+#include <list>
 #include <sstream>
 #include <fstream>
 
