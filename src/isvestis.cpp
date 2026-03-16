@@ -205,7 +205,7 @@ void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, Contai
         << std::left << std::setw(20) << "Vardas"
         << std::left << std::setw(25) << "Pavarde";
 
-    for (int i = 0; i < grupe.at(0).pazymiai.size(); i++) // kiek pažymių bus pirmame masyve, tai tiek turi būti ir visuose kituose! (pagal dab. įvesties funkcijos įgyvendinimą)
+    for (int i = 0; i < grupe.front().pazymiai.size(); i++) // kiek pažymių bus pirmame masyve, tai tiek turi būti ir visuose kituose! (pagal dab. įvesties funkcijos įgyvendinimą)
         ras_failas << std::left << std::setw(15) << "ND" + std::to_string(i + 1);
     ras_failas << std::left << std::setw(20) << "Egz." << '\n';
 
@@ -314,24 +314,24 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         if (tvarka == "d")
         {
             if (rus == "vard")
-                std::sort(grupe.begin(), grupe.end(), pagal_varda_did);
+                stud_rikiavimas(grupe, pagal_varda_did);
             else if (rus == "pav")
-                std::sort(grupe.begin(), grupe.end(), pagal_pavarde_did);
+                stud_rikiavimas(grupe, pagal_pavarde_did);
             else if (rus == "vid")
-                std::sort(grupe.begin(), grupe.end(), pagal_vidurki_did);
+                stud_rikiavimas(grupe, pagal_vidurki_did);
             else if (rus == "med")
-                std::sort(grupe.begin(), grupe.end(), pagal_mediana_did);
+                stud_rikiavimas(grupe, pagal_mediana_did);
         }
         else if (tvarka == "m")
         {
             if (rus == "vard")
-                std::sort(grupe.begin(), grupe.end(), pagal_varda_maz);
+                stud_rikiavimas(grupe, pagal_varda_maz);
             else if (rus == "pav")
-                std::sort(grupe.begin(), grupe.end(), pagal_pavarde_maz);
+                stud_rikiavimas(grupe, pagal_pavarde_maz);
             else if (rus == "vid")
-                std::sort(grupe.begin(), grupe.end(), pagal_vidurki_maz);
+                stud_rikiavimas(grupe, pagal_vidurki_maz);
             else if (rus == "med")
-                std::sort(grupe.begin(), grupe.end(), pagal_mediana_maz);
+                stud_rikiavimas(grupe, pagal_mediana_maz);
         }
 
         auto pab = std::chrono::high_resolution_clock::now();

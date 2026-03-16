@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "strukturos_konstantos.h"
+#include "isvesties_pagalb_fjos.h" // void rikiavimas(...)
 
 void Studentas::apsk_vid()
 {
@@ -22,7 +23,7 @@ void Studentas::apsk_med()
         return;
     Container<int> visi_pazymiai = pazymiai;
     visi_pazymiai.push_back(egzo_rezas);
-    std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
+    rikiavimas(visi_pazymiai); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
     int visu_pazymiu_sk = visi_pazymiai.size();
     if (visu_pazymiu_sk % 2 != 0)
         rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];

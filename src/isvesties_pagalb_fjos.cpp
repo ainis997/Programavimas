@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>   // std::sort(...)
+#include <type_traits> // tipui patikrint (kintamojo tipui gauti)
 
 #include "klaidu_valdymas.h"
 #include "strukturos_konstantos.h"
@@ -39,6 +41,30 @@ std::ofstream ras_failo_paruosimas(std::string RAS_FAILO_NUORODA)
             ivesties_klaidos_valdymas();
         }
     }
+}
+
+// ===== Pagalbinė rikiavimą įvykdanti funkcija (rikiuoja skirtingai, priklausomai nuo to, ar rikiuojamas vector/deque, ar list) =====
+
+void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Studentas &, Studentas &))
+{
+    // jeigu Container = std::list
+    if constexpr (std::is_same_v<Container<Studentas>, std::list<Studentas>>) // be constexpr neveiktų (mestų errorą dėl Container'iui neturimų metodų);
+        grupe.sort(rikiavimo_taisykle);                                       // constexpr padaro, kad ta if sąlyga patikrinama ne per runtime, o dar kompiliuojant (taigi nemes erroro dėl pvz. neegzistuojančio .sort() metodo naudojimo vector/deque)
+    // jeigu Container = std::vector ar std::deque
+    else
+        std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
+}
+
+// be nurodytos specif taisyklės, bet kokiam tipui
+template <typename T>
+void rikiavimas(Container<T> &grupe)
+{
+    // jeigu Container = std::list
+    if constexpr (std::is_same_v<Container<T>, std::list<T>>)
+        grupe.sort();
+    // jeigu Container = std::vector ar std::deque
+    else
+        std::sort(grupe.begin(), grupe.end());
 }
 
 // ===== Studentu rikiavimo funkcijos =====

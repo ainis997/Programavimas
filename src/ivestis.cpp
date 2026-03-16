@@ -171,19 +171,22 @@ void generuota_ivestis(Container<Studentas> &grupe)
     natur_skaiciaus_ivestis(reikiamas_studentu_sk, ar_sk_nedidesnis_uz_0_arba_didesnis_uz_10mil); // perduodam kintamojo *referencą*
 
     // vardų generavimui
-    Container<std::string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
-    Container<std::string> vyr_pavardes = {"Butkus", "Zemaitis", "Rimkus", "Simkus", "Mazeika", "Petraitis", "Braziunas", "Sukys", "Simonis", "Bareikis"};
-    Container<std::string> mot_pavardes = {"Butkute", "Zemaityte", "Rimkute", "Simkute", "Mazeikaite", "Petraityte", "Braziunaite", "Sukyte", "Simonyte", "Bareikyte"};
+    // Container<std::string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
+    // Container<std::string> vyr_pavardes = {"Butkus", "Zemaitis", "Rimkus", "Simkus", "Mazeika", "Petraitis", "Braziunas", "Sukys", "Simonis", "Bareikis"};
+    // Container<std::string> mot_pavardes = {"Butkute", "Zemaityte", "Rimkute", "Simkute", "Mazeikaite", "Petraityte", "Braziunaite", "Sukyte", "Simonyte", "Bareikyte"};
 
     for (int i = 0; i < reikiamas_studentu_sk; i++)
     {
         Studentas A;
 
-        A.vardas = vardai[rand() % 20];
-        if (A.vardas.back() == 's')
-            A.pavarde = vyr_pavardes[rand() % 10];
-        else
-            A.pavarde = mot_pavardes[rand() % 10];
+        A.vardas = "Vardas" + std::to_string(i + 1);
+        A.pavarde = "Pavarde" + std::to_string(i + 1);
+
+        // A.vardas = vardai[rand() % 20];
+        // if (A.vardas.back() == 's')
+        //     A.pavarde = vyr_pavardes[rand() % 10];
+        // else
+        //     A.pavarde = mot_pavardes[rand() % 10];
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {

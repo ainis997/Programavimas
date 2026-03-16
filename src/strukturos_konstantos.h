@@ -9,7 +9,7 @@
 
 // KONTEINERIO TIPAS, KURĮ NAUDOJA VISA PROGRAMA (VECTOR / DEQUE / LIST)
 template <typename T>
-using Container = std::deque<T>;
+using Container = std::list<T>;
 
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
