@@ -40,13 +40,13 @@ struct Programos_laikai
     std::chrono::duration<double> duomenu_nuskaitymas;
     std::chrono::duration<double> duomenu_rikiavimas;
     std::chrono::duration<double> studentu_skirstymas;
-    std::chrono::duration<double> geru_isvedimas;
-    std::chrono::duration<double> blogu_isvedimas;
-    std::chrono::duration<double> visa_trukme = std::chrono::milliseconds::zero();
+    // std::chrono::duration<double> geru_isvedimas;
+    // std::chrono::duration<double> blogu_isvedimas;
+    // std::chrono::duration<double> visa_trukme = std::chrono::milliseconds::zero();
     std::chrono::duration<double> visa_trukme_su_ivestim = std::chrono::milliseconds::zero();
 
     // failo sukūrimo (su visais stud. duomenimis) laikai
-    std::chrono::duration<double> failo_generavimo_trukme = std::chrono::milliseconds::zero();
+    // std::chrono::duration<double> failo_generavimo_trukme = std::chrono::milliseconds::zero();
 
     // metodai
     void spausd_laikus();
