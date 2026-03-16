@@ -7,7 +7,7 @@
 
 #include "strukturos_konstantos.h"
 
-void failo_ivestis(std::string SK_FAILO_NUORODA, Container<Studentas> &grupe, Programos_laikai &t);
+void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUORODA,*/ Container<Studentas> &grupe, Programos_laikai &t);
 void rank_ivestis(Container<Studentas> &grupe);
 void misri_ivestis(Container<Studentas> &grupe);
 void generuota_ivestis(Container<Studentas> &grupe);

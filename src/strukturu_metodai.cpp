@@ -48,5 +48,5 @@ void Programos_laikai::spausd_laikus()
               //   << "Geru studentu isvedimo trukme: " << geru_isvedimas.count() << "s" << '\n'
               //   << "Blogu studentu isvedimo trukme: " << blogu_isvedimas.count() << "s" << '\n'
               //   << "Programos trukme: " << visa_trukme.count() << "s" << '\n'
-              << "Programos trukme (su ivesties tarpais): " << visa_trukme_su_ivestim.count() << "s" << '\n';
+              << "Visa programos trukme: " << visa_trukme_su_ivestim.count() << "s" << '\n';
 }

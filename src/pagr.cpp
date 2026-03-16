@@ -4,6 +4,7 @@
 #include <deque>
 #include <list>
 #include <chrono>
+#include <fstream> // std::ifstream'ui
 
 #include "strukturos_konstantos.h"
 #include "ivestis.h"
@@ -42,8 +43,9 @@ int main()
         {
             // atstatom/nustatom nulin laikus
             t.duomenu_nuskaitymas = t.duomenu_rikiavimas = t.studentu_skirstymas = t.visa_trukme_su_ivestim = std::chrono::milliseconds::zero();
+            std::ifstream sk_failas = skait_failo_paruosimas(SK_FAILO_NUORODA);
             auto pati_pradzia = std::chrono::high_resolution_clock::now();
-            failo_ivestis(SK_FAILO_NUORODA, grupe, t);
+            failo_ivestis(sk_failas, /*SK_FAILO_NUORODA,*/ grupe, t);
             skirstoma_isvestis(RAS_FAILO_NUORODA, grupe, t);
             auto pati_pab = std::chrono::high_resolution_clock::now();
             t.visa_trukme_su_ivestim = pati_pab - pati_pradzia;
