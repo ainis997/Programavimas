@@ -55,17 +55,18 @@ void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Stu
         std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
 }
 
-// be nurodytos specif taisyklės, bet kokiam tipui
-template <typename T>
-void rikiavimas(Container<T> &grupe)
-{
-    // jeigu Container = std::list
-    if constexpr (std::is_same_v<Container<T>, std::list<T>>)
-        grupe.sort();
-    // jeigu Container = std::vector ar std::deque
-    else
-        std::sort(grupe.begin(), grupe.end());
-}
+// vvv PERKELTA HEADER FAILAN vvv
+// // be nurodytos specif taisyklės, bet kokiam tipui
+// template <typename T>
+// void rikiavimas(Container<T> &grupe)
+// {
+//     // jeigu Container = std::list
+//     if constexpr (std::is_same_v<Container<T>, std::list<T>>)
+//         grupe.sort();
+//     // jeigu Container = std::vector ar std::deque
+//     else
+//         std::sort(grupe.begin(), grupe.end());
+// }
 
 // ===== Studentu rikiavimo funkcijos =====
 

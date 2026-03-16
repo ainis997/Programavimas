@@ -103,24 +103,24 @@ void isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &grupe, Progra
         if (tvarka == "d")
         {
             if (rus == "vard")
-                std::sort(grupe.begin(), grupe.end(), pagal_varda_did);
+                stud_rikiavimas(grupe, pagal_varda_did);
             else if (rus == "pav")
-                std::sort(grupe.begin(), grupe.end(), pagal_pavarde_did);
+                stud_rikiavimas(grupe, pagal_pavarde_did);
             else if (rus == "vid")
-                std::sort(grupe.begin(), grupe.end(), pagal_vidurki_did);
+                stud_rikiavimas(grupe, pagal_vidurki_did);
             else if (rus == "med")
-                std::sort(grupe.begin(), grupe.end(), pagal_mediana_did);
+                stud_rikiavimas(grupe, pagal_mediana_did);
         }
         else if (tvarka == "m")
         {
             if (rus == "vard")
-                std::sort(grupe.begin(), grupe.end(), pagal_varda_maz);
+                stud_rikiavimas(grupe, pagal_varda_maz);
             else if (rus == "pav")
-                std::sort(grupe.begin(), grupe.end(), pagal_pavarde_maz);
+                stud_rikiavimas(grupe, pagal_pavarde_maz);
             else if (rus == "vid")
-                std::sort(grupe.begin(), grupe.end(), pagal_vidurki_maz);
+                stud_rikiavimas(grupe, pagal_vidurki_maz);
             else if (rus == "med")
-                std::sort(grupe.begin(), grupe.end(), pagal_mediana_maz);
+                stud_rikiavimas(grupe, pagal_mediana_maz);
         }
 
         auto pab = std::chrono::high_resolution_clock::now();

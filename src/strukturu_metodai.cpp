@@ -25,10 +25,18 @@ void Studentas::apsk_med()
     visi_pazymiai.push_back(egzo_rezas);
     rikiavimas(visi_pazymiai); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
     int visu_pazymiu_sk = visi_pazymiai.size();
+    // vidurinės(-ių) reikšmės(-ių) radimas UNIVERSALIU būdu (tinka ir vector, ir deque, ir list)
+    auto it = visi_pazymiai.begin();
     if (visu_pazymiu_sk % 2 != 0)
-        rezas_med = visi_pazymiai[visu_pazymiu_sk / 2];
+    {
+        rezas_med = *std::next(it, visu_pazymiu_sk / 2);
+    }
     else
-        rezas_med = (visi_pazymiai[(visu_pazymiu_sk / 2) - 1] + visi_pazymiai[visu_pazymiu_sk / 2]) / 2.0;
+    {
+        auto vid1 = std::next(it, (visu_pazymiu_sk / 2) - 1);
+        auto vid2 = std::next(vid1, 1); // pastumiam iteratorių dar per vieną, kad gautume antrąją viduriniąją reikšmę
+        rezas_med = (*vid1 + *vid2) / 2.0;
+    }
 }
 
 void Programos_laikai::spausd_laikus()
