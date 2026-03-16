@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iomanip>
 
-void isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &grupe, Programos_laikai &t)
+void isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -183,7 +183,7 @@ void isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &grupe, Prog
 
 // ==========================================
 
-void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::vector<StudentasBeGalutiniu> &grupe, Programos_laikai &t)
+void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, Container<StudentasBeGalutiniu> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -229,7 +229,7 @@ void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, std::v
 
 // =====================================
 
-void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &grupe, Programos_laikai &t)
+void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -340,8 +340,8 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &g
     // STUDENTŲ SKIRSTYMAS
     auto pr = std::chrono::high_resolution_clock::now();
 
-    std::vector<Studentas> geri;
-    std::vector<Studentas> blogi;
+    Container<Studentas> geri;
+    Container<Studentas> blogi;
 
     if (galutinio_pasirinkimas == "v")
     {
@@ -382,7 +382,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, std::vector<Studentas> &g
               << '\n';
 }
 
-std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::string galutinio_pasirinkimas, std::vector<Studentas> &grupe)
+std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::string galutinio_pasirinkimas, Container<Studentas> &grupe)
 {
     std::ofstream ras_failas = ras_failo_paruosimas(RAS_FAILO_NUORODA);
     // std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);

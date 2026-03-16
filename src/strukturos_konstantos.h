@@ -5,6 +5,10 @@
 #include <chrono>
 #include <limits> // maksimaliai int reikšmei gauti
 
+// KONTEINERIO TIPAS, KURĮ NAUDOJA VISA PROGRAMA (VECTOR / DEQUE / LIST)
+template <typename T>
+using Container = std::vector<T>;
+
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
 
@@ -12,7 +16,7 @@ struct Studentas
 {
     std::string vardas = "Vardas";
     std::string pavarde = "Pavarde";
-    std::vector<int> pazymiai;
+    Container<int> pazymiai;
     int egzo_rezas = 0;
     double rezas_vid = 0;
     double rezas_med = 0;
@@ -24,7 +28,7 @@ struct StudentasBeGalutiniu
 {
     std::string vardas = "Vardas";
     std::string pavarde = "Pavarde";
-    std::vector<int> pazymiai;
+    Container<int> pazymiai;
     int egzo_rezas = 0;
 };
 

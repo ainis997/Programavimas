@@ -14,7 +14,7 @@
 #include "strukturos_konstantos.h"
 #include "klaidu_valdymas.h"
 
-void failo_ivestis(const std::string SK_FAILO_NUORODA, std::vector<Studentas> &grupe, Programos_laikai &t)
+void failo_ivestis(const std::string SK_FAILO_NUORODA, Container<Studentas> &grupe, Programos_laikai &t)
 {
     std::ifstream sk_failas = skait_failo_paruosimas(SK_FAILO_NUORODA);
 
@@ -55,7 +55,7 @@ void failo_ivestis(const std::string SK_FAILO_NUORODA, std::vector<Studentas> &g
     t.visa_trukme += t.duomenu_nuskaitymas;
 }
 
-void rank_ivestis(std::vector<Studentas> &grupe)
+void rank_ivestis(Container<Studentas> &grupe)
 {
     int min_iverciu_sk;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
@@ -125,7 +125,7 @@ void rank_ivestis(std::vector<Studentas> &grupe)
 
 // ================
 
-void misri_ivestis(std::vector<Studentas> &grupe)
+void misri_ivestis(Container<Studentas> &grupe)
 {
     int min_iverciu_sk = 0;
     std::string ivestis3;
@@ -156,7 +156,7 @@ void misri_ivestis(std::vector<Studentas> &grupe)
     }
 }
 
-void generuota_ivestis(std::vector<Studentas> &grupe)
+void generuota_ivestis(Container<Studentas> &grupe)
 {
     int min_iverciu_sk = 0;
     std::string ivestis1;
@@ -169,9 +169,9 @@ void generuota_ivestis(std::vector<Studentas> &grupe)
     natur_skaiciaus_ivestis(reikiamas_studentu_sk, ar_sk_nedidesnis_uz_0_arba_didesnis_uz_10mil); // perduodam kintamojo *referencą*
 
     // vardų generavimui
-    std::vector<std::string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
-    std::vector<std::string> vyr_pavardes = {"Butkus", "Zemaitis", "Rimkus", "Simkus", "Mazeika", "Petraitis", "Braziunas", "Sukys", "Simonis", "Bareikis"};
-    std::vector<std::string> mot_pavardes = {"Butkute", "Zemaityte", "Rimkute", "Simkute", "Mazeikaite", "Petraityte", "Braziunaite", "Sukyte", "Simonyte", "Bareikyte"};
+    Container<std::string> vardai = {"Jonas", "Lina", "Lukas", "Egle", "Marius", "Migle", "Azuolas", "Aiste", "Tomas", "Ieva", "Mindaugas", "Austeja", "Vytautas", "Saule", "Rimvydas", "Gabija", "Povilas", "Lukne", "Audrius", "Ugne"};
+    Container<std::string> vyr_pavardes = {"Butkus", "Zemaitis", "Rimkus", "Simkus", "Mazeika", "Petraitis", "Braziunas", "Sukys", "Simonis", "Bareikis"};
+    Container<std::string> mot_pavardes = {"Butkute", "Zemaityte", "Rimkute", "Simkute", "Mazeikaite", "Petraityte", "Braziunaite", "Sukyte", "Simonyte", "Bareikyte"};
 
     for (int i = 0; i < reikiamas_studentu_sk; i++)
     {
@@ -197,7 +197,7 @@ void generuota_ivestis(std::vector<Studentas> &grupe)
     }
 }
 
-void visu_stud_duomenu_generavimo_ivestis(std::vector<StudentasBeGalutiniu> &grupe)
+void visu_stud_duomenu_generavimo_ivestis(Container<StudentasBeGalutiniu> &grupe)
 {
     int min_iverciu_sk = 0;
     std::string ivestis1;

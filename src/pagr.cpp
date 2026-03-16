@@ -26,7 +26,7 @@ int main()
                   << "6 - baigti darba" << '\n';
         natur_skaiciaus_ivestis(eiga, ar_sk_nera_1_2_3_4_5_6);
 
-        std::vector<Studentas> grupe;
+        Container<Studentas> grupe;
 
         const std::string SK_FAILO_NUORODA = "ivesties_failai/";   // root dir atžvilgiu
         const std::string RAS_FAILO_NUORODA = "isvesties_failai/"; // root dir atžvilgiu
@@ -69,7 +69,7 @@ int main()
         }
         case 5:
         {
-            std::vector<StudentasBeGalutiniu> grupe;
+            Container<StudentasBeGalutiniu> grupe;
             visu_stud_duomenu_generavimo_ivestis(grupe);
             visu_stud_duomenu_generavimo_isvestis(RAS_FAILO_NUORODA, grupe, t); // stwi mattauimai dateīnas poteikūsnas kērdan (be enwesennins)
             std::cout << "Failo kurimo ir jo uzdarymo trukme: " << t.failo_generavimo_trukme.count() << "s" << '\n';

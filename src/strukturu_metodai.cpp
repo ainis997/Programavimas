@@ -18,7 +18,7 @@ void Studentas::apsk_med()
 {
     if (pazymiai.size() == 0)
         return;
-    std::vector<int> visi_pazymiai = pazymiai;
+    Container<int> visi_pazymiai = pazymiai;
     visi_pazymiai.push_back(egzo_rezas);
     std::sort(visi_pazymiai.begin(), visi_pazymiai.end()); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
     int visu_pazymiu_sk = visi_pazymiai.size();
