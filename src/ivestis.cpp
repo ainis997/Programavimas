@@ -24,9 +24,11 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
 
     std::string sk_failo_eil;
 
+    std::istringstream srautas; // eilutės įvesties ("skaitymo") srautas
     while (std::getline(sk_failas, sk_failo_eil))
     {
-        std::istringstream srautas(sk_failo_eil); // eilutės įvesties ("skaitymo") srautas
+        srautas.clear(); // išvalo srautą
+        srautas.str(sk_failo_eil);
 
         Studentas A;
 
@@ -47,7 +49,7 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
         A.apsk_vid();
         A.apsk_med();
 
-        grupe.push_back(A);
+        grupe.push_back(std::move(A)); // std::move(A) — perkelia, o ne kopijuoja duomenį!
         A.pazymiai.clear();
     }
 

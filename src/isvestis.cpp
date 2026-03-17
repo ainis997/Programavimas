@@ -348,24 +348,50 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     Container<Studentas> geri;
     Container<Studentas> blogi;
 
-    if (galutinio_pasirinkimas == "v")
+    // list
+    if constexpr (std::is_same_v<Container<Studentas>, std::list<Studentas>>)
     {
-        for (const auto &stud : grupe)
+        auto it = grupe.begin();
+        while (it != grupe.end())
         {
-            if (stud.rezas_vid >= 5.0)
-                geri.push_back(stud);
-            else
-                blogi.push_back(stud);
+            if (galutinio_pasirinkimas == "v")
+            {
+                if (it->rezas_vid >= 5.0)
+                    geri.splice(geri.end(), grupe, it++); // splice — paima elementą (mazgą) iš std::list grupe (*it), ir PERKELIA (ne kopijuoja!!) jį į std::list geri (std::list grupe šio elemento nebelieka!!)
+                else
+                    blogi.splice(blogi.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
+            }
+            else if (galutinio_pasirinkimas == "m")
+            {
+                if (it->rezas_med >= 5.0)
+                    geri.splice(geri.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
+                else
+                    blogi.splice(blogi.end(), grupe, it++);
+            }
         }
     }
-    else if (galutinio_pasirinkimas == "m")
+    // vector / deque
+    else
     {
-        for (const auto &stud : grupe)
+        if (galutinio_pasirinkimas == "v")
         {
-            if (stud.rezas_med >= 5.0)
-                geri.push_back(stud);
-            else
-                blogi.push_back(stud);
+            for (const auto &stud : grupe)
+            {
+                if (stud.rezas_vid >= 5.0)
+                    geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
+                else
+                    blogi.push_back(std::move(stud));
+            }
+        }
+        else if (galutinio_pasirinkimas == "m")
+        {
+            for (const auto &stud : grupe)
+            {
+                if (stud.rezas_med >= 5.0)
+                    geri.push_back(std::move(stud));
+                else
+                    blogi.push_back(std::move(stud));
+            }
         }
     }
 
@@ -378,6 +404,8 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
 
     // std::cout << "Blogu studentu isvedimas:\n";
     spausdinimas("blogi.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, blogi);
+
+    grupe.clear();
 
     // t.visa_trukme += t.geru_isvedimas;
     // t.visa_trukme += t.blogu_isvedimas;
