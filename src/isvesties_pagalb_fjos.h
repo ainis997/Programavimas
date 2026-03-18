@@ -9,14 +9,13 @@ void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Stu
 // APRAŠAS PERKELTAS ČIA, NES TEMPLATE FUNKCIJA (.cpp failan įdėjus — neveikia)
 // be nurodytos specif taisyklės, bet kokiam tipui
 template <typename T>
-void rikiavimas(Container<T> &grupe)
+void rikiavimas(Container<T> &konteineris)
 {
-    // jeigu Container = std::list
-    if constexpr (std::is_same_v<Container<T>, std::list<T>>)
-        grupe.sort();
-    // jeigu Container = std::vector ar std::deque
-    else
-        std::sort(grupe.begin(), grupe.end());
+    // LIST
+    // konteineris.sort();
+
+    // VECTOR / DEQUE
+    std::sort(konteineris.begin(), konteineris.end());
 }
 
 bool pagal_varda_did(Studentas &A, Studentas &B);

@@ -47,12 +47,11 @@ std::ofstream ras_failo_paruosimas(std::string RAS_FAILO_NUORODA)
 
 void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Studentas &, Studentas &))
 {
-    // jeigu Container = std::list
-    if constexpr (std::is_same_v<Container<Studentas>, std::list<Studentas>>) // be constexpr neveiktų (mestų errorą dėl Container'iui neturimų metodų);
-        grupe.sort(rikiavimo_taisykle);                                       // constexpr padaro, kad ta if sąlyga patikrinama ne per runtime, o dar kompiliuojant (taigi nemes erroro dėl pvz. neegzistuojančio .sort() metodo naudojimo vector/deque)
-    // jeigu Container = std::vector ar std::deque
-    else
-        std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
+    // LIST
+    // grupe.sort(rikiavimo_taisykle);
+
+    // VECTOR / DEQUE
+    std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
 }
 
 // vvv PERKELTA HEADER FAILAN vvv

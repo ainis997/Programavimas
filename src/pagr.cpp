@@ -5,6 +5,7 @@
 #include <list>
 #include <chrono>
 #include <fstream> // std::ifstream'ui
+#include <typeinfo>
 
 #include "strukturos_konstantos.h"
 #include "ivestis.h"
@@ -41,6 +42,7 @@ int main()
         {
         case 1:
         {
+            std::cout << "Naudojamas konteineris: " << typeid(grupe).name() << std::endl;
             // atstatom/nustatom nulin laikus
             t.duomenu_nuskaitymas = t.duomenu_rikiavimas = t.studentu_skirstymas = t.visa_trukme_su_ivestim = std::chrono::milliseconds::zero();
             std::ifstream sk_failas = skait_failo_paruosimas(SK_FAILO_NUORODA);
