@@ -27,8 +27,8 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
     std::istringstream srautas; // eilutės įvesties ("skaitymo") srautas
     while (std::getline(sk_failas, sk_failo_eil))
     {
-        srautas.clear(); // išvalo srautą
-        srautas.str(sk_failo_eil);
+        srautas.clear();           // išvalo srautą (išvalo nuo praeitos iteracijos likusį statusą); be šito, skaitytų tik pirmą eilutę iš viso failo! (neveiktų)
+        srautas.str(sk_failo_eil); // įstato naują stringą (eilutę) srautan
 
         Studentas A;
 
@@ -38,7 +38,7 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
         int temp; // laikinas kintamasis pažymių perdavimui
         while (srautas >> temp)
         {
-            A.pazymiai.push_back(temp);
+            A.pazymiai.push_back(std::move(temp));
         }
 
         if (A.pazymiai.empty()) // jeigu pažymių vektorius gautųsi tuščias, tai pereit (continue) prie kitos iteracijos
