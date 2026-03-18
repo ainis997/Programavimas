@@ -312,7 +312,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         //     }
         // }
 
-        std::cout << "DUOMENU RIKIAVIMAS PRADETAS\n";
+        // std::cout << "DUOMENU RIKIAVIMAS PRADETAS\n";
         auto pr = std::chrono::high_resolution_clock::now();
 
         if (tvarka == "d")
@@ -341,11 +341,11 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         auto pab = std::chrono::high_resolution_clock::now();
         t.duomenu_rikiavimas = pab - pr;
         // t.visa_trukme += t.duomenu_rikiavimas;
-        std::cout << "DUOMENU RIKIAVIMAS BAIGTAS\n\n";
+        // std::cout << "DUOMENU RIKIAVIMAS BAIGTAS\n\n";
     }
 
     // STUDENTŲ SKIRSTYMAS
-    std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
+    // std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
     auto pr = std::chrono::high_resolution_clock::now();
 
     Container<Studentas> geri;
