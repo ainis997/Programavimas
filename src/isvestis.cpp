@@ -408,20 +408,20 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     auto pab = std::chrono::high_resolution_clock::now();
     t.studentu_skirstymas = pab - pr;
     // t.visa_trukme += t.studentu_skirstymas;
-    std::cout << "STUDENTU SKIRSTYMAS BAIGTAS\n\n";
+    // std::cout << "STUDENTU SKIRSTYMAS BAIGTAS\n\n";
 
-    std::cout << "GERU SPAUSDINIMAS PRADETAS\n";
+    // std::cout << "GERU SPAUSDINIMAS PRADETAS\n";
     // std::cout << "Geru studentu isvedimas:\n";
     spausdinimas("geri.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, geri); // išspausdina ir td grąžina mum spausdinimo trukmę (be vartotojo įvesčių)
-    std::cout << "GERU SPAUSDINIMAS BAIGTAS\n\n";
+    // std::cout << "GERU SPAUSDINIMAS BAIGTAS\n\n";
 
-    std::cout << "BLOGU SPAUSDINIMAS PRADETAS\n";
+    // std::cout << "BLOGU SPAUSDINIMAS PRADETAS\n";
     // std::cout << "Blogu studentu isvedimas:\n";
     spausdinimas("blogi.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, blogi);
-    std::cout << "BLOGU SPAUSDINIMAS BAIGTAS\n\n";
+    // std::cout << "BLOGU SPAUSDINIMAS BAIGTAS\n\n";
 
     grupe.clear();
-    std::cout << "GRUPES KONTEINERIS ISVALYTAS\n\n";
+    // std::cout << "GRUPES KONTEINERIS ISVALYTAS\n\n";
 
     // t.visa_trukme += t.geru_isvedimas;
     // t.visa_trukme += t.blogu_isvedimas;
