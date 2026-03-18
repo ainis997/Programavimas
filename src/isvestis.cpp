@@ -353,55 +353,34 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
 
     // VECTOR / DEQUE
 
-    // if (galutinio_pasirinkimas == "v")
-    // {
-    //     while (!grupe.empty())
-    //     {
-    //         Studentas &stud = grupe.back();
-    //         if (stud.rezas_vid >= 5.0)
-    //             geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
-    //         else
-    //             blogi.push_back(std::move(stud));
-    //         grupe.pop_back();
-    //         if (grupe.size() % 1000000 == 0)
-    //             grupe.shrink_to_fit();
-    //     }
-    // }
-    // else if (galutinio_pasirinkimas == "m")
-    // {
-    //     while (!grupe.empty())
-    //     {
-    //         Studentas &stud = grupe.back();
-    //         if (stud.rezas_med >= 5.0)
-    //             geri.push_back(std::move(stud));
-    //         else
-    //             blogi.push_back(std::move(stud));
-    //         grupe.pop_back();
-    //         if (grupe.size() % 1000000 == 0)
-    //             grupe.shrink_to_fit();
-    //     }
-    // }
-
-    // LIST
-
-    auto it = grupe.begin();
-    while (it != grupe.end())
+    if (galutinio_pasirinkimas == "v")
     {
-        if (galutinio_pasirinkimas == "v")
+        while (!grupe.empty())
         {
-            if (it->rezas_vid >= 5.0)
-                geri.splice(geri.end(), grupe, it++); // splice — paima elementą (mazgą) iš std::list grupe (*it), ir PERKELIA (ne kopijuoja!!) jį į std::list geri (std::list grupe šio elemento nebelieka!!)
+            Studentas &stud = grupe.back();
+            if (stud.rezas_vid >= 5.0)
+                geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
             else
-                blogi.splice(blogi.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
-            // atmintis licnai liuosint neraik, bo ir tai liuosyjas
+                blogi.push_back(std::move(stud));
+            grupe.pop_back();
+            // dekui/vektoriui (listas pats shrinkinasi)
+            // if (grupe.size() % 1000000 == 0)
+            //     grupe.shrink_to_fit();
         }
-        else if (galutinio_pasirinkimas == "m")
+    }
+    else if (galutinio_pasirinkimas == "m")
+    {
+        while (!grupe.empty())
         {
-            if (it->rezas_med >= 5.0)
-                geri.splice(geri.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
+            Studentas &stud = grupe.back();
+            if (stud.rezas_med >= 5.0)
+                geri.push_back(std::move(stud));
             else
-                blogi.splice(blogi.end(), grupe, it++);
-            // atmintis licnai liuosint neraik, bo ir tai liuosyjas
+                blogi.push_back(std::move(stud));
+            grupe.pop_back();
+            // dekui/vektoriui (listas pats shrinkinasi)
+            // if (grupe.size() % 1000000 == 0)
+            //     grupe.shrink_to_fit();
         }
     }
 
