@@ -21,7 +21,7 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
 {
     // std::ifstream sk_failas = skait_failo_paruosimas(SK_FAILO_NUORODA);
 
-    // std::cout << "FAILO NUSKAITYMAS PRADETAS\n";
+    std::cout << "FAILO NUSKAITYMAS PRADETAS\n";
     auto pr = std::chrono::high_resolution_clock::now(); // matuojam nuo čia, nes skait_failo_paruosimas turi įvesties
 
     std::string sk_failo_eil;
@@ -59,7 +59,7 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
     auto pab = std::chrono::high_resolution_clock::now();
     t.duomenu_nuskaitymas = pab - pr;
     // t.visa_trukme += t.duomenu_nuskaitymas;
-    // std::cout << "FAILO NUSKAITYMAS BAIGTAS\n\n";
+    std::cout << "FAILO NUSKAITYMAS BAIGTAS\n\n";
 }
 
 void rank_ivestis(Container<Studentas> &grupe)
@@ -115,9 +115,11 @@ void rank_ivestis(Container<Studentas> &grupe)
         }
 
         std::cout << "Iveskite egzamino vertinima: ";
-        int temp_rezas = static_cast<int>(A.egzo_rezas);
-        natur_skaiciaus_ivestis(temp_rezas, ar_sk_ne_tarp_0_ir_10); // ŠI FUNKCIJA PRIIMA INT, O MŪSŲ PAŽYMIAI YRA UINT8_T (dėl to reik konvertavimo)
-        A.egzo_rezas = static_cast<uint8_t>(temp_rezas);
+        // int temp_rezas = static_cast<int>(A.egzo_rezas);
+        // natur_skaiciaus_ivestis(temp_rezas, ar_sk_ne_tarp_0_ir_10); // ŠI FUNKCIJA PRIIMA INT, O MŪSŲ PAŽYMIAI YRA UINT8_T (dėl to reik konvertavimo)
+        // A.egzo_rezas = static_cast<uint8_t>(temp_rezas);
+
+        natur_skaiciaus_ivestis(A.egzo_rezas, ar_sk_ne_tarp_0_ir_10);
 
         if (A.pazymiai.size() < min_iverciu_sk)
         {

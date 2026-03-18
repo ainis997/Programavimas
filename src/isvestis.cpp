@@ -312,7 +312,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         //     }
         // }
 
-        // std::cout << "DUOMENU RIKIAVIMAS PRADETAS\n";
+        std::cout << "DUOMENU RIKIAVIMAS PRADETAS\n";
         auto pr = std::chrono::high_resolution_clock::now();
 
         if (tvarka == "d")
@@ -341,11 +341,11 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         auto pab = std::chrono::high_resolution_clock::now();
         t.duomenu_rikiavimas = pab - pr;
         // t.visa_trukme += t.duomenu_rikiavimas;
-        // std::cout << "DUOMENU RIKIAVIMAS BAIGTAS\n\n";
+        std::cout << "DUOMENU RIKIAVIMAS BAIGTAS\n\n";
     }
 
     // STUDENTŲ SKIRSTYMAS
-    // std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
+    std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
     auto pr = std::chrono::high_resolution_clock::now();
 
     Container<Studentas> geri;
@@ -353,73 +353,75 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
 
     // VECTOR / DEQUE
 
-    if (galutinio_pasirinkimas == "v")
-    {
-        for (auto it = grupe.rbegin(); it != grupe.rend(); ++it)
-        {
-            if (it->rezas_vid >= 5.0)
-                geri.push_back(std::move(*it)); // std::move(stud) — perkelia, o ne kopijuoja!
-            else
-                blogi.push_back(std::move(*it));
-            grupe.pop_back();
-            if (grupe.size() % 10000 == 0)
-                grupe.shrink_to_fit();
-        }
-    }
-    else if (galutinio_pasirinkimas == "m")
-    {
-        for (auto it = grupe.rbegin(); it != grupe.rend(); ++it)
-        {
-            if (it->rezas_med >= 5.0)
-                geri.push_back(std::move(*it));
-            else
-                blogi.push_back(std::move(*it));
-            grupe.pop_back();
-            if (grupe.size() % 10000 == 0)
-                grupe.shrink_to_fit();
-        }
-    }
+    // if (galutinio_pasirinkimas == "v")
+    // {
+    //     while (!grupe.empty())
+    //     {
+    //         Studentas &stud = grupe.back();
+    //         if (stud.rezas_vid >= 5.0)
+    //             geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
+    //         else
+    //             blogi.push_back(std::move(stud));
+    //         grupe.pop_back();
+    //         if (grupe.size() % 1000000 == 0)
+    //             grupe.shrink_to_fit();
+    //     }
+    // }
+    // else if (galutinio_pasirinkimas == "m")
+    // {
+    //     while (!grupe.empty())
+    //     {
+    //         Studentas &stud = grupe.back();
+    //         if (stud.rezas_med >= 5.0)
+    //             geri.push_back(std::move(stud));
+    //         else
+    //             blogi.push_back(std::move(stud));
+    //         grupe.pop_back();
+    //         if (grupe.size() % 1000000 == 0)
+    //             grupe.shrink_to_fit();
+    //     }
+    // }
 
     // LIST
 
-    // auto it = grupe.begin();
-    // while (it != grupe.end())
-    // {
-    //     if (galutinio_pasirinkimas == "v")
-    //     {
-    //         if (it->rezas_vid >= 5.0)
-    //             geri.splice(geri.end(), grupe, it++); // splice — paima elementą (mazgą) iš std::list grupe (*it), ir PERKELIA (ne kopijuoja!!) jį į std::list geri (std::list grupe šio elemento nebelieka!!)
-    //         else
-    //             blogi.splice(blogi.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
-    //         // atmintis licnai liuosint neraik, bo ir tai liuosyjas
-    //     }
-    //     else if (galutinio_pasirinkimas == "m")
-    //     {
-    //         if (it->rezas_med >= 5.0)
-    //             geri.splice(geri.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
-    //         else
-    //             blogi.splice(blogi.end(), grupe, it++);
-    //         // atmintis licnai liuosint neraik, bo ir tai liuosyjas
-    //     }
-    // }
+    auto it = grupe.begin();
+    while (it != grupe.end())
+    {
+        if (galutinio_pasirinkimas == "v")
+        {
+            if (it->rezas_vid >= 5.0)
+                geri.splice(geri.end(), grupe, it++); // splice — paima elementą (mazgą) iš std::list grupe (*it), ir PERKELIA (ne kopijuoja!!) jį į std::list geri (std::list grupe šio elemento nebelieka!!)
+            else
+                blogi.splice(blogi.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
+            // atmintis licnai liuosint neraik, bo ir tai liuosyjas
+        }
+        else if (galutinio_pasirinkimas == "m")
+        {
+            if (it->rezas_med >= 5.0)
+                geri.splice(geri.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
+            else
+                blogi.splice(blogi.end(), grupe, it++);
+            // atmintis licnai liuosint neraik, bo ir tai liuosyjas
+        }
+    }
 
     auto pab = std::chrono::high_resolution_clock::now();
     t.studentu_skirstymas = pab - pr;
     // t.visa_trukme += t.studentu_skirstymas;
-    // std::cout << "STUDENTU SKIRSTYMAS BAIGTAS\n\n";
+    std::cout << "STUDENTU SKIRSTYMAS BAIGTAS\n\n";
 
-    // std::cout << "GERU SPAUSDINIMAS PRADETAS\n";
+    std::cout << "GERU SPAUSDINIMAS PRADETAS\n";
     // std::cout << "Geru studentu isvedimas:\n";
     spausdinimas("geri.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, geri); // išspausdina ir td grąžina mum spausdinimo trukmę (be vartotojo įvesčių)
-    // std::cout << "GERU SPAUSDINIMAS BAIGTAS\n\n";
+    std::cout << "GERU SPAUSDINIMAS BAIGTAS\n\n";
 
-    // std::cout << "BLOGU SPAUSDINIMAS PRADETAS\n";
+    std::cout << "BLOGU SPAUSDINIMAS PRADETAS\n";
     // std::cout << "Blogu studentu isvedimas:\n";
     spausdinimas("blogi.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, blogi);
-    // std::cout << "BLOGU SPAUSDINIMAS BAIGTAS\n\n";
+    std::cout << "BLOGU SPAUSDINIMAS BAIGTAS\n\n";
 
     grupe.clear();
-    // std::cout << "GRUPES KONTEINERIS ISVALYTAS\n\n";
+    std::cout << "GRUPES KONTEINERIS ISVALYTAS\n\n";
 
     // t.visa_trukme += t.geru_isvedimas;
     // t.visa_trukme += t.blogu_isvedimas;

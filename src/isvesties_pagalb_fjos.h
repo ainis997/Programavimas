@@ -12,10 +12,10 @@ template <typename T>
 void rikiavimas(Container<T> &konteineris)
 {
     // LIST
-    // konteineris.sort();
+    konteineris.sort();
 
     // VECTOR / DEQUE
-    std::sort(konteineris.begin(), konteineris.end());
+    // std::sort(konteineris.begin(), konteineris.end());
 }
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
