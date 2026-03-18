@@ -8,6 +8,7 @@
 #include <list>
 #include <sstream>
 #include <fstream>
+#include <cstdint>
 
 // įvesties (skaitymo) failo pavadinimo gavimo funkcija
 std::ifstream skait_failo_paruosimas(std::string SK_FAILO_NUORODA)

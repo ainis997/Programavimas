@@ -9,29 +9,29 @@
 
 // KONTEINERIO TIPAS, KURĮ NAUDOJA VISA PROGRAMA (VECTOR / DEQUE / LIST)
 template <typename T>
-using Container = std::vector<T>;
+using Container = std::deque<T>;
 
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
 
 struct Studentas
 {
+    Container<uint8_t> pazymiai;
     std::string vardas = "Vardas";
     std::string pavarde = "Pavarde";
-    Container<int> pazymiai;
-    int egzo_rezas = 0;
-    double rezas_vid = 0;
-    double rezas_med = 0;
+    float rezas_vid = 0;
+    float rezas_med = 0;
+    uint8_t egzo_rezas = 0;
     void apsk_vid(); // void, nes vid. ir med. reik iš anksto apskaičiuot (o ne spausd metu), nes pagal tai reik leist rūšiuot
     void apsk_med();
 };
 
 struct StudentasBeGalutiniu
 {
+    Container<uint8_t> pazymiai;
     std::string vardas = "Vardas";
     std::string pavarde = "Pavarde";
-    Container<int> pazymiai;
-    int egzo_rezas = 0;
+    uint8_t egzo_rezas = 0;
 };
 
 struct Programos_laikai

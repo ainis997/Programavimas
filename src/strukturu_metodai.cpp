@@ -21,7 +21,7 @@ void Studentas::apsk_med()
 {
     if (pazymiai.size() == 0)
         return;
-    Container<int> visi_pazymiai = pazymiai;
+    Container<uint8_t> visi_pazymiai = pazymiai;
     visi_pazymiai.push_back(egzo_rezas);
     rikiavimas(visi_pazymiai); // sort(..) surikiuoja visi_pazymiai vektorių did. tvarka
     int visu_pazymiu_sk = visi_pazymiai.size();
@@ -29,7 +29,7 @@ void Studentas::apsk_med()
     auto it = visi_pazymiai.begin();
     if (visu_pazymiu_sk % 2 != 0)
     {
-        rezas_med = *std::next(it, visu_pazymiu_sk / 2);
+        rezas_med = *std::next(it, visu_pazymiu_sk / 2); // pastumiam iteratorių per pusę visu_pazymiu_sk — į visi_pazymiai vidurį
     }
     else
     {

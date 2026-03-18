@@ -312,6 +312,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         //     }
         // }
 
+        // std::cout << "DUOMENU RIKIAVIMAS PRADETAS\n";
         auto pr = std::chrono::high_resolution_clock::now();
 
         if (tvarka == "d")
@@ -340,9 +341,11 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         auto pab = std::chrono::high_resolution_clock::now();
         t.duomenu_rikiavimas = pab - pr;
         // t.visa_trukme += t.duomenu_rikiavimas;
+        // std::cout << "DUOMENU RIKIAVIMAS BAIGTAS\n\n";
     }
 
     // STUDENTŲ SKIRSTYMAS
+    // std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
     auto pr = std::chrono::high_resolution_clock::now();
 
     Container<Studentas> geri;
@@ -352,22 +355,28 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
 
     if (galutinio_pasirinkimas == "v")
     {
-        for (auto &stud : grupe)
+        for (auto it = grupe.rbegin(); it != grupe.rend(); ++it)
         {
-            if (stud.rezas_vid >= 5.0)
-                geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
+            if (it->rezas_vid >= 5.0)
+                geri.push_back(std::move(*it)); // std::move(stud) — perkelia, o ne kopijuoja!
             else
-                blogi.push_back(std::move(stud));
+                blogi.push_back(std::move(*it));
+            grupe.pop_back();
+            if (grupe.size() % 10000 == 0)
+                grupe.shrink_to_fit();
         }
     }
     else if (galutinio_pasirinkimas == "m")
     {
-        for (auto &stud : grupe)
+        for (auto it = grupe.rbegin(); it != grupe.rend(); ++it)
         {
-            if (stud.rezas_med >= 5.0)
-                geri.push_back(std::move(stud));
+            if (it->rezas_med >= 5.0)
+                geri.push_back(std::move(*it));
             else
-                blogi.push_back(std::move(stud));
+                blogi.push_back(std::move(*it));
+            grupe.pop_back();
+            if (grupe.size() % 10000 == 0)
+                grupe.shrink_to_fit();
         }
     }
 
@@ -382,6 +391,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     //             geri.splice(geri.end(), grupe, it++); // splice — paima elementą (mazgą) iš std::list grupe (*it), ir PERKELIA (ne kopijuoja!!) jį į std::list geri (std::list grupe šio elemento nebelieka!!)
     //         else
     //             blogi.splice(blogi.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
+    //         // atmintis licnai liuosint neraik, bo ir tai liuosyjas
     //     }
     //     else if (galutinio_pasirinkimas == "m")
     //     {
@@ -389,20 +399,27 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     //             geri.splice(geri.end(), grupe, it++); // it++ — įterpiama iteratoriaus nurodoma reikšmė, ir TADA iteratorius pastumiamas tolyn!
     //         else
     //             blogi.splice(blogi.end(), grupe, it++);
+    //         // atmintis licnai liuosint neraik, bo ir tai liuosyjas
     //     }
     // }
 
     auto pab = std::chrono::high_resolution_clock::now();
     t.studentu_skirstymas = pab - pr;
     // t.visa_trukme += t.studentu_skirstymas;
+    // std::cout << "STUDENTU SKIRSTYMAS BAIGTAS\n\n";
 
+    // std::cout << "GERU SPAUSDINIMAS PRADETAS\n";
     // std::cout << "Geru studentu isvedimas:\n";
     spausdinimas("geri.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, geri); // išspausdina ir td grąžina mum spausdinimo trukmę (be vartotojo įvesčių)
+    // std::cout << "GERU SPAUSDINIMAS BAIGTAS\n\n";
 
+    // std::cout << "BLOGU SPAUSDINIMAS PRADETAS\n";
     // std::cout << "Blogu studentu isvedimas:\n";
     spausdinimas("blogi.txt", RAS_FAILO_NUORODA, galutinio_pasirinkimas, blogi);
+    // std::cout << "BLOGU SPAUSDINIMAS BAIGTAS\n\n";
 
     grupe.clear();
+    // std::cout << "GRUPES KONTEINERIS ISVALYTAS\n\n";
 
     // t.visa_trukme += t.geru_isvedimas;
     // t.visa_trukme += t.blogu_isvedimas;

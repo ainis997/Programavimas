@@ -12,11 +12,23 @@
 
 ### 1. Programos versija su std::vector
 
-...
+##### 1 000 įrašų
+
+##### 10 000 įrašų
+
+##### 100 000 įrašų
+
+##### 1 000 000 įrašų
+
+##### 10 000 000 įrašų
+
+![alt text](image-27.png)
 
 ### 2. Programos versija su std::deque
 
-...
+##### 10 000 000 įrašų:
+
+![alt text](image-28.png)
 
 ### 3. Programos versija su std::list
 
