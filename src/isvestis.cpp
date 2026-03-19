@@ -351,8 +351,6 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     Container<Studentas> geri;
     Container<Studentas> blogi;
 
-    // VECTOR / DEQUE
-
     if (galutinio_pasirinkimas == "v")
     {
         while (!grupe.empty())
@@ -364,8 +362,8 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
                 blogi.push_back(std::move(stud));
             grupe.pop_back();
             // dekui/vektoriui (listas pats shrinkinasi)
-            // if (grupe.size() % 1000000 == 0)
-            //     grupe.shrink_to_fit();
+            if (grupe.size() % 1000000 == 0)
+                grupe.shrink_to_fit();
         }
     }
     else if (galutinio_pasirinkimas == "m")
@@ -379,8 +377,8 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
                 blogi.push_back(std::move(stud));
             grupe.pop_back();
             // dekui/vektoriui (listas pats shrinkinasi)
-            // if (grupe.size() % 1000000 == 0)
-            //     grupe.shrink_to_fit();
+            if (grupe.size() % 1000000 == 0)
+                grupe.shrink_to_fit();
         }
     }
 

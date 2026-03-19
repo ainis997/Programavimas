@@ -26,9 +26,45 @@
 
 ### 2. Programos versija su std::deque
 
+##### 1 000 įrašų:
+
+![alt text](image-51.png)
+![alt text](image-50.png)
+![alt text](image-49.png)
+![alt text](image-48.png)
+![alt text](image-47.png)
+
+##### 10 000 įrašų:
+
+![alt text](image-46.png)
+![alt text](image-45.png)
+![alt text](image-44.png)
+![alt text](image-43.png)
+![alt text](image-42.png)
+
+##### 100 000 įrašų:
+
+![alt text](image-41.png)
+![alt text](image-40.png)
+![alt text](image-39.png)
+![alt text](image-38.png)
+![alt text](image-37.png)
+
+##### 1 000 000 įrašų:
+
+![alt text](image-32.png)
+![alt text](image-33.png)
+![alt text](image-34.png)
+![alt text](image-35.png)
+![alt text](image-36.png)
+
 ##### 10 000 000 įrašų:
 
 ![alt text](image-28.png)
+![alt text](image-26.png)
+![alt text](image-29.png)
+![alt text](image-30.png)
+![alt text](image-31.png)
 
 ### 3. Programos versija su std::list
 
