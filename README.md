@@ -14,15 +14,43 @@
 
 ##### 1 000 įrašų
 
+![alt text](image-75.png)
+![alt text](image-74.png)
+![alt text](image-73.png)
+![alt text](image-72.png)
+![alt text](image-71.png)
+
 ##### 10 000 įrašų
+
+![alt text](image-70.png)
+![alt text](image-69.png)
+![alt text](image-68.png)
+![alt text](image-67.png)
+![alt text](image-66.png)
 
 ##### 100 000 įrašų
 
+![alt text](image-65.png)
+![alt text](image-64.png)
+![alt text](image-63.png)
+![alt text](image-62.png)
+![alt text](image-61.png)
+
 ##### 1 000 000 įrašų
+
+![alt text](image-60.png)
+![alt text](image-59.png)
+![alt text](image-58.png)
+![alt text](image-57.png)
+![alt text](image-27.png)
 
 ##### 10 000 000 įrašų
 
-![alt text](image-27.png)
+![alt text](image-52.png)
+![alt text](image-53.png)
+![alt text](image-54.png)
+![alt text](image-55.png)
+![alt text](image-56.png)
 
 ### 2. Programos versija su std::deque
 
