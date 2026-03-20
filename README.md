@@ -10,6 +10,14 @@
 
 ## Programos trukmės testavimai
 
+Programos ir kai kurių jos etapų trukmė išmatuota trims programos versijoms, naudojančioms skirtingus duomenų konteinerius: std::vector, std::deque ir std::list. Testavimai atlikti kiekvienai versijai su 5 skirtingų dydžių failų apdorojimu (nuo 1 tūkst. iki 10 mln. įrašų), su 5 pakartojimais kiekvienu atveju.
+
+Testavimo sistemos parametrai:
+
+- CPU: AMD Ryzen 5 4600H 3GHz
+- RAM: 16 GB
+- SSD: Lexar SSD NM710 1TB
+
 ### 1. Programos versija su std::vector
 
 ##### 1 000 įrašų
@@ -164,3 +172,5 @@
 | Surikiavimas (s)  | 0,00007962 | 0,0012681  | 0,02743122 | 0,5778892 | 10,14206 |
 | Išskirstymas (s)  | 0,0000953  | 0,00165964 | 0,01984636 | 0,2471198 | 3,514694 |
 | Visa programa (s) | 0,01023278 | 0,0727979  | 0,712057   | 8,099776  | 138,1736 |
+
+Išvada: programos versija su std::vector veikia greičiausiai, su std::deque — apie 1,5 k. lėčiau, o su std::list lėčiausiai — kone 3 k. lėčiau nei su std::vector ir kone 2 k. lėčiau nei su std::deque.
