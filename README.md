@@ -174,3 +174,47 @@ Testavimo sistemos parametrai:
 | Visa programa (s) | 0,01023278 | 0,0727979  | 0,712057   | 8,099776  | 138,1736 |
 
 Išvada: programos versija su std::vector veikia greičiausiai, su std::deque — apie 1,5 k. lėčiau, o su std::list lėčiausiai — kone 3 k. lėčiau nei su std::vector ir kone 2 k. lėčiau nei su std::deque.
+
+## 2. strategija
+
+### std::vector
+
+##### 1 000 įrašų:
+
+![alt text](images/image-99.png)
+![alt text](images/image-98.png)
+![alt text](images/image-97.png)
+![alt text](images/image-96.png)
+![alt text](images/image-95.png)
+
+##### 10 000 įrašų:
+
+![alt text](images/image-94.png)
+![alt text](images/image-93.png)
+![alt text](images/image-92.png)
+![alt text](images/image-91.png)
+![alt text](images/image-90.png)
+
+##### 100 000 įrašų:
+
+![alt text](images/image-89.png)
+![alt text](images/image-88.png)
+![alt text](images/image-87.png)
+![alt text](images/image-86.png)
+![alt text](images/image-85.png)
+
+##### 1 000 000 įrašų:
+
+![alt text](images/image-83.png)
+![alt text](images/image-82.png)
+![alt text](images/image-81.png)
+![alt text](images/image-80.png)
+![alt text](images/image-84.png)
+
+##### 10 000 000 įrašų:
+
+![alt text](images/image.png)
+![alt text](images/image-76.png)
+![alt text](images/image-77.png)
+![alt text](images/image-78.png)
+![alt text](images/image-79.png)
