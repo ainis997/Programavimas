@@ -356,7 +356,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
     if (galutinio_pasirinkimas == "v")
     {
-        for (auto it = grupe.rbegin(); it < grupe.rend(); it++) // baigimo sąlyga: kai pravarys visą grupe konteinerį; bet paties it mum nereik, su juo studentu pasiekimas bšk lėtesnis!
+        for (auto it = grupe.rbegin(); it != grupe.rend(); it++) // baigimo sąlyga: kai pravarys visą grupe konteinerį; bet paties it mum nereik, su juo studentu pasiekimas bšk lėtesnis!
         {
             Studentas &stud = grupe.back(); // su .back() — greičiau nei su *it
             if (stud.rezas_vid < 5.0)
@@ -365,13 +365,13 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
                 grupe.pop_back();
             }
             // dekui/vektoriui (listas pats shrinkinasi)
-            if (grupe.size() % 1000000 == 0)
-                grupe.shrink_to_fit();
+            // if (grupe.size() % 1000000 == 0)
+            //     grupe.shrink_to_fit();
         }
     }
     else if (galutinio_pasirinkimas == "m")
     {
-        for (auto it = grupe.rbegin(); it < grupe.rend(); it++)
+        for (auto it = grupe.rbegin(); it != grupe.rend(); it++)
         {
             Studentas &stud = grupe.back();
             if (stud.rezas_med < 5.0)
@@ -380,8 +380,8 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
                 grupe.pop_back();
             }
             // dekui/vektoriui (listas pats shrinkinasi)
-            if (grupe.size() % 1000000 == 0)
-                grupe.shrink_to_fit();
+            // if (grupe.size() % 1000000 == 0)
+            //     grupe.shrink_to_fit();
         }
     }
 

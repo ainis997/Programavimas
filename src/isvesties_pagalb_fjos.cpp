@@ -48,10 +48,10 @@ std::ofstream ras_failo_paruosimas(std::string RAS_FAILO_NUORODA)
 void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Studentas &, Studentas &))
 {
     // LIST
-    // grupe.sort(rikiavimo_taisykle);
+    grupe.sort(rikiavimo_taisykle);
 
     // VECTOR / DEQUE
-    std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
+    // std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
 }
 
 // vvv PERKELTA HEADER FAILAN vvv

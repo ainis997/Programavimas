@@ -261,6 +261,48 @@ Išvada: programos versija su std::vector veikia greičiausiai, su std::deque �
 ![alt text](images/image-100.png)
 ![alt text](images/image-101.png)
 
+### std::list:
+
+##### 1 000 įrašų:
+
+![alt text](images/image-149.png)
+![alt text](images/image-148.png)
+![alt text](images/image-147.png)
+![alt text](images/image-146.png)
+![alt text](images/image-145.png)
+
+##### 10 000 įrašų:
+
+![alt text](images/image-144.png)
+![alt text](images/image-143.png)
+![alt text](images/image-142.png)
+![alt text](images/image-141.png)
+![alt text](images/image-140.png)
+
+##### 100 000 įrašų:
+
+![alt text](images/image-135.png)
+![alt text](images/image-136.png)
+![alt text](images/image-137.png)
+![alt text](images/image-138.png)
+![alt text](images/image-139.png)
+
+##### 1 000 000 įrašų:
+
+![alt text](images/image-130.png)
+![alt text](images/image-131.png)
+![alt text](images/image-132.png)
+![alt text](images/image-133.png)
+![alt text](images/image-134.png)
+
+##### 10 000 000 įrašų:
+
+![alt text](images/image-125.png)
+![alt text](images/image-126.png)
+![alt text](images/image-127.png)
+![alt text](images/image-128.png)
+![alt text](images/image-129.png)
+
 ### Laikų vidurkiai
 
 ##### std::vector:
@@ -282,3 +324,12 @@ Išvada: programos versija su std::vector veikia greičiausiai, su std::deque �
 | Visa programa (s) | 0,00784538 | 0,05936244 | 0,579933   | 6,23446   | 74,53918   |
 
 ##### std::list:
+
+| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.     | 10 mln.    |
+| ----------------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Nuskaitymas (s)   | 0,00476506 | 0,04779594 | 0,4688364  | 4,640866   | 46,42086   |
+| Surikiavimas (s)  | 0,00008252 | 0,00130564 | 0,0297992  | 0,6106522  | 10,39694   |
+| Išskirstymas (s)  | 0,00000004 | 0,00000008 | 0,00000006 | 0,00000002 | 0,00000006 |
+| Visa programa (s) | 0,00776214 | 0,07035276 | 0,7342286  | 8,339652   | 144,6282   |
+
+Išvados: std::vector, std::deque ir std::list laikų tarpusavio proporcijos išliko gana panašios. Studentų išskirstymo laikai ženkliai sumažėjo, lyginant su 1-ąja strategija, nors visos programos laikai ženkliai nepasikeitė arba netgi padidėjo, tačiau padidėjimas galbūt aiškintinas tam tikru testavimo sistemos pajėgumo svyravimu ir nelaikytinas reikšmingu, nes pats likęs programos kodas nepakito nuo 1-osios strategijos. Į tai atsižvelgiant, greitesniąja iš abiejų strategijų laikytina 2-oji strategija dėl itin ženklaus studentų išskirstymo pagreitėjimo 2-osios strategijos programos versijoje.
