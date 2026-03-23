@@ -218,3 +218,67 @@ Išvada: programos versija su std::vector veikia greičiausiai, su std::deque �
 ![alt text](images/image-77.png)
 ![alt text](images/image-78.png)
 ![alt text](images/image-79.png)
+
+### std::deque
+
+##### 1 000 įrašų:
+
+![alt text](images/image-124.png)
+![alt text](images/image-123.png)
+![alt text](images/image-122.png)
+![alt text](images/image-121.png)
+![alt text](images/image-120.png)
+
+##### 10 000 įrašų:
+
+![alt text](images/image-119.png)
+![alt text](images/image-118.png)
+![alt text](images/image-117.png)
+![alt text](images/image-116.png)
+![alt text](images/image-115.png)
+
+##### 100 000 įrašų:
+
+![alt text](images/image-114.png)
+![alt text](images/image-113.png)
+![alt text](images/image-112.png)
+![alt text](images/image-111.png)
+![alt text](images/image-110.png)
+
+##### 1 000 000 įrašų:
+
+![alt text](images/image-109.png)
+![alt text](images/image-108.png)
+![alt text](images/image-107.png)
+![alt text](images/image-106.png)
+![alt text](images/image-102.png)
+
+##### 10 000 000 įrašų:
+
+![alt text](images/image-103.png)
+![alt text](images/image-104.png)
+![alt text](images/image-105.png)
+![alt text](images/image-100.png)
+![alt text](images/image-101.png)
+
+### Laikų vidurkiai
+
+##### std::vector:
+
+| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.     | 10 mln.   |
+| ----------------- | ---------- | ---------- | ---------- | ---------- | --------- |
+| Nuskaitymas (s)   | 0,0040183  | 0,03123856 | 0,3007366  | 3,017114   | 30,29264  |
+| Surikiavimas (s)  | 0,0001338  | 0,00148878 | 0,01830784 | 0,237852   | 2,897784  |
+| Išskirstymas (s)  | 0,00000148 | 0,0000097  | 0,00009196 | 0,03723346 | 0,3877502 |
+| Visa programa (s) | 0,00662542 | 0,04521112 | 0,437131   | 4,486016   | 46,64658  |
+
+##### std::deque:
+
+| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.    | 10 mln.    |
+| ----------------- | ---------- | ---------- | ---------- | --------- | ---------- |
+| Nuskaitymas (s)   | 0,00372502 | 0,0364244  | 0,3261494  | 3,22165   | 32,15156   |
+| Surikiavimas (s)  | 0,00054708 | 0,00646088 | 0,09260052 | 1,256646  | 15,64806   |
+| Išskirstymas (s)  | 0,00000264 | 0,00001978 | 0,00018554 | 0,0060925 | 0,06289772 |
+| Visa programa (s) | 0,00784538 | 0,05936244 | 0,579933   | 6,23446   | 74,53918   |
+
+##### std::list:
