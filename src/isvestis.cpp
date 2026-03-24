@@ -356,32 +356,29 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
     if (galutinio_pasirinkimas == "v")
     {
-        for (auto it = grupe.rbegin(); it != grupe.rend(); it++) // baigimo sąlyga: kai pravarys visą grupe konteinerį; bet paties it mum nereik, su juo studentu pasiekimas bšk lėtesnis!
+
+        for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
         {
-            Studentas &stud = grupe.back(); // su .back() — greičiau nei su *it
-            if (stud.rezas_vid < 5.0)
+            if (it->rezas_vid < 5.0)
             {
-                blogi.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
-                grupe.pop_back();
+                blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
+                it = grupe.erase(it);
             }
-            // dekui/vektoriui (listas pats shrinkinasi)
-            // if (grupe.size() % 1000000 == 0)
-            //     grupe.shrink_to_fit();
+            else
+                ++it;
         }
     }
     else if (galutinio_pasirinkimas == "m")
     {
-        for (auto it = grupe.rbegin(); it != grupe.rend(); it++)
+        for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
         {
-            Studentas &stud = grupe.back();
-            if (stud.rezas_med < 5.0)
+            if (it->rezas_med < 5.0)
             {
-                blogi.push_back(std::move(stud));
-                grupe.pop_back();
+                blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
+                it = grupe.erase(it);
             }
-            // dekui/vektoriui (listas pats shrinkinasi)
-            // if (grupe.size() % 1000000 == 0)
-            //     grupe.shrink_to_fit();
+            else
+                ++it;
         }
     }
 
