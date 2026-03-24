@@ -302,7 +302,7 @@ Išmatuoti programos trukmės su 1 mln. ir 10 mln. įrašų kiekiais nepavyko: p
 | Išskirstymas (s)  | 0,00243372 | 0,2740764  | 39,09528   | -      | -       |
 | Visa programa (s) | 0,00854098 | 0,326577   | 39,6094    | -\*    | -\*     |
 
-<sup>\*Pagal 100 tūkst. matavimo duomenis, teorinė 1 mln. testavimo trukmė: virš 1 val., 10 mln. — virš 4,5 paros.</sup>
+<sup>\*Remiantis algoritmo pobūdžiu ir esamais matavimo duomenimis, teorinė 1 mln. testavimo trukmė: virš 1 val., 10 mln. — virš 4,5 paros.</sup>
 
 ##### std::deque:
 
@@ -325,3 +325,63 @@ Išmatuoti programos trukmės su 1 mln. ir 10 mln. įrašų kiekiais nepavyko: p
 ##### Išvados:
 
 Išvados: lyginant su 1-osios strategijos programos versija, std::deque ir std::list visos programos trukmė išliko panaši, nors studentų išskirstymo trukmė gana ryškiai sumažėjo. Tuo tarpu std::vector programa itin ženkliai sulėtėjo. Matyti, jog std::vector programos trukmė auga eksponentiškai, priklausomai nuo duomenų (įrašų) kiekio. Dėl to nepavyko nustatyti tikslios std::vector programos trukmės apdorojant 1 mln. ir 10 mln. įrašų. Atsižvelgiant į mažesnio studentų sk. išskirstymo laikus ir į išskirstymo algoritmo teorinį sudėtingumą, tikėtina, jog std::vector programoje 1 mln. studentų išskirstymas matuotinas valandomis, o 10 mln. — paromis.
+
+## 3. strategija
+
+3-oji studentų skirstymo strategija paremta 2-osios principu, tačiau pritaikyti algoritmai std::stable_partition, std::move, kuo mėginta pagreitinti vektorių studentų skirstymą.
+
+### Laikai (std::vector):
+
+##### 1 000 įrašų:
+
+![alt text](images/image-174.png)
+![alt text](images/image-173.png)
+![alt text](images/image-172.png)
+![alt text](images/image-171.png)
+![alt text](images/image-170.png)
+
+##### 10 000 įrašų:
+
+![alt text](images/image-169.png)
+![alt text](images/image-168.png)
+![alt text](images/image-167.png)
+![alt text](images/image-166.png)
+![alt text](images/image-165.png)
+
+##### 100 000 įrašų:
+
+![alt text](images/image-164.png)
+![alt text](images/image-163.png)
+![alt text](images/image-162.png)
+![alt text](images/image-161.png)
+![alt text](images/image-160.png)
+
+##### 1 000 000 įrašų:
+
+![alt text](images/image-155.png)
+![alt text](images/image-156.png)
+![alt text](images/image-157.png)
+![alt text](images/image-158.png)
+![alt text](images/image-159.png)
+
+##### 10 000 000 įrašų:
+
+![alt text](images/image-150.png)
+![alt text](images/image-151.png)
+![alt text](images/image-152.png)
+![alt text](images/image-153.png)
+![alt text](images/image-154.png)
+
+### Laikų vidurkiai:
+
+| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.     | 10 mln.   |
+| ----------------- | ---------- | ---------- | ---------- | ---------- | --------- |
+| Nuskaitymas (s)   | 0,00326928 | 0,03362434 | 0,3147096  | 3,132346   | 31,53802  |
+| Surikiavimas (s)  | 0,00012584 | 0,00147244 | 0,0186556  | 0,2408318  | 2,89344   |
+| Išskirstymas (s)  | 0,00006314 | 0,00056424 | 0,00716718 | 0,06777242 | 0,7116158 |
+| Visa programa (s) | 0,0061401  | 0,0492335  | 0,4677638  | 4,7398     | 49,27956  |
+
+### Išvados:
+
+Lyginant su 2-ąja strategija, 3-oji studentų skirstymo strategija yra kone nepalyginamai greitesnė, ir dėl to žymiai greitesnė yra ir visos programos sparta.
+Lyginant su 1-ąja strategija, 3-oji studentų skirstymo strategija yra taip pat žymiai greitesnė, nors kadangi studentų išskirstymas sudaro gana nedidelę dalį visos programos trukmės, tai šis pagreitėjimas visos programos trukmei nedaro ryškios įtakos. Dėl to 1-osios ir 3-osios strategijų programos versijos su std::vector trunka gana panašiai.

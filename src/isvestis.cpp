@@ -348,39 +348,63 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     // std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
     auto pr = std::chrono::high_resolution_clock::now();
 
-    // ===== 2. STR. =====
+    // ===== 3. STR. =====
 
     Container<Studentas> blogi;
-    // grupe — geri
+    Container<Studentas> geri;
 
     // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
     if (galutinio_pasirinkimas == "v")
     {
-
-        for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
-        {
-            if (it->rezas_vid < 5.0)
-            {
-                blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
-                it = grupe.erase(it);
-            }
-            else
-                ++it;
-        }
+        // apie 4.7 s / 48 s
+        blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
+        auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
+                                                            { return stud.rezas_vid >= 5.0; });
+        std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
+        grupe.erase(pirmas_blogu_elementas, grupe.end());
     }
     else if (galutinio_pasirinkimas == "m")
     {
-        for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
-        {
-            if (it->rezas_med < 5.0)
-            {
-                blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
-                it = grupe.erase(it);
-            }
-            else
-                ++it;
-        }
+        blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
+        auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
+                                                            { return stud.rezas_med >= 5.0; });
+        std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
+        grupe.erase(pirmas_blogu_elementas, grupe.end());
     }
+
+    // ===== 2. STR. =====
+
+    // Container<Studentas> blogi;
+    // // grupe — geri
+
+    // // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
+    // if (galutinio_pasirinkimas == "v")
+    // {
+
+    //     for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
+    //     {
+    //         if (it->rezas_vid < 5.0)
+    //         {
+    //             blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
+    //             it = grupe.erase(it);
+    //         }
+    //         else
+    //             ++it;
+    //     }
+    // }
+    // else if (galutinio_pasirinkimas == "m")
+    // {
+    //     for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
+    //     {
+    //         if (it->rezas_med < 5.0)
+    //         {
+    //             blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
+    //             it = grupe.erase(it);
+    //         }
+    //         else
+    //             ++it;
+    //     }
+    // }
 
     // ===== 1. STR. =====
 
@@ -435,6 +459,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
 
     grupe.clear();
     blogi.clear();
+    geri.clear();
     // std::cout << "GRUPES KONTEINERIS ISVALYTAS\n\n";
 
     // t.visa_trukme += t.geru_isvedimas;
