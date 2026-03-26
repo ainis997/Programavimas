@@ -30,9 +30,15 @@ Duomenų apdorojimas ir išvedimas:
 
 - Įvedus ar sugeneravus studentų ir jų pažymių duomenis, naudotojas gali pasirinkti galutinio vertinimo skaičiavimo būdą (pagal vidurkį arba medianą), pasirinkti studentų surikiavimą išvestyje (pagal vardą, pavardę, galutinį balą (vidurkį/medianą) arba nerikiuoti) ir pasirinkti išvesties failo pavadinimą. Rezultatas (lentelės pavidalo) išvedamas folderyje isvesties_failai į tekstinį failą su naudotojo pageidautu pavadinimu.
 
-# Diegimo instrukcija
+# Paleidimo instrukcija
 
-...
+- Atsisiųsti programos kodą (failai prisegti prie šio programos leidimo);
+- Atidaryti komandinę eilutę programos aplanke;
+- Įvesti komandą "make" (arba kitą jūsų turimo kūrimo įrankio komandą, pvz.: "mingw32-make", jei naudojate MinGW paketą), ją įvykdžius bus sukurtas programos paleidžiamasis failas;
+  - (šiam žingsniui įvykdyti kompiuteryje turi būti įdiegtas kuris nors programų sukūrimo įrankis, pvz., MinGW-w64, MSVC)
+- Įvesti "./bin/programa" arba "make run" (ar "mingw32-make run"), taip bus paleista programa (bus matomas programos pradinis meniu).
+
+<sup>Pastaba: programos paleidimas pritaikytas Windows operacinei sistemai.</sup>
 
 # Programos leidimai
 
