@@ -10,7 +10,7 @@
 #include <sstream> // std::string streamui
 #include <chrono>  // laiko fiksavimui
 #include <fstream> // failam
-#include <cstdint>
+#include <random>
 
 #include "ivestis.h"
 #include "ivesties_pagalb_fjos.h"
@@ -115,9 +115,6 @@ void rank_ivestis(Container<Studentas> &grupe)
         }
 
         std::cout << "Iveskite egzamino vertinima: ";
-        // int temp_rezas = static_cast<int>(A.egzo_rezas);
-        // natur_skaiciaus_ivestis(temp_rezas, ar_sk_ne_tarp_0_ir_10); // ŠI FUNKCIJA PRIIMA INT, O MŪSŲ PAŽYMIAI YRA UINT8_T (dėl to reik konvertavimo)
-        // A.egzo_rezas = static_cast<uint8_t>(temp_rezas);
 
         natur_skaiciaus_ivestis(A.egzo_rezas, ar_sk_ne_tarp_0_ir_10);
 
@@ -138,6 +135,10 @@ void rank_ivestis(Container<Studentas> &grupe)
 
 void misri_ivestis(Container<Studentas> &grupe)
 {
+    std::random_device sekla;
+    std::mt19937 generatorius(sekla());
+    std::uniform_int_distribution pasiskirstymas_0_10(0, 10);
+
     int min_iverciu_sk = 0;
     std::string ivestis3;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
@@ -155,9 +156,9 @@ void misri_ivestis(Container<Studentas> &grupe)
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {
-            A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+            A.pazymiai.push_back(pasiskirstymas_0_10(generatorius)); // sugeneruoti sk. nuo 0 iki 10
         }
-        A.egzo_rezas = rand() % 11;
+        A.egzo_rezas = pasiskirstymas_0_10(generatorius);
 
         A.apsk_vid();
         A.apsk_med();
@@ -169,6 +170,10 @@ void misri_ivestis(Container<Studentas> &grupe)
 
 void generuota_ivestis(Container<Studentas> &grupe)
 {
+    std::random_device sekla;
+    std::mt19937 generatorius(sekla());
+    std::uniform_int_distribution pasiskirstymas_0_10(0, 10);
+
     int min_iverciu_sk = 0;
     std::string ivestis1;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
@@ -199,9 +204,9 @@ void generuota_ivestis(Container<Studentas> &grupe)
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {
-            A.pazymiai.push_back(rand() % 11); // sugeneruoti sk. nuo 0 iki 10
+            A.pazymiai.push_back(pasiskirstymas_0_10(generatorius)); // sugeneruoti sk. nuo 0 iki 10
         }
-        A.egzo_rezas = rand() % 11; // 0-10
+        A.egzo_rezas = pasiskirstymas_0_10(generatorius);
 
         A.apsk_vid();
         A.apsk_med();
@@ -213,6 +218,10 @@ void generuota_ivestis(Container<Studentas> &grupe)
 
 void visu_stud_duomenu_generavimo_ivestis(Container<StudentasBeGalutiniu> &grupe)
 {
+    std::random_device sekla;
+    std::mt19937 generatorius(sekla());
+    std::uniform_int_distribution pasiskirstymas_1_10(1, 10);
+
     int min_iverciu_sk = 0;
     std::string ivestis1;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
@@ -232,9 +241,9 @@ void visu_stud_duomenu_generavimo_ivestis(Container<StudentasBeGalutiniu> &grupe
 
         for (int i = 0; i < min_iverciu_sk; i++)
         {
-            A.pazymiai.push_back(rand() % 10 + 1); // sugeneruoti sk. nuo 1 iki 10
+            A.pazymiai.push_back(pasiskirstymas_1_10(generatorius));
         }
-        A.egzo_rezas = rand() % 10 + 1; // 1-10
+        A.egzo_rezas = pasiskirstymas_1_10(generatorius);
 
         grupe.push_back(A);
         A.pazymiai.clear(); // apsauga: isvalo pazymiu vektoriu, kad kitam kartojime vektorius butu tuscias

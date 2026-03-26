@@ -6,7 +6,7 @@ Programa turi 6 skirtingas eigas, matomas pradiniame programos meniu:
 
 1. Studentų duomenų įvedimas iš duomenų failo
 
-- Naudotojas gali pasirinkti aplanke "ivesties_failai" esančius tekstinius failus su studentų duomenimis (vardu, pavarde, pažymiais), apdoroti failą ir išvesti rezultatus (apie apdorojimą, išvedimą žr. žemiau).
+- Naudotojas gali pasirinkti aplanke "ivesties_failai" esančius tekstinius failus (jeigu jų yra) su studentų duomenimis (vardu, pavarde, pažymiais), apdoroti failą ir išvesti rezultatus (apie apdorojimą, išvedimą žr. žemiau).
 
 2. Studentų ir jų pažymių įvedimas ranka
 
@@ -41,6 +41,17 @@ Duomenų apdorojimas ir išvedimas:
 <sup>Pastaba: programos paleidimas pritaikytas Windows operacinei sistemai.</sup>
 
 # Programos leidimai
+
+## v1.0
+
+### Programos paruošimas
+
+- Programa labiau paruošta naudojimui. README.md faile įtrauktas programos aprašas, naudojimosi, paleidimo instrukcijos.
+
+### Optimizavimas
+
+- Šiek tiek pagerintas programos veikimo laikas.
+- Atlikti išsamūs programos trukmės testavimai įvairiomis sąlygomis (įvairiais duomenų kiekiais, kode naudojamais konteineriais). Testavimų rezultatai įtraukti į projekto README.md failą.
 
 ## v1.0 pradinė
 
