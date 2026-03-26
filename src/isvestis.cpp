@@ -318,24 +318,40 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
         if (tvarka == "d")
         {
             if (rus == "vard")
+            {
                 stud_rikiavimas(grupe, pagal_varda_did);
+            }
             else if (rus == "pav")
+            {
                 stud_rikiavimas(grupe, pagal_pavarde_did);
+            }
             else if (rus == "vid")
+            {
                 stud_rikiavimas(grupe, pagal_vidurki_did);
+            }
             else if (rus == "med")
+            {
                 stud_rikiavimas(grupe, pagal_mediana_did);
+            }
         }
         else if (tvarka == "m")
         {
             if (rus == "vard")
+            {
                 stud_rikiavimas(grupe, pagal_varda_maz);
+            }
             else if (rus == "pav")
+            {
                 stud_rikiavimas(grupe, pagal_pavarde_maz);
+            }
             else if (rus == "vid")
+            {
                 stud_rikiavimas(grupe, pagal_vidurki_maz);
+            }
             else if (rus == "med")
+            {
                 stud_rikiavimas(grupe, pagal_mediana_maz);
+            }
         }
 
         auto pab = std::chrono::high_resolution_clock::now();
@@ -357,7 +373,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     if (galutinio_pasirinkimas == "v")
     {
         // apie 4.7 s / 48 s
-        blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
+        // blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
         auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
                                                             { return stud.rezas_vid >= 5.0; });
         std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
@@ -365,7 +381,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     }
     else if (galutinio_pasirinkimas == "m")
     {
-        blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
+        // blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
         auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
                                                             { return stud.rezas_med >= 5.0; });
         std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
