@@ -143,7 +143,7 @@ void misri_ivestis(Container<Studentas> &grupe)
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
     natur_skaiciaus_ivestis(min_iverciu_sk); // perduodam kintamojo *referencą*
 
-    std::cout << "Įveskite studentų duomenis. Kai įvesite visus studentus, įveskite 'x'." << '\n';
+    std::cout << "Iveskite studentu duomenis. Kai ivesite visus studentus, iveskite 'x'." << '\n';
 
     for (int i = 0;; i++)
     {

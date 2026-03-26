@@ -1,14 +1,103 @@
-# Programa
+# Programos naudojimo instrukcija
 
-## Funkcionalumas
+Programos esmė — apdoroti ar generuoti studentų duomenis.
 
-### Programa:
+Programa turi 6 skirtingas eigas, matomas pradiniame programos meniu:
 
-- nuskaito arba sugeneruoja studentų duomenis (vardą, pavardę, pažymius, egzamino įvertinimą);
+1. Studentų duomenų įvedimas iš duomenų failo
+
+- Naudotojas gali pasirinkti aplanke "ivesties_failai" esančius tekstinius failus su studentų duomenimis (vardu, pavarde, pažymiais), apdoroti failą ir išvesti rezultatus (apie apdorojimą, išvedimą žr. žemiau).
+
+2. Studentų ir jų pažymių įvedimas ranka
+
+- Naudotojas gali pats ranka įvesti norimą skaičių studentų ir jų pažymius, duomenys apdorojami ir išvedamas rezultatas.
+
+3. Studentų duomenų įvedimas ranka ir jų pažymių sugeneravimas
+
+- Naudotojas gali ranka įvesti norimą skaičių studentų ir sugeneruoti jiems norimą skaičių pažymių, duomenys apdorojami ir išvedamas rezultatas.
+
+4. Studentų ir jų pažymių sugeneravimas
+
+- Naudotojo pageidavimu gali būti sugeneruojamas norimas skaičius studentų su norimu skaičiumi pažymių, duomenys apdorojami ir išvedamas rezultatas.
+
+5. Studentų ir jų pažymių išvedimas į failą
+
+- Naudotojo pageidavimu gali būti sugeneruojamas norimas skaičius studentų su norimu skaičiumi pažymių ir duomenys išvedami į failą.
+
+6. Programos baigimas
+
+Duomenų apdorojimas ir išvedimas:
+
+- Įvedus ar sugeneravus studentų ir jų pažymių duomenis, naudotojas gali pasirinkti galutinio vertinimo skaičiavimo būdą (pagal vidurkį arba medianą), pasirinkti studentų surikiavimą išvestyje (pagal vardą, pavardę, galutinį balą (vidurkį/medianą) arba nerikiuoti) ir pasirinkti išvesties failo pavadinimą. Rezultatas (lentelės pavidalo) išvedamas folderyje isvesties_failai į tekstinį failą su naudotojo pageidautu pavadinimu.
+
+# Diegimo instrukcija
+
+...
+
+# Programos leidimai
+
+## v1.0 pradinė
+
+### Skirtingi konteineriai
+
+- Programos kodas pritaikytas trims skirtingiems duomenų konteineriams: std::vector, std::deque, std::list.
+
+### Optimizavimas
+
+- Pagerintas programos veikimas: pagerinta programos sparta ir atminties naudojimas.
+- Programos versijų su skirtingais konteineriais trukmės testavimas aprašytas README.md faile.
+
+## v0.4
+
+### Failų generavimas
+
+- Pridėtas visų studentų duomenų (įskaitant ir paskirus pažymius) failo generavimo funkcionalumas.
+
+### Studentų išvesties skirstymas
+
+- Studentų duomenys išvedami į du atskirus failus, atrenkant pagal studentų galutinį įvertinimą — vidurkį/medianą (< 5.0 vienur, >= 5.0 kitur).
+
+### Programos trukmės matavimas
+
+- Programoje pridėti nauji programos etapų trukmės matavimai (failų kūrimo ir apdorojimo).
+- Programos trukmės testavimo skirtingais krūviais aprašas pridėtas į projekto README.md failą.
+
+## v0.3
+
+### Pakeitimai:
+
+- Projektas suskaidytas į atskirus savo paskirties failus;
+- Programoje pridėta daugiau išimčių valdymo;
+- Programos funkcijos tapo labiau struktūruotos.
+
+## v0.2
+
+### Failų funkcionalumas
+
+- Pridėta galimybė duomenis nuskaityti iš pasirinkto failo.
+- Įtraukta galimybė išvestyje studentus surūšiuoti pagal pasirinktą parametrą: vardą, pavardę, galutinį pažymį (vidurkio ar medianos); didėjimo ar mažėjimo tvarka.
+- Pridėta programos išvestis į failą.
+
+## v0.1
+
+### Meniu
+
+Pridėtas programos meniu, siūlantis 4 skirtingas programos eigas:
+
+- rankinis visų duomenų įvedimas;
+- rankinis vardų įvedimas, pažymių sugeneravimas;
+- visų duomenų sugeneravimas;
+- programos baigimas.
+
+## v.pradinė
+
+Pradinės versijos programa, kuri:
+
+- nuskaito studentų duomenis (vardą, pavardę, pažymius, egzaminų įvertinimą);
 - apskaičiuoja galutinį balą (pagal vidurkį arba medianą);
 - pateikia visus reikalingus duomenis lentelėje.
 
-## Programos trukmės testavimai
+# Programos trukmės testavimai
 
 Programos ir kai kurių jos etapų trukmė išmatuota trims programos versijoms, naudojančioms skirtingus duomenų konteinerius: std::vector, std::deque ir std::list. Testavimai atlikti kiekvienai versijai su 5 skirtingų dydžių failų apdorojimu (nuo 1 tūkst. iki 10 mln. įrašų), su 5 pakartojimais kiekvienu atveju.
 
@@ -17,6 +106,8 @@ Testavimo sistemos parametrai:
 - CPU: AMD Ryzen 5 4600H 3GHz
 - RAM: 16 GB
 - SSD: Lexar SSD NM710 1TB
+
+## 1. strategija
 
 ### 1. Programos versija su std::vector
 
