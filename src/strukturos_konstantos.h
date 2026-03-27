@@ -8,15 +8,14 @@
 #include <limits> // maksimaliai int reikšmei gauti
 
 // KONTEINERIO TIPAS, KURĮ NAUDOJA VISA PROGRAMA (VECTOR / DEQUE / LIST)
-template <typename T>
-using Container = std::vector<T>;
+#define Container(T) std::list<T>
 
 // kad būtų trumpiau
 const auto MAX_INT = std::numeric_limits<int>::max();
 
 struct Studentas
 {
-    Container<int> pazymiai;
+    Container(int) pazymiai;
     std::string vardas = "Vardas";
     std::string pavarde = "Pavarde";
     float rezas_vid = 0;
@@ -28,7 +27,7 @@ struct Studentas
 
 struct StudentasBeGalutiniu
 {
-    Container<int> pazymiai;
+    Container(int) pazymiai;
     std::string vardas = "Vardas";
     std::string pavarde = "Pavarde";
     int egzo_rezas = 0;

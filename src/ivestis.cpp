@@ -17,7 +17,7 @@
 #include "strukturos_konstantos.h"
 #include "klaidu_valdymas.h"
 
-void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUORODA,*/ Container<Studentas> &grupe, Programos_laikai &t)
+void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUORODA,*/ Container(Studentas) & grupe, Programos_laikai &t)
 {
     // std::ifstream sk_failas = skait_failo_paruosimas(SK_FAILO_NUORODA);
 
@@ -62,7 +62,7 @@ void failo_ivestis(std::ifstream &sk_failas, /*const std::string SK_FAILO_NUOROD
     // std::cout << "FAILO NUSKAITYMAS BAIGTAS\n\n";
 }
 
-void rank_ivestis(Container<Studentas> &grupe)
+void rank_ivestis(Container(Studentas) & grupe)
 {
     int min_iverciu_sk;
     std::cout << "Iveskite, kiek studentai privalo tureti iverciu: ";
@@ -133,7 +133,7 @@ void rank_ivestis(Container<Studentas> &grupe)
 
 // ================
 
-void misri_ivestis(Container<Studentas> &grupe)
+void misri_ivestis(Container(Studentas) & grupe)
 {
     std::random_device sekla;
     std::mt19937 generatorius(sekla());
@@ -168,7 +168,7 @@ void misri_ivestis(Container<Studentas> &grupe)
     }
 }
 
-void generuota_ivestis(Container<Studentas> &grupe)
+void generuota_ivestis(Container(Studentas) & grupe)
 {
     std::random_device sekla;
     std::mt19937 generatorius(sekla());
@@ -216,7 +216,7 @@ void generuota_ivestis(Container<Studentas> &grupe)
     }
 }
 
-void visu_stud_duomenu_generavimo_ivestis(Container<StudentasBeGalutiniu> &grupe)
+void visu_stud_duomenu_generavimo_ivestis(Container(StudentasBeGalutiniu) & grupe)
 {
     std::random_device sekla;
     std::mt19937 generatorius(sekla());

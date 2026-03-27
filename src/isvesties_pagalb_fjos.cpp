@@ -43,16 +43,22 @@ std::ofstream ras_failo_paruosimas(std::string RAS_FAILO_NUORODA)
     }
 }
 
-// ===== Pagalbinė rikiavimą įvykdanti funkcija (rikiuoja skirtingai, priklausomai nuo to, ar rikiuojamas vector/deque, ar list) =====
+// vvv PERKELTA HEADER FAILAN vvv
+// // ===== Pagalbinė rikiavimą įvykdanti funkcija (rikiuoja skirtingai, priklausomai nuo to, ar rikiuojamas vector/deque, ar list) =====
 
-void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Studentas &, Studentas &))
-{
-    // LIST
-    // grupe.sort(rikiavimo_taisykle);
-
-    // VECTOR / DEQUE
-    std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
-}
+// void stud_rikiavimas(Container(Studentas) & grupe, bool (*rikiavimo_taisykle)(Studentas &, Studentas &))
+// {
+//     // LIST
+//     if constexpr (std::is_same_v<Container(Studentas), std::list<Studentas>>)
+//     {
+//         grupe.sort(rikiavimo_taisykle);
+//     }
+//     // VECTOR / DEQUE
+//     else if constexpr (std::is_same_v<Container(Studentas), std::vector<Studentas>> || std::is_same_v<Container(Studentas), std::deque<Studentas>>)
+//     {
+//         std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
+//     }
+// }
 
 // vvv PERKELTA HEADER FAILAN vvv
 // // be nurodytos specif taisyklės, bet kokiam tipui

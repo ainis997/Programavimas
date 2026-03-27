@@ -2,6 +2,7 @@
 #include "isvesties_pagalb_fjos.h"
 #include "strukturos_konstantos.h"
 #include "klaidu_valdymas.h"
+#include "ivesties_pagalb_fjos.h"
 
 #include <iostream>
 #include <string>
@@ -12,7 +13,7 @@
 #include <fstream>
 #include <iomanip>
 
-void isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &grupe, Programos_laikai &t)
+void isvestis(std::string RAS_FAILO_NUORODA, Container(Studentas) & grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -185,7 +186,7 @@ void isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &grupe, Progra
 
 // ==========================================
 
-void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, Container<StudentasBeGalutiniu> &grupe, Programos_laikai &t)
+void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, Container(StudentasBeGalutiniu) & grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -231,7 +232,7 @@ void visu_stud_duomenu_generavimo_isvestis(std::string RAS_FAILO_NUORODA, Contai
 
 // =====================================
 
-void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &grupe, Programos_laikai &t)
+void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container(Studentas) & grupe, Programos_laikai &t)
 {
     if (grupe.empty())
         return;
@@ -358,102 +359,21 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
     }
 
     // STUDENTŲ SKIRSTYMAS
+
+    int strategija;
+    std::cout << "Iveskite studentu skirstymo strategija: ";
+    natur_skaiciaus_ivestis(strategija, [](int x)
+                            { return !(x == 1 || x == 2 || x == 3); });
+
     // std::cout << "STUDENTU SKIRSTYMAS PRADETAS\n";
     auto pr = std::chrono::high_resolution_clock::now();
 
     // ===== 3. STR. =====
 
-    Container<Studentas> blogi;
-    Container<Studentas> geri;
+    Container(Studentas) blogi;
+    Container(Studentas) geri;
 
-    // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
-    if (galutinio_pasirinkimas == "v")
-    {
-        // apie 4.7 s / 48 s
-        // blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
-        auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
-                                                            { return stud.rezas_vid >= 5.0; });
-        std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
-        grupe.erase(pirmas_blogu_elementas, grupe.end());
-    }
-    else if (galutinio_pasirinkimas == "m")
-    {
-        // blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
-        auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
-                                                            { return stud.rezas_med >= 5.0; });
-        std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
-        grupe.erase(pirmas_blogu_elementas, grupe.end());
-    }
-
-    // ===== 2. STR. =====
-
-    // Container<Studentas> blogi;
-    // // grupe — geri
-
-    // // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
-    // if (galutinio_pasirinkimas == "v")
-    // {
-
-    //     for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
-    //     {
-    //         if (it->rezas_vid < 5.0)
-    //         {
-    //             blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
-    //             it = grupe.erase(it);
-    //         }
-    //         else
-    //             ++it;
-    //     }
-    // }
-    // else if (galutinio_pasirinkimas == "m")
-    // {
-    //     for (auto it = grupe.begin(); it != grupe.end(); /*it++*/) // baigimo sąlyga: kai pravarys visą grupe konteinerį;
-    //     {
-    //         if (it->rezas_med < 5.0)
-    //         {
-    //             blogi.push_back(std::move(*it)); // std::move(*it) — perkelia, o ne kopijuoja!
-    //             it = grupe.erase(it);
-    //         }
-    //         else
-    //             ++it;
-    //     }
-    // }
-
-    // ===== 1. STR. =====
-
-    // Container<Studentas> geri;
-    // Container<Studentas> blogi;
-
-    // if (galutinio_pasirinkimas == "v")
-    // {
-    //     while (!grupe.empty())
-    //     {
-    //         Studentas &stud = grupe.back();
-    //         if (stud.rezas_vid >= 5.0)
-    //             geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
-    //         else
-    //             blogi.push_back(std::move(stud));
-    //         grupe.pop_back();
-    //         // dekui/vektoriui (listas pats shrinkinasi)
-    //         if (grupe.size() % 1000000 == 0)
-    //             grupe.shrink_to_fit();
-    //     }
-    // }
-    // else if (galutinio_pasirinkimas == "m")
-    // {
-    //     while (!grupe.empty())
-    //     {
-    //         Studentas &stud = grupe.back();
-    //         if (stud.rezas_med >= 5.0)
-    //             geri.push_back(std::move(stud));
-    //         else
-    //             blogi.push_back(std::move(stud));
-    //         grupe.pop_back();
-    //         // dekui/vektoriui (listas pats shrinkinasi)
-    //         if (grupe.size() % 1000000 == 0)
-    //             grupe.shrink_to_fit();
-    //     }
-    // }
+    studentu_skirstymas(strategija, galutinio_pasirinkimas, grupe, blogi, geri);
 
     auto pab = std::chrono::high_resolution_clock::now();
     t.studentu_skirstymas = pab - pr;
@@ -462,7 +382,10 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
 
     // std::cout << "GERU SPAUSDINIMAS PRADETAS\n";
     std::cout << "Geru studentu isvedimas:\n";
-    spausdinimas(RAS_FAILO_NUORODA, galutinio_pasirinkimas, grupe); // išspausdina ir td grąžina mum spausdinimo trukmę (be vartotojo įvesčių)
+    if (!geri.empty())
+        spausdinimas(RAS_FAILO_NUORODA, galutinio_pasirinkimas, geri); // išspausdina ir td grąžina mum spausdinimo trukmę (be vartotojo įvesčių)
+    else
+        spausdinimas(RAS_FAILO_NUORODA, galutinio_pasirinkimas, grupe);
     // std::cout << "GERU SPAUSDINIMAS BAIGTAS\n\n";
 
     // std::cout << "BLOGU SPAUSDINIMAS PRADETAS\n";
@@ -483,7 +406,7 @@ void skirstoma_isvestis(std::string RAS_FAILO_NUORODA, Container<Studentas> &gru
               << '\n';
 }
 
-std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::string galutinio_pasirinkimas, Container<Studentas> &grupe)
+std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::string galutinio_pasirinkimas, Container(Studentas) & grupe)
 {
     std::ofstream ras_failas = ras_failo_paruosimas(RAS_FAILO_NUORODA);
     // std::ofstream ras_failas(RAS_FAILO_NUORODA + RAS_FAILO_PAV);
@@ -547,4 +470,85 @@ std::chrono::duration<double> spausdinimas(std::string RAS_FAILO_NUORODA, std::s
     std::chrono::duration<double> isvedimo_trukme = pab - pr;
 
     return isvedimo_trukme;
+}
+
+void studentu_skirstymas(int strategija, std::string galutinio_pasirinkimas, Container(Studentas) & grupe, Container(Studentas) & blogi, Container(Studentas) & geri)
+{
+    if (strategija == 1)
+    {
+        if (galutinio_pasirinkimas == "v")
+        {
+            while (!grupe.empty())
+            {
+                Studentas &stud = grupe.back();
+                if (stud.rezas_vid >= 5.0)
+                    geri.push_back(std::move(stud)); // std::move(stud) — perkelia, o ne kopijuoja!
+                else
+                    blogi.push_back(std::move(stud));
+                grupe.pop_back();
+                // dekui/vektoriui (listas pats shrinkinasi)
+                // if (grupe.size() % 1000000 == 0)
+                //     grupe.shrink_to_fit();
+            }
+        }
+        else if (galutinio_pasirinkimas == "m")
+        {
+            while (!grupe.empty())
+            {
+                Studentas &stud = grupe.back();
+                if (stud.rezas_med >= 5.0)
+                    geri.push_back(std::move(stud));
+                else
+                    blogi.push_back(std::move(stud));
+                grupe.pop_back();
+                // dekui/vektoriui (listas pats shrinkinasi)
+                // if (grupe.size() % 1000000 == 0)
+                //     grupe.shrink_to_fit();
+            }
+        }
+    }
+
+    else if (strategija == 2)
+    {
+        // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
+        if (galutinio_pasirinkimas == "v")
+        {
+            stud_rikiavimas(grupe, pagal_vidurki_maz);
+            while (grupe.back().rezas_vid < 5.0)
+            {
+                blogi.push_back(std::move(grupe.back()));
+                grupe.pop_back();
+            }
+        }
+        else if (galutinio_pasirinkimas == "m")
+        {
+            stud_rikiavimas(grupe, pagal_mediana_maz);
+            while (grupe.back().rezas_med < 5.0)
+            {
+                blogi.push_back(std::move(grupe.back()));
+                grupe.pop_back();
+            }
+        }
+    }
+    else if (strategija == 3)
+    {
+        // tikrinam ar "v" čia, išorėj, kad nereiktų tikrint per kiekvieną kartojimą
+        if (galutinio_pasirinkimas == "v")
+        {
+            // apie 4.7 s / 48 s
+            // blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
+            auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
+                                                                { return stud.rezas_vid >= 5.0; });
+            std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
+            grupe.erase(pirmas_blogu_elementas, grupe.end());
+        }
+        else if (galutinio_pasirinkimas == "m")
+        {
+            // blogi.reserve(grupe.size() / 2); // VECTOR; bsk dijwina
+            auto pirmas_blogu_elementas = std::stable_partition(grupe.begin(), grupe.end(), [](const Studentas &stud)
+                                                                { return stud.rezas_med >= 5.0; });
+            std::move(pirmas_blogu_elementas, grupe.end(), std::back_inserter(blogi)); // perkelia bloguosna
+            grupe.erase(pirmas_blogu_elementas, grupe.end());
+        }
+    }
 }

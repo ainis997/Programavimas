@@ -10,6 +10,8 @@ SRC_DIR = src
 IVESTIES_DIR = ivesties_failai
 ISVESTIES_DIR = isvesties_failai
 
+PROGR_PAVADINIMAS ?= programa
+
 # .o failų sąrašas
 OBJS = $(OBJ_DIR)/pagr.o \
        $(OBJ_DIR)/ivestis.o \
@@ -20,9 +22,9 @@ OBJS = $(OBJ_DIR)/pagr.o \
        $(OBJ_DIR)/klaidu_valdymas.o
 
 # Pagrindinis taikinys
-$(BIN_DIR)/programa: $(OBJS)
+$(BIN_DIR)/$(PROGR_PAVADINIMAS): $(OBJS)
 	@if not exist $(BIN_DIR) mkdir $(BIN_DIR)
-	$(CXX) $(OBJS) -o $(BIN_DIR)/programa $(LDFLAGS)
+	$(CXX) $(OBJS) -o $(BIN_DIR)/$(PROGR_PAVADINIMAS) $(LDFLAGS)
 
 # taisyklė visiem .o failam
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -41,10 +43,10 @@ $(OBJS): $(SRC_DIR)/*.h
 
 clean:
 	del $(OBJ_DIR)\*.o
-	del $(BIN_DIR)\programa.exe
+	del $(BIN_DIR)\*.exe
 
-run: $(BIN_DIR)/programa
-	./$(BIN_DIR)/programa
+# run: $(BIN_DIR)/$(PROGR_PAVADINIMAS)
+# 	./$(BIN_DIR)/$(PROGR_PAVADINIMAS)
 
 
 

@@ -1,21 +1,42 @@
 #include <algorithm>
+#include <type_traits>
 
 #include "strukturos_konstantos.h"
 
 std::ofstream ras_failo_paruosimas(std::string RAS_FAILO_NUORODA);
 
-void stud_rikiavimas(Container<Studentas> &grupe, bool (*rikiavimo_taisykle)(Studentas &, Studentas &));
+// ===== Pagalbinė rikiavimą įvykdanti funkcija (rikiuoja skirtingai, priklausomai nuo to, ar rikiuojamas vector/deque, ar list) =====
+
+template <typename T> // T = Studentas; be template, kompiliatorius neįvertins constexpr sąlygų ir mes klaidą, kad pvz. std::deque neturi .sort() metodo
+void stud_rikiavimas(Container(T) & grupe, bool (*rikiavimo_taisykle)(T &, T &))
+{
+    // LIST
+    if constexpr (std::is_same_v<Container(T), std::list<T>>)
+    {
+        grupe.sort(rikiavimo_taisykle);
+    }
+    // VECTOR / DEQUE
+    else if constexpr (std::is_same_v<Container(T), std::vector<T>> || std::is_same_v<Container(T), std::deque<T>>)
+    {
+        std::sort(grupe.begin(), grupe.end(), rikiavimo_taisykle);
+    }
+}
 
 // APRAŠAS PERKELTAS ČIA, NES TEMPLATE FUNKCIJA (.cpp failan įdėjus — neveikia)
 // be nurodytos specif taisyklės, bet kokiam tipui
 template <typename T>
-void rikiavimas(Container<T> &konteineris)
+void rikiavimas(Container(T) & konteineris)
 {
     // LIST
-    // konteineris.sort();
-
+    if constexpr (std::is_same_v<Container(T), std::list<T>>)
+    {
+        konteineris.sort();
+    }
     // VECTOR / DEQUE
-    std::sort(konteineris.begin(), konteineris.end());
+    else if constexpr (std::is_same_v<Container(T), std::vector<T>> || std::is_same_v<Container(T), std::deque<T>>)
+    {
+        std::sort(konteineris.begin(), konteineris.end());
+    }
 }
 
 bool pagal_varda_did(Studentas &A, Studentas &B);
