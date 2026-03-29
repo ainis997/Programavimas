@@ -289,150 +289,160 @@ Išvada: programos versija su std::vector veikia greičiausiai, su std::deque �
 
 ##### 1 000 įrašų:
 
-![alt text](images/image-203.png)
-![alt text](images/image-202.png)
-![alt text](images/image-201.png)
-![alt text](images/image-200.png)
-![alt text](images/image-204.png)
+![alt text](images/image-365.png)
+![alt text](images/image-364.png)
+![alt text](images/image-363.png)
+![alt text](images/image-362.png)
+![alt text](images/image-361.png)
 
 ##### 10 000 įrašų:
 
-![alt text](images/image-205.png)
-![alt text](images/image-206.png)
-![alt text](images/image-207.png)
-![alt text](images/image-208.png)
-![alt text](images/image-209.png)
+![alt text](images/image-360.png)
+![alt text](images/image-359.png)
+![alt text](images/image-358.png)
+![alt text](images/image-357.png)
+![alt text](images/image-356.png)
 
 ##### 100 000 įrašų:
 
-![alt text](images/image-210.png)
-![alt text](images/image-211.png)
-![alt text](images/image-212.png)
-![alt text](images/image-213.png)
-![alt text](images/image-214.png)
+![alt text](images/image-355.png)
+![alt text](images/image-354.png)
+![alt text](images/image-353.png)
+![alt text](images/image-352.png)
+![alt text](images/image-351.png)
 
-##### 1 000 000 / 10 000 000 įrašų:
+##### 1 000 000 įrašų:
 
-Išmatuoti programos trukmės su 1 mln. ir 10 mln. įrašų kiekiais nepavyko: programa nesibaigė netgi palaukus pusvalandį. Atsižvelgiant į studentų skirstymo algoritmo kvadratinį sudėtingumą (ištrinant elementą, turi būti perstumdyti likę elementai), duomenų kiekiui padidėjus 10 kartų, laikas teoriškai turėtų pailgėti apie 100 k., taigi, lyginant su 100 tūkst. įrašų konteinerio testavimu, kuris truko apie 40 s, 1 mln. įrašų konteinerio testavimas galėtų trukti bent 40x100 = 4000 s (virš valandos), o 10 mln. — 4000x100 = 400 000 s (virš 4.5 paros). Tačiau, atsižvelgiant į didesnį nei 100 k. skirtumą tarp 100 tūkst. ir 10 tūkst. įrašų konteinerių testavimų (39,6094 / 0,326577 ≈ 121 k.), reali 1 mln. ir 10 mln. įrašų konteinerių testavimų trukmė galėtų būti dar didesnė.
+![alt text](images/image-346.png)
+![alt text](images/image-347.png)
+![alt text](images/image-348.png)
+![alt text](images/image-349.png)
+![alt text](images/image-350.png)
+
+##### 10 000 000 įrašų:
+
+![alt text](images/image-291.png)
+![alt text](images/image-342.png)
+![alt text](images/image-343.png)
+![alt text](images/image-344.png)
+![alt text](images/image-345.png)
 
 ### std::deque
 
 ##### 1 000 įrašų:
 
-![alt text](images/image-248.png)
-![alt text](images/image-247.png)
-![alt text](images/image-246.png)
-![alt text](images/image-245.png)
-![alt text](images/image-249.png)
+![alt text](images/image-316.png)
+![alt text](images/image-315.png)
+![alt text](images/image-314.png)
+![alt text](images/image-313.png)
+![alt text](images/image-312.png)
 
 ##### 10 000 įrašų:
 
-![alt text](images/image-244.png)
-![alt text](images/image-243.png)
-![alt text](images/image-242.png)
-![alt text](images/image-241.png)
-![alt text](images/image-240.png)
+![alt text](images/image-311.png)
+![alt text](images/image-310.png)
+![alt text](images/image-309.png)
+![alt text](images/image-308.png)
+![alt text](images/image-307.png)
 
 ##### 100 000 įrašų:
 
-![alt text](images/image-239.png)
-![alt text](images/image-238.png)
-![alt text](images/image-237.png)
-![alt text](images/image-236.png)
-![alt text](images/image-235.png)
+![alt text](images/image-306.png)
+![alt text](images/image-305.png)
+![alt text](images/image-304.png)
+![alt text](images/image-303.png)
+![alt text](images/image-302.png)
 
 ##### 1 000 000 įrašų:
 
-![alt text](images/image-230.png)
-![alt text](images/image-231.png)
-![alt text](images/image-232.png)
-![alt text](images/image-233.png)
-![alt text](images/image-234.png)
+![alt text](images/image-297.png)
+![alt text](images/image-298.png)
+![alt text](images/image-299.png)
+![alt text](images/image-300.png)
+![alt text](images/image-301.png)
 
 ##### 10 000 000 įrašų:
 
-![alt text](images/image-226.png)
-![alt text](images/image-215.png)
-![alt text](images/image-227.png)
-![alt text](images/image-228.png)
-![alt text](images/image-229.png)
+![alt text](images/image-292.png)
+![alt text](images/image-293.png)
+![alt text](images/image-294.png)
+![alt text](images/image-295.png)
+![alt text](images/image-296.png)
 
 ### std::list:
 
 ##### 1 000 įrašų:
 
-![alt text](images/image-264.png)
-![alt text](images/image-263.png)
-![alt text](images/image-262.png)
-![alt text](images/image-261.png)
-![alt text](images/image-260.png)
+![alt text](images/image-341.png)
+![alt text](images/image-340.png)
+![alt text](images/image-339.png)
+![alt text](images/image-338.png)
+![alt text](images/image-337.png)
 
 ##### 10 000 įrašų:
 
-![alt text](images/image-259.png)
-![alt text](images/image-258.png)
-![alt text](images/image-257.png)
-![alt text](images/image-256.png)
-![alt text](images/image-255.png)
+![alt text](images/image-336.png)
+![alt text](images/image-335.png)
+![alt text](images/image-334.png)
+![alt text](images/image-333.png)
+![alt text](images/image-332.png)
 
 ##### 100 000 įrašų:
 
-![alt text](images/image-254.png)
-![alt text](images/image-253.png)
-![alt text](images/image-252.png)
-![alt text](images/image-251.png)
-![alt text](images/image-250.png)
+![alt text](images/image-331.png)
+![alt text](images/image-330.png)
+![alt text](images/image-329.png)
+![alt text](images/image-328.png)
+![alt text](images/image-327.png)
 
 ##### 1 000 000 įrašų:
 
-![alt text](images/image-216.png)
-![alt text](images/image-217.png)
-![alt text](images/image-218.png)
-![alt text](images/image-219.png)
-![alt text](images/image-220.png)
+![alt text](images/image-322.png)
+![alt text](images/image-323.png)
+![alt text](images/image-324.png)
+![alt text](images/image-325.png)
+![alt text](images/image-326.png)
 
 ##### 10 000 000 įrašų:
 
-![alt text](images/image-221.png)
-![alt text](images/image-222.png)
-![alt text](images/image-223.png)
-![alt text](images/image-224.png)
-![alt text](images/image-225.png)
+![alt text](images/image-317.png)
+![alt text](images/image-318.png)
+![alt text](images/image-319.png)
+![alt text](images/image-320.png)
+![alt text](images/image-321.png)
 
 ### Laikų vidurkiai
 
 ##### std::vector:
 
-| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln. | 10 mln. |
-| ----------------- | ---------- | ---------- | ---------- | ------ | ------- |
-| Nuskaitymas (s)   | 0,00320758 | 0,03402558 | 0,333312   | -      | -       |
-| Surikiavimas (s)  | 0,00012632 | 0,0015466  | 0,01933338 | -      | -       |
-| Išskirstymas (s)  | 0,00243372 | 0,2740764  | 39,09528   | -      | -       |
-| Visa programa (s) | 0,00854098 | 0,326577   | 39,6094    | -\*    | -\*     |
-
-<sup>\*Remiantis algoritmo pobūdžiu ir esamais matavimo duomenimis, teorinė 1 mln. testavimo trukmė: virš 1 val., 10 mln. — virš 4,5 paros.</sup>
+| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.    | 10 mln.  |
+| ----------------- | ---------- | ---------- | ---------- | --------- | -------- |
+| Nuskaitymas (s)   | 0,00333222 | 0,03126386 | 0,3031548  | 3,005776  | 30,27776 |
+| Surikiavimas (s)  | 0,00012792 | 0,00156032 | 0,01882066 | 0,2382412 | 2,881446 |
+| Išskirstymas (s)  | 0,00008352 | 0,00129236 | 0.01711046 | 0,2081806 | 2,612104 |
+| Visa programa (s) | 0,00596112 | 0,047184   | 0.4565372  | 4,669284  | 48,85792 |
 
 ##### std::deque:
 
-| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.     | 10 mln.   |
-| ----------------- | ---------- | ---------- | ---------- | ---------- | --------- |
-| Nuskaitymas (s)   | 0,00353708 | 0,0383836  | 0,3346878  | 3,314098   | 33,33642  |
-| Surikiavimas (s)  | 0,00047344 | 0,006487   | 0,09090332 | 1,257108   | 15,91488  |
-| Išskirstymas (s)  | 0,00006486 | 0,00074886 | 0,00790908 | 0,08166356 | 0,7776834 |
-| Visa programa (s) | 0,00909804 | 0,0626871  | 0,5943708  | 6,372664   | 77,88376  |
+| Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.    | 10 mln.  |
+| ----------------- | ---------- | ---------- | ---------- | --------- | -------- |
+| Nuskaitymas (s)   | 0,00333486 | 0,0344177  | 0,3132464  | 3,273162  | 31,23354 |
+| Surikiavimas (s)  | 0,00047508 | 0,00635636 | 0,08749844 | 1,206038  | 15,1267  |
+| Išskirstymas (s)  | 0,00033368 | 0,00426424 | 0,06868672 | 0,9313316 | 12,25028 |
+| Visa programa (s) | 0,00685018 | 0,06109188 | 0,6170712  | 7,378868  | 85,62866 |
 
 ##### std::list:
 
 | Failo įrašų sk.   | 1 tūkst.   | 10 tūkst.  | 100 tūkst. | 1 mln.    | 10 mln.  |
 | ----------------- | ---------- | ---------- | ---------- | --------- | -------- |
-| Nuskaitymas (s)   | 0,00570298 | 0,05225144 | 0,4573822  | 4,584298  | 45,38584 |
-| Surikiavimas (s)  | 0,00010288 | 0,00130258 | 0,0304274  | 0,588567  | 10,31716 |
-| Išskirstymas (s)  | 0,00004944 | 0,00076784 | 0,01517834 | 0,1673388 | 2,165952 |
-| Visa programa (s) | 0,01036566 | 0,07639782 | 0,7316634  | 8,249734  | 136,6016 |
+| Nuskaitymas (s)   | 0,00460436 | 0,0449964  | 0,449158   | 4,473828  | 44,52716 |
+| Surikiavimas (s)  | 0,00008142 | 0,00125312 | 0,02872892 | 0,5791316 | 10,27464 |
+| Išskirstymas (s)  | 0,00008444 | 0,0012026  | 0,02807462 | 0,577336  | 10,86504 |
+| Visa programa (s) | 0,00773628 | 0,06732566 | 0,7232514  | 8,417014  | 142,6506 |
 
 ##### Išvados:
 
-Išvados: lyginant su 1-osios strategijos programos versija, std::deque ir std::list visos programos trukmė išliko panaši, nors studentų išskirstymo trukmė gana ryškiai sumažėjo. Tuo tarpu std::vector programa itin ženkliai sulėtėjo. Matyti, jog std::vector programos trukmė auga eksponentiškai, priklausomai nuo duomenų (įrašų) kiekio. Dėl to nepavyko nustatyti tikslios std::vector programos trukmės apdorojant 1 mln. ir 10 mln. įrašų. Atsižvelgiant į mažesnio studentų sk. išskirstymo laikus ir į išskirstymo algoritmo teorinį sudėtingumą, tikėtina, jog std::vector programoje 1 mln. studentų išskirstymas matuotinas valandomis, o 10 mln. — paromis.
+Lyginant su 1-osios strategijos programos versija, std::vector studentų išskirstymo trukmė šiek tiek sumažėjo. Tačiau std::deque ir std::list versijų studentų išskirstymas sulėtėjo ženkliai, keliais kartais (std::deque — dar daugiau nei std::list).
 
 ## 3. strategija
 
@@ -599,23 +609,24 @@ Išvados: lyginant su 1-osios strategijos programos versija, std::deque ir std::
 
 Lyginant su 2-ąja strategija:
 
-- std::vector studentų skirstymas veikia kone nepalyginamai greičiau:
-  - skirtumas su 1 tūkst. įrašų: 38,5 k.
-  - skirtumas su 10 tūkst. įrašų: 44 k.
-  - skirtumas su 100 tūkst. įrašų: 557 k.
-  - skirtumas su 1 mln. ir 10 mln. — tiksliai nenustatytas, tačiau, tikėtina, siekiantis tūkstančius ar milijonus kartų
-- std::deque studentų skirstymas veikia žymiai lėčiau:
-  - skirtumas su 1 tūkst. įrašų: 6 k.
-  - skirtumas su 10 tūkst. įrašų: 8 k.
-  - skirtumas su 100 tūkst. įrašų: 9 k.
-  - skirtumas su 1 mln. įrašų: 9 k.
-  - skirtumas su 10 mln. įrašų: 30 k.
-- std::list studentų skirstymas veikia lėčiau:
-  - skirtumas su 1 tūkst. įrašų: 1,8 k.
-  - skirtumas su 10 tūkst. įrašų: 2,2 k.
-  - skirtumas su 100 tūkst. įrašų: 2,9 k.
-  - skirtumas su 1 mln. įrašų: 3,2 k.
-  - skirtumas su 10 mln. įrašų: 3,1 k.
+- std::vector studentų skirstymas veikia greičiau:
+  - skirtumas su 1 tūkst. įrašų: 1,3 k.
+  - skirtumas su 10 tūkst. įrašų: 2,3 k.
+  - skirtumas su 100 tūkst. įrašų: 2,4 k.
+  - skirtumas su 1 mln. įrašų: 3,1 k.
+  - skirtumas su 10 mln. įrašų: 3,7 k.
+- std::deque studentų skirstymas veikia šiek tiek greičiau, nors su 10 mln. studentų — lėčiau:
+  - skirtumas su 1 tūkst. įrašų: 1,1 k. greičiau
+  - skirtumas su 10 tūkst. įrašų: 1,5 k. greičiau
+  - skirtumas su 100 tūkst. įrašų: 1,02 k. greičiau
+  - skirtumas su 1 mln. įrašų: 1,2 k. greičiau
+  - skirtumas su 10 mln. įrašų: 1,9 k. lėčiau
+- std::list studentų skirstymas veikia šiek tiek lėčiau su mažesniais studentų skaičiais, nors šiek tiek greičiau su didesniais studentų skaičiais:
+  - skirtumas su 1 tūkst. įrašų: 1,03 k. lėčiau
+  - skirtumas su 10 tūkst. įrašų: 1,4 k. lėčiau
+  - skirtumas su 100 tūkst. įrašų: 1,5 k. lėčiau
+  - skirtumas su 1 mln. įrašų: 1,09 k. greičiau
+  - skirtumas su 10 mln. įrašų: 1,6 k. greičiau
 
 Lyginant su 1-ąja strategija:
 
@@ -638,4 +649,4 @@ Lyginant su 1-ąja strategija:
   - skirtumas su 1 mln. įrašų: 2,1 k.
   - skirtumas su 10 mln. įrašų: 1,9 k.
 
-Taigi, 3-ąja strategija pavyko optimizuoti std::vector programos versijos studentų skirstymą (ypač lyginant su 2-ąja strategija). Tačiau 3-oji strategija šiek tiek sulėtino std::list programos versijos studentų skirstymą, o std::deque versijos studentų skirstymas sulėtėjo itin žymiai.
+Taigi, 3-ąja strategija pavyko optimizuoti std::vector programos versijos studentų skirstymą. std::list versijos studentų skirstymo laikas išliko panašus (ar šiek tiek lėtesnis). std::deque versijos studentų skirstymas šiek tiek pagreitėjo lyginant su 2-ąja strategija, o žymiau sulėtėjo lyginant su 1-ąja strategija.
